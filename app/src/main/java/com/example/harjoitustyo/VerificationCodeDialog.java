@@ -30,7 +30,7 @@ public class VerificationCodeDialog extends AppCompatDialogFragment {
 
         builder.setView(view)
                 .setTitle("Varmistuskoodi")
-                .setNegativeButton("Peruuta", new Dialog.OnClickListener() {
+                .setNegativeButton("Peruuta", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int which) {
 

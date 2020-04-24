@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -15,8 +14,8 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatDialogFragment;
 
 public class PasswordChangeDialog extends AppCompatDialogFragment {
-    private EditText oldPassword, newPassword, newPasswordCheck;
-    private VerificationCodeDialogListener listener;
+    private EditText newPassword, newPasswordCheck;
+    private NewPasswordDialogListener listener;
     Bank bank = Bank.getInstance();
     PasswordChecker pc = PasswordChecker.getInstance();
 
@@ -30,7 +29,7 @@ public class PasswordChangeDialog extends AppCompatDialogFragment {
 
         builder.setView(view)
                 .setTitle("Vaihda salasana")
-                .setNegativeButton("Peruuta", new Dialog.OnClickListener() {
+                .setNegativeButton("Peruuta", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int which) {
 
@@ -40,13 +39,13 @@ public class PasswordChangeDialog extends AppCompatDialogFragment {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         if (pc.checkPassword(newPassword.getText().toString(), newPasswordCheck.getText().toString()) == 1) {
-                            listener.confirmedCode(1);
+                            String password = newPassword.getText().toString();
+                            listener.changedPassword(password);
                         } else {
-                            listener.confirmedCode(0);
+                            listener.changedPassword("ERROR");
                         }
                     }
                 });
-        oldPassword = view.findViewById(R.id.oldPassword);
         newPassword = view.findViewById(R.id.newPassword);
         newPasswordCheck = view.findViewById(R.id.newPasswordCheck);
 
@@ -58,14 +57,14 @@ public class PasswordChangeDialog extends AppCompatDialogFragment {
         super.onAttach(context);
 
         try {
-            listener = (VerificationCodeDialogListener) context;
+            listener = (NewPasswordDialogListener) context;
         } catch (ClassCastException e) {
             throw new ClassCastException(context.toString() +
                     "must implement VerificationCodeDialogListener");
         }
     }
 
-    public interface VerificationCodeDialogListener {
-        void confirmedCode(int code);
+    public interface NewPasswordDialogListener {
+        void changedPassword(String password);
     }
 }

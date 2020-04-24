@@ -8,9 +8,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.w3c.dom.Text;
-
-public class UserSettingsActivity extends AppCompatActivity implements PasswordChangeDialog.VerificationCodeDialogListener {
+public class UserSettingsActivity extends AppCompatActivity implements PasswordChangeDialog.NewPasswordDialogListener {
     TextView nameText, addressText, phoneText;
     Bank bank = Bank.getInstance();
     User user;
@@ -37,12 +35,25 @@ public class UserSettingsActivity extends AppCompatActivity implements PasswordC
     }
 
     @Override
-    public void confirmedCode(int code) {
-        if (code == 1) {
-            Toast.makeText(this, "Salasanan vaihto onnistui", Toast.LENGTH_SHORT).show();
-        } else if (code == 0) {
+    public void changedPassword(String password) {
+        if (!password.equals("ERROR")) {
+            user.setPassword(password);
+            bank.getUserList().set(findUserId(), user);
+            Toast.makeText(this, "Salasanan vaihto onnistui",Toast.LENGTH_SHORT).show();
+        } else {
             Toast.makeText(this, "Salasanan vaihto ei onnistunut",Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private int findUserId() {
+        int position = -1;
+
+        for (int i = 0; i < bank.getUserList().size(); i++) {
+            if (user.getName().equals(bank.getUserList().get(i).getName())) {
+                position = i;
+            }
+        }
+        return position;
     }
 
     @Override
