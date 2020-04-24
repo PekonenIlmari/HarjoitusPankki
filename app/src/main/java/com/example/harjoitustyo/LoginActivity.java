@@ -1,18 +1,13 @@
 package com.example.harjoitustyo;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
+import androidx.appcompat.app.AppCompatActivity;
+
 import java.util.ArrayList;
 
 public class LoginActivity extends AppCompatActivity implements VerificationCodeDialog.VerificationCodeDialogListener {
@@ -20,19 +15,17 @@ public class LoginActivity extends AppCompatActivity implements VerificationCode
     private int confirmationCodeCheck;
 
     Bank bank = Bank.getInstance();
-    User user = null;
+    User user;
     ArrayList<User> users = new ArrayList<>();
-    Context context;
+    //ReadAndWriteFiles rawf;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        context = getApplicationContext();
+        //rawf = ReadAndWriteFiles.getInstance(getApplicationContext());
 
-        ReadAndWriteFiles rawf = new ReadAndWriteFiles(context);
-
-        rawf.readUsers();
+        //rawf.readUsers();
 
 
         users = bank.getUserList();
@@ -82,7 +75,7 @@ public class LoginActivity extends AppCompatActivity implements VerificationCode
         }
     }
 
-    public void register(View v) {
+    /*public void register(View v) {
         String registerName = nameRegister.getText().toString();
         String registerPassword = passwordregister.getText().toString();
 
@@ -118,14 +111,15 @@ public class LoginActivity extends AppCompatActivity implements VerificationCode
         } else {
             Toast.makeText(this, "Täytä kaikki kentät", Toast.LENGTH_SHORT).show();
         }
-    }
+    }*/
 
-    /*public void register(View v) {
+    public void register(View v) {
         String registerName = nameRegister.getText().toString();
         String registerPassword = passwordregister.getText().toString();
 
         if (registerName.length() > 0 && registerPassword.length() > 0 && passwordCheckRegister.getText().toString().length() > 0) {
-            int passwordValid = passWordChecker(registerPassword);
+            //int passwordValid = passWordChecker(registerPassword);
+            int passwordValid = 1;
             System.out.println("OKOKOKO");
 
             if (passwordValid == 1) {
@@ -145,7 +139,7 @@ public class LoginActivity extends AppCompatActivity implements VerificationCode
         } else {
             Toast.makeText(this, "Täytä kaikki kentät", Toast.LENGTH_SHORT).show();
         }
-    }*/
+    }
 
     private int passWordChecker(String pass) { //This checks if the password matches the criteria
         char[] passArr = pass.toCharArray();

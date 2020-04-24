@@ -29,6 +29,7 @@ public class AccountsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_accounts);
 
         user = (User) getIntent().getSerializableExtra("user");
+
         accountList = user.getAccounts();
         buildRecyclerView();
     }
@@ -78,12 +79,25 @@ public class AccountsActivity extends AppCompatActivity {
         String acc_num = bank.generateAccountNumber("Normaali");
         user.addAccount(user.getName(), acc_num, "Normaali", 1);
         mAdapter.notifyDataSetChanged();
+        bank.getUserList().set(findUserId(), user);
     }
 
     public void addCreditAccount() {
         String acc_num = bank.generateAccountNumber("Luotto");
         user.addAccount(user.getName(), acc_num, "Luotto", 1);
         mAdapter.notifyDataSetChanged();
+        bank.getUserList().set(findUserId(), user);
+    }
+
+    private int findUserId() {
+        int position = -1;
+
+        for (int i = 0; i < bank.getUserList().size(); i++) {
+            if (user.getName().equals(bank.getUserList().get(i).getName())) {
+                position = i;
+            }
+        }
+        return position;
     }
 
     @Override

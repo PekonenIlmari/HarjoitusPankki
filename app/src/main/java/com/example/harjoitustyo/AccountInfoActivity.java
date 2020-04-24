@@ -27,7 +27,6 @@ public class AccountInfoActivity extends AppCompatActivity {
     Account account;
     User user;
     Bank bank = Bank.getInstance();
-    int position;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,8 +36,7 @@ public class AccountInfoActivity extends AppCompatActivity {
         strAccount = getIntent().getStringExtra("ACC_NUM");
         user = (User) getIntent().getSerializableExtra("user");
         accountList = user.getAccounts();
-        position = findAccountId();
-        account = accountList.get(position);
+        account = accountList.get(findAccountId());
         cardList = account.getCards();
 
         type = findViewById(R.id.accountTypeInfo);
@@ -67,16 +65,19 @@ public class AccountInfoActivity extends AppCompatActivity {
                 overridePendingTransition(0, 0);
                 return true;
             case R.id.deleteAccountItem:
-                user.accounts.remove(position);
+                user.accounts.remove(findAccountId());
+                bank.getUserList().set(findUserId(), user);
                 Intent intent = new Intent(AccountInfoActivity.this, AccountsActivity.class);
                 intent.putExtra("user", user);
                 startActivity(intent);
                 return true;
             case R.id.addDebitCard:
                 addCard("Debit");
+                bank.getUserList().set(findUserId(), user);
                 return true;
             case R.id.addCreditCard:
                 addCard("Credit");
+                bank.getUserList().set(findUserId(), user);
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -120,6 +121,17 @@ public class AccountInfoActivity extends AppCompatActivity {
 
         for (int i = 0; i < accountList.size(); i++) {
             if (strAccount.equals(accountList.get(i).getAcc_number())) {
+                position = i;
+            }
+        }
+        return position;
+    }
+
+    private int findUserId() {
+        int position = -1;
+
+        for (int i = 0; i < bank.getUserList().size(); i++) {
+            if (user.getName().equals(bank.getUserList().get(i).getName())) {
                 position = i;
             }
         }

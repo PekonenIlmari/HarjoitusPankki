@@ -24,17 +24,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     NavigationView navigationView;
     TextView infoText, navHeaderName;
     User user;
-    Context context;
+    //ReadAndWriteFiles rawf;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //rawf = ReadAndWriteFiles.getInstance(getApplicationContext());
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        context = getApplicationContext();
 
         infoText = findViewById(R.id.helloText);
 
@@ -52,7 +52,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         navigationView.setCheckedItem(R.id.nav_frontpage);
 
+
+
         user = (User) getIntent().getSerializableExtra("user");
+
 
         infoText.setText("Hyvää huomenta " + user.getName() + "!");
         navHeaderName.setText(user.getName());
@@ -67,7 +70,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case R.id.nav_settings:
                 drawer.closeDrawer(GravityCompat.START);
-                Toast.makeText(this, "Asetukset", Toast.LENGTH_SHORT).show();
+                Intent intentUserSettigs = new Intent(MainActivity.this, UserSettingsActivity.class);
+                intentUserSettigs.putExtra("user", user);
+                startActivity(intentUserSettigs);
                 break;
             case R.id.nav_accounts:
                 drawer.closeDrawer(GravityCompat.START);
@@ -92,8 +97,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.nav_logout:
                 Toast.makeText(this, "Kirjauduttu ulos", Toast.LENGTH_SHORT).show();
                 drawer.closeDrawer(GravityCompat.START);
-                ReadAndWriteFiles rawf = new ReadAndWriteFiles(context);
-                rawf.writeUsers();
+                //rawf.writeUsers();
                 Intent intentLogout = new Intent(MainActivity.this, LoginActivity.class);
                 startActivity(intentLogout);
                 break;
@@ -107,6 +111,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             drawer.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
+            //rawf.writeUsers();
         }
     }
 

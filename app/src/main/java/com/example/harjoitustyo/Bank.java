@@ -16,7 +16,8 @@ public class Bank { // class where all the users are stored
     Random r = new Random();
 
     public Bank() {
-        //addUser("Johtaja", "123", "TIE", "0202020");
+        addUser("Pekka", "123", "TIE", "20002");
+        addUser("Masi", "123", "JOE", "22032");
     }
 
     private ArrayList<User> userList = new ArrayList<>();
