@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".LoginActivity"
+    android:layout_gravity="center_horizontal">
+
+    <TextView
+        android:id="@+id/signInText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Kirjaudu sisään"
+        android:paddingTop="40dp"
+        android:paddingBottom="10dp"
+        android:gravity="center_horizontal"/>
+
+    <EditText
+        android:id="@+id/userLogin"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:layout_below="@id/signInText"
+        android:layout_centerHorizontal="true"
+        android:hint="Käyttäjänimi"/>
+
+    <EditText
+        android:id="@+id/passwordLogin"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPassword"
+        android:hint="Salasana"
+        android:layout_below="@id/userLogin"
+        android:layout_centerHorizontal="true"/>
+
+    <Button
+        android:id="@+id/loginButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/passwordLogin"
+        android:layout_centerHorizontal="true"
+        android:onClick="login"
+        android:text="Kirjaudu sisään" />
+
+    <TextView
+        android:id="@+id/registerText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Rekisteröidy"
+        android:layout_below="@id/loginButton"
+        android:paddingTop="50dp"
+        android:paddingBottom="10dp"
+        android:gravity="center_horizontal"/>
+
+    <EditText
+        android:id="@+id/userRegister"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:layout_below="@id/registerText"
+        android:layout_centerHorizontal="true"
+        android:hint="Käyttäjänimi"/>
+
+    <EditText
+        android:id="@+id/passwordRegister"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPassword"
+        android:hint="Salasana"
+        android:layout_below="@id/userRegister"
+        android:layout_centerHorizontal="true"/>
+
+    <EditText
+        android:id="@+id/passwordCheckRegister"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPassword"
+        android:hint="Salasana uudestaan"
+        android:layout_below="@id/passwordRegister"
+        android:layout_centerHorizontal="true"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/passwordCheckRegister"
+        android:layout_centerHorizontal="true"
+        android:onClick="register"
+        android:text="Rekisteröidy" />
+
+
+</RelativeLayout>

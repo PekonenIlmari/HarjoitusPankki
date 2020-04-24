@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_frontpage"
+            android:icon="@drawable/ic_home"
+            android:title="Etusivu"/>
+        <item
+            android:id="@+id/nav_settings"
+            android:icon="@drawable/ic_settings"
+            android:title="Asetukset"/>
+        <item
+            android:id="@+id/nav_accounts"
+            android:icon="@drawable/ic_account"
+            android:title="Tilit"/>
+    </group>
+
+    <item android:title="Maksa">
+        <menu>
+            <item
+                android:id="@+id/nav_cardPayment"
+                android:icon="@drawable/ic_payment"
+                android:title="Uusi korttimaksu"/>
+            <item
+                android:id="@+id/nav_accountPayment"
+                android:icon="@drawable/ic_money"
+                android:title="Uusi tilisiirto"/>
+            <item
+                android:id="@+id/nav_transferToOwnAccount"
+                android:icon="@drawable/ic_between"
+                android:title="Oma siirto"/>
+        </menu>
+    </item>
+
+    <item android:title=""
+        android:enabled="false"/>
+
+    <item android:title=""
+        android:enabled="false"/>
+
+    <item
+        android:id="@+id/nav_logout"
+        android:icon="@drawable/ic_lock"
+        android:title="Kirjaudu ulos" />
+
+
+
+
+
+</menu>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/addMoney"
+        android:title="Lisää rahaa tilille"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/addDebitCard"
+        android:title="Lisää Debit -kortti"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/addCreditCard"
+        android:title="Lisää Credit -kortti"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/deleteAccountItem"
+        android:title="Poista tili"
+        app:showAsAction="never" />
+
+</menu>
