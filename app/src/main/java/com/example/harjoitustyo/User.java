@@ -40,4 +40,20 @@ public class User implements Serializable {//stores data of each user
     public ArrayList<Account> getAccounts() {
         return accounts;
     }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
 }

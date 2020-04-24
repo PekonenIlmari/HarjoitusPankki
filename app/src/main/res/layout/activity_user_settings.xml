@@ -46,5 +46,13 @@
         android:text="Puhelinnumero: "
         android:textSize="20sp" />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Vaihda salasana"
+        android:layout_below="@id/phoneNumber"
+        android:layout_marginTop="10dp"
+        android:onClick="openDialog"/>
+
 
 </RelativeLayout>
