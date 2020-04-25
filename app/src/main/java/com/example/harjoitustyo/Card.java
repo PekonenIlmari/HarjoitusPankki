@@ -3,11 +3,12 @@ package com.example.harjoitustyo;
 import java.io.Serializable;
 
 public class Card implements Serializable {
-    private String acc_num, card_num, type;
+    private String card_holder, acc_num, card_num, type;
     private int credit_limit;
     private int payment_limit;
 
-    public Card(String acc_num, String card_num, String type) {
+    public Card(String card_holder, String acc_num, String card_num, String type) {
+        this.card_holder = card_holder;
         this.acc_num = acc_num;
         this.card_num = card_num;
         this.type = type;
@@ -29,5 +30,9 @@ public class Card implements Serializable {
 
     public String getCard_num() {
         return card_num;
+    }
+
+    public String getCard_holder() {
+        return card_holder;
     }
 }

@@ -106,7 +106,7 @@ public class AccountInfoActivity extends AppCompatActivity {
 
     public void addCard(String type) {
         String card_num = bank.generateCardNumber(type);
-        account.addCard(strAccount, card_num, type);
+        account.addCard(user.getName(), strAccount, card_num, type);
         mAdapter.notifyDataSetChanged();
     }
 

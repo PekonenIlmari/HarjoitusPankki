@@ -62,7 +62,7 @@ public class CardRecyclerAdapter extends RecyclerView.Adapter<CardRecyclerAdapte
         Card currentCard = cardList.get(position);
 
         holder.cardNumber.setText(currentCard.getCard_num());
-        holder.cardHolder.setText("PEKKA");
+        holder.cardHolder.setText(currentCard.getCard_holder());
         holder.cardType.setText(currentCard.getType().toUpperCase());
     }
 
