@@ -47,6 +47,11 @@ public class UserSettingsActivity extends AppCompatActivity implements AllChange
         acd.show(getSupportFragmentManager(), "Puhelinnumeron vaihto ikkuna");
     }
 
+    public void openUserNameDialog(View v) {
+        AllChangeDialog acd = AllChangeDialog.newInstance(5);
+        acd.show(getSupportFragmentManager(), "Puhelinnumeron vaihto ikkuna");
+    }
+
     @Override
     public void changedPhoneNumber(String phoneNum) {
         if (!phoneNum.equals("ERROR")) {
@@ -85,6 +90,21 @@ public class UserSettingsActivity extends AppCompatActivity implements AllChange
             Toast.makeText(this, "Salasanan vaihto onnistui",Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(this, "Salasanan vaihto ei onnistunut",Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public void changedUsername(String username) {
+        if (!username.equals("ERROR")) {
+            user.setUserName(username);
+            bank.getUserList().set(findUserId(), user);
+            finish();
+            overridePendingTransition(0, 0);
+            startActivity(getIntent());
+            overridePendingTransition(0, 0);
+            Toast.makeText(this, "Käyttäjänimen vaihto onnistui",Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "Käyttäjänimen vaihto ei onnistunut",Toast.LENGTH_SHORT).show();
         }
     }
 

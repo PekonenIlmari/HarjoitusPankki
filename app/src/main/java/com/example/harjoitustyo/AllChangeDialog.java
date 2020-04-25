@@ -14,59 +14,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatDialogFragment;
 
-/*public class PhoneChangeDialog extends AppCompatDialogFragment {
-    private EditText newPhone;
-    private NewPhoneChangeDialogListener listener;
-
-    @NonNull
-    @Override
-    public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-
-        LayoutInflater inflater = getActivity().getLayoutInflater();
-        View view = inflater.inflate(R.layout.layout_phone_change_dialog, null);
-
-        builder.setView(view)
-                .setTitle("Vaihda puhelinnumero")
-                .setNegativeButton("Peruuta", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int which) {
-
-                    }
-                })
-                .setPositiveButton("Vaihda", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        if (newPhone.getText().toString().length() > 3) {
-                            String phoneNum = newPhone.getText().toString();
-                            listener.changedPhoneNumber(phoneNum);
-                        } else {
-                            listener.changedPhoneNumber("ERROR");
-                        }
-                    }
-                });
-        newPhone = view.findViewById(R.id.newPhone);
-
-        return builder.create();
-    }
-
-    @Override
-    public void onAttach(@NonNull Context context) {
-        super.onAttach(context);
-
-        try {
-            listener = (NewPhoneChangeDialogListener) context;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(context.toString() +
-                    "must implement NewPhoneChangeDialogListener");
-        }
-    }
-
-    public interface NewPhoneChangeDialogListener {
-        void changedPhoneNumber(String phoneNum);
-    }
-}*/
-
 public class AllChangeDialog extends AppCompatDialogFragment {
     private EditText newPhone;
 
@@ -76,6 +23,8 @@ public class AllChangeDialog extends AppCompatDialogFragment {
 
     private TextView verificationCode;
     private EditText enterVerificationCode;
+
+    private EditText newUsername;
 
     private NewAllChangeDialogListener listener;
 
@@ -197,6 +146,29 @@ public class AllChangeDialog extends AppCompatDialogFragment {
             verificationCode = view.findViewById(R.id.verificationCodeLine);
             enterVerificationCode = view.findViewById(R.id.enterVerificationCode);
             verificationCode.setText(bank.generateRandomLogInCode());
+        } else if (type == 5) {
+            View view = inflater.inflate(R.layout.layout_username_change_dialog, null);
+
+            builder.setView(view)
+                    .setTitle("Vaihda käyttäjänimi")
+                    .setNegativeButton("Peruuta", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int which) {
+
+                        }
+                    })
+                    .setPositiveButton("Vaihda", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            if (newUsername.getText().toString().length() > 3) {
+                                String username = newUsername.getText().toString();
+                                listener.changedUsername(username);
+                            } else {
+                                listener.changedUsername("ERROR");
+                            }
+                        }
+                    });
+            newUsername = view.findViewById(R.id.newUsername);
         }
         return builder.create();
     }
@@ -218,5 +190,6 @@ public class AllChangeDialog extends AppCompatDialogFragment {
         void changedPassword(String password);
         void changedAddress(String address);
         void confirmedCode(int code);
+        void changedUsername(String username);
     }
 }

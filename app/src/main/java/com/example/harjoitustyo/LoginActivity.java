@@ -158,4 +158,9 @@ public class LoginActivity extends AppCompatActivity implements AllChangeDialog.
     public void changedAddress(String address) {
 
     }
+
+    @Override
+    public void changedUsername(String username) {
+
+    }
 }

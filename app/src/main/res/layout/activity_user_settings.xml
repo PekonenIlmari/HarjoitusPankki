@@ -83,5 +83,14 @@
         android:onClick="openPhoneDialog"
         android:text="Vaihda puhelinnumero" />
 
+    <Button
+        android:layout_width="375dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="Vaihda käyttäjätunnus"
+        android:layout_below="@id/phoneNumber"
+        android:layout_marginTop="65dp"
+        android:onClick="openUserNameDialog"/>
+
 
 </RelativeLayout>
