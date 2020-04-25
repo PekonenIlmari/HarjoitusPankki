@@ -10,7 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
 
-public class LoginActivity extends AppCompatActivity implements VerificationCodeDialog.VerificationCodeDialogListener {
+public class LoginActivity extends AppCompatActivity implements AllChangeDialog.NewAllChangeDialogListener {
     EditText nameLogin, passwordLogin, nameRegister, passwordregister, passwordCheckRegister;
     private int confirmationCodeCheck;
 
@@ -47,7 +47,7 @@ public class LoginActivity extends AppCompatActivity implements VerificationCode
 
         for (int i = 0; i < users.size(); i++) {
             user = (User) users.get(i);
-            if (loginName.equals(user.getName()) && loginPassword.equals(user.getPassword())) {
+            if (loginName.equals(user.getUserName()) && loginPassword.equals(user.getPassword())) {
                 found = 1;
                 openDialog();
                 break;
@@ -59,8 +59,8 @@ public class LoginActivity extends AppCompatActivity implements VerificationCode
     }
 
     private void openDialog() {
-        VerificationCodeDialog vcd = new VerificationCodeDialog();
-        vcd.show(getSupportFragmentManager(), "Varmistuskoodi ikkuna");
+        AllChangeDialog acd = AllChangeDialog.newInstance(4);
+        acd.show(getSupportFragmentManager(), "Varmistuskoodi ikkuna");
     }
 
     @Override
@@ -86,7 +86,7 @@ public class LoginActivity extends AppCompatActivity implements VerificationCode
 
             for (int i = 0; i < users.size(); i++) {
                 user = (User) users.get(i);
-                if (!registerName.equals(user.getName()) || users.size() == 0) {
+                if (!registerName.equals(user.getUserName()) || users.size() == 0) {
                     if (passwordValid == 1) {
                         Bundle extras = new Bundle();
                         Intent intent = new Intent(LoginActivity.this, NewUserActivity.class);
@@ -128,7 +128,7 @@ public class LoginActivity extends AppCompatActivity implements VerificationCode
             if (passwordValid == 1) {
                 Bundle extras = new Bundle();
                 Intent intent = new Intent(LoginActivity.this, NewUserActivity.class);
-                extras.putString("NAME", registerName);
+                extras.putString("USERNAME", registerName);
                 extras.putString("PASSWORD", registerPassword);
                 intent.putExtras(extras);
                 startActivity(intent);
@@ -142,5 +142,20 @@ public class LoginActivity extends AppCompatActivity implements VerificationCode
         } else {
             Toast.makeText(this, "Täytä kaikki kentät", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    @Override
+    public void changedPhoneNumber(String phoneNum) {
+
+    }
+
+    @Override
+    public void changedPassword(String password) {
+
+    }
+
+    @Override
+    public void changedAddress(String address) {
+
     }
 }

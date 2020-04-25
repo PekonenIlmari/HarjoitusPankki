@@ -71,7 +71,7 @@ public class ReadAndWriteFiles {
                 for (User newUser : users) {
                     for (User existingUser : bank.getUserList()) {
                         if (!newUser.getName().equals(existingUser)) {
-                            bank.addUser(newUser.getName(), newUser.getPassword(), newUser.getAddress(), newUser.getPhone());
+                            bank.addUser(newUser.getName(), newUser.getUserName(), newUser.getPassword(), newUser.getAddress(), newUser.getPhone());
                         } else {
                             continue;
                         }
@@ -84,7 +84,7 @@ public class ReadAndWriteFiles {
             }
         } else {
             for (User newUser : users) {
-                bank.addUser(newUser.getName(), newUser.getPassword(), newUser.getAddress(), newUser.getPhone());
+                bank.addUser(newUser.getName(), newUser.getUserName(), newUser.getPassword(), newUser.getAddress(), newUser.getPhone());
             }
         }
 

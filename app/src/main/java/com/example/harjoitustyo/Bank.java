@@ -16,14 +16,14 @@ public class Bank { // class where all the users are stored
     Random r = new Random();
 
     public Bank() {
-        addUser("Pekka", "123", "TIE", "20002");
-        addUser("Masi", "123", "JOE", "22032");
+        addUser("Pekka Korvala", "Pekka", "123", "TIE", "20002");
+        addUser("Masi Pallopää", "Masi", "123", "JOE", "22032");
     }
 
     private ArrayList<User> userList = new ArrayList<>();
 
-    public void addUser(String name, String password, String address, String phone) {
-        user = new User(name, password, address, phone);
+    public void addUser(String name, String userName, String password, String address, String phone) {
+        user = new User(name, userName, password, address, phone);
         userList.add(user);
     }
 

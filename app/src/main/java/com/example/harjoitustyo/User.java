@@ -5,10 +5,11 @@ import java.util.ArrayList;
 
 public class User implements Serializable {//stores data of each user
     private Account account;
-    private String name, address, phone, password;
+    private String name, userName, address, phone, password;
 
-    public User(String name, String password, String address, String phone) {
+    public User(String name, String userName, String password, String address, String phone) {
         this.name = name;
+        this.userName = userName;
         this.password = password;
         this.address = address;
         this.phone = phone;
@@ -23,6 +24,10 @@ public class User implements Serializable {//stores data of each user
 
     public String getName() {
         return name;
+    }
+
+    public String getUserName() {
+        return userName;
     }
 
     public String getAddress() {
@@ -42,7 +47,7 @@ public class User implements Serializable {//stores data of each user
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.userName = name;
     }
 
     public void setPassword(String password) {
@@ -55,5 +60,9 @@ public class User implements Serializable {//stores data of each user
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 }

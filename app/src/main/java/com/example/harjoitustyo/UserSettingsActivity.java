@@ -8,8 +8,8 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class UserSettingsActivity extends AppCompatActivity implements PasswordChangeDialog.NewPasswordDialogListener {
-    TextView nameText, addressText, phoneText;
+public class UserSettingsActivity extends AppCompatActivity implements AllChangeDialog.NewAllChangeDialogListener {
+    TextView userNameText, nameText, addressText, phoneText;
     Bank bank = Bank.getInstance();
     User user;
 
@@ -20,18 +20,61 @@ public class UserSettingsActivity extends AppCompatActivity implements PasswordC
 
         user = (User) getIntent().getSerializableExtra("user");
 
-        nameText = findViewById(R.id.userName);
+        userNameText = findViewById(R.id.userName);
+        nameText = findViewById(R.id.userWholeName);
         addressText = findViewById(R.id.address);
         phoneText = findViewById(R.id.phoneNumber);
 
+        userNameText.setText("Käyttäjanimesi: " + user.getUserName());
         nameText.setText("Nimesi: " + user.getName());
         addressText.setText("Osoitteesi: " + user.getAddress());
         phoneText.setText("Puhelinnumerosi: " + user.getPhone());
     }
 
-    public void openDialog(View v) {
-        PasswordChangeDialog pcd = new PasswordChangeDialog();
-        pcd.show(getSupportFragmentManager(), "Salasanan vaihto ikkuna");
+    public void openPhoneDialog(View v) {
+        AllChangeDialog acd = AllChangeDialog.newInstance(1);
+        acd.show(getSupportFragmentManager(), "Puhelinnumeron vaihto ikkuna");
+
+    }
+
+    public void openAddressDialog(View v) {
+        AllChangeDialog acd = AllChangeDialog.newInstance(3);
+        acd.show(getSupportFragmentManager(), "Osoitteen vaihto ikkuna");
+    }
+
+    public void openPasswordDialog(View v) {
+        AllChangeDialog acd = AllChangeDialog.newInstance(2);
+        acd.show(getSupportFragmentManager(), "Puhelinnumeron vaihto ikkuna");
+    }
+
+    @Override
+    public void changedPhoneNumber(String phoneNum) {
+        if (!phoneNum.equals("ERROR")) {
+            user.setPhone(phoneNum);
+            bank.getUserList().set(findUserId(), user);
+            finish();
+            overridePendingTransition(0, 0);
+            startActivity(getIntent());
+            overridePendingTransition(0, 0);
+            Toast.makeText(this, "Puhelinnumeron vaihto onnistui",Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "Puhelinnumeron vaihto ei onnistunut",Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public void changedAddress(String address) {
+        if (!address.equals("ERROR")) {
+            user.setAddress(address);
+            bank.getUserList().set(findUserId(), user);
+            finish();
+            overridePendingTransition(0, 0);
+            startActivity(getIntent());
+            overridePendingTransition(0, 0);
+            Toast.makeText(this, "Osoitteen vaihto onnistui",Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "Osoiteen vaihto ei onnistunut",Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
@@ -43,6 +86,11 @@ public class UserSettingsActivity extends AppCompatActivity implements PasswordC
         } else {
             Toast.makeText(this, "Salasanan vaihto ei onnistunut",Toast.LENGTH_SHORT).show();
         }
+    }
+
+    @Override
+    public void confirmedCode(int code) {
+
     }
 
     private int findUserId() {

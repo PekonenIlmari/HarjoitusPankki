@@ -23,6 +23,16 @@
         android:layout_alignParentTop="true"
         android:layout_marginStart="8dp"
         android:layout_marginTop="50dp"
+        android:text="Käyttäjänimesi: "
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/userWholeName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="8dp"
+        android:layout_below="@id/userName"
         android:text="Nimesi: "
         android:textSize="20sp" />
 
@@ -30,7 +40,7 @@
         android:id="@+id/address"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/userName"
+        android:layout_below="@id/userWholeName"
         android:layout_alignParentStart="true"
         android:layout_marginStart="8dp"
         android:text="Osoite: "
@@ -47,12 +57,31 @@
         android:textSize="20sp" />
 
     <Button
-        android:layout_width="wrap_content"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:text="Vaihda salasana"
         android:layout_below="@id/phoneNumber"
         android:layout_marginTop="10dp"
-        android:onClick="openDialog"/>
+        android:layout_margin="10dp"
+        android:onClick="openPasswordDialog"/>
+
+    <Button
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/phoneNumber"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="126dp"
+        android:onClick="openAddressDialog"
+        android:text="Vaihda osoite" />
+
+    <Button
+        android:layout_width="145dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/phoneNumber"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="242dp"
+        android:onClick="openPhoneDialog"
+        android:text="Vaihda puhelinnumero" />
 
 
 </RelativeLayout>
