@@ -86,7 +86,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case R.id.nav_accountPayment:
                 drawer.closeDrawer(GravityCompat.START);
-                Toast.makeText(this, "Tilisiirto", Toast.LENGTH_SHORT).show();
+                Intent intentWireTransfer = new Intent(MainActivity.this, WireTransferActivity.class);
+                intentWireTransfer.putExtra("user", user);
+                startActivity(intentWireTransfer);
                 break;
             case R.id.nav_transferToOwnAccount:
                 drawer.closeDrawer(GravityCompat.START);

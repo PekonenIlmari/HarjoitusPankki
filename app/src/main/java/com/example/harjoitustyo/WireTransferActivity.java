@@ -14,7 +14,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
-public class OwnTransferActivity extends AppCompatActivity {
+public class WireTransferActivity extends AppCompatActivity {
     TextView infoText;
     private Spinner fromSpinner;
     private Spinner toSpinner;
@@ -33,7 +33,7 @@ public class OwnTransferActivity extends AppCompatActivity {
         transferAmount = findViewById(R.id.amountEditText);
         infoText = findViewById(R.id.infoTextView);
 
-        infoText.setText("Siirrä rahaa omien tilien välillä");
+        infoText.setText("Siirrä rahaa toiselle käyttäjälle");
 
         user = (User) getIntent().getSerializableExtra("user");
 
@@ -41,13 +41,12 @@ public class OwnTransferActivity extends AppCompatActivity {
     }
 
     public void setSpinners() {
-        List<String> emptyList = new ArrayList<>();
-        emptyList.add("Sinulla ei ole yhtäkään tiliä");
-
         List<Account> fromAccountList;
         fromAccountList = user.getAccounts();
 
         if (fromAccountList.size() == 0) {
+            List<String> emptyList = new ArrayList<>();
+            emptyList.add("Sinulla ei ole yhtäkään tiliä");
             ArrayAdapter<String> fromAdapter = new ArrayAdapter<>(this,
                     android.R.layout.simple_spinner_item, emptyList);
             fromAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -60,10 +59,20 @@ public class OwnTransferActivity extends AppCompatActivity {
             fromSpinner.setAdapter(fromAdapter);
         }
 
-        List<Account> toAccountList;
-        toAccountList = user.getAccounts();
+        List<Account> toAccountList = new ArrayList<>();
+        for (int i = 0; i < bank.getUserList().size(); i++) {
+            if (bank.getUserList().get(i).getName().equals(user.getName())) {
+                continue;
+            }
+            for (int x = 0; x < bank.getUserList().get(i).getAccounts().size(); x++) {
+
+                toAccountList.add(bank.getUserList().get(i).getAccounts().get(x));
+            }
+        }
 
         if (toAccountList.size() == 0) {
+            List<String> emptyList = new ArrayList<>();
+            emptyList.add("Palvelun muilla käyttäjillä ei ole tilejä");
             ArrayAdapter<String> toAdapter = new ArrayAdapter<>(this,
                     android.R.layout.simple_spinner_item, emptyList);
             toAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -89,7 +98,6 @@ public class OwnTransferActivity extends AppCompatActivity {
         } else {
             fromAcc.setAmount(fromAcc.getAmount() - transferableAmount);
             toAcc.setAmount((toAcc.getAmount() + transferableAmount));
-            bank.getUserList().set(findUserId(), user);
             finish();
             overridePendingTransition(0, 0);
             startActivity(getIntent());
@@ -97,20 +105,9 @@ public class OwnTransferActivity extends AppCompatActivity {
         }
     }
 
-    private int findUserId() {
-        int position = -1;
-
-        for (int i = 0; i < bank.getUserList().size(); i++) {
-            if (user.getName().equals(bank.getUserList().get(i).getName())) {
-                position = i;
-            }
-        }
-        return position;
-    }
-
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent(OwnTransferActivity.this, MainActivity.class);
+        Intent intent = new Intent(WireTransferActivity.this, MainActivity.class);
         intent.putExtra("user", user);
         startActivity(intent);
         finish();

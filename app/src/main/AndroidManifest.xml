@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".UserSettingsActivity"></activity>
+        <activity android:name=".WireTransferActivity"></activity>
+        <activity android:name=".UserSettingsActivity" />
         <activity android:name=".OwnTransferActivity" />
         <activity
             android:name=".AccountInfoActivity"
