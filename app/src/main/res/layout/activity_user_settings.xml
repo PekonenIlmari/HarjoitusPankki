@@ -84,7 +84,7 @@
         android:text="Vaihda puhelinnumero" />
 
     <Button
-        android:layout_width="375dp"
+        android:layout_width="380dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:text="Vaihda käyttäjätunnus"
