@@ -16,7 +16,7 @@ public class Bank { // class where all the users are stored
     Random r = new Random();
 
     public Bank() {
-        addUser("Pekka Korvala", "Pekka", "123", "TIE", "20002");
+        addUser("Pekka Pekka", "Pekka", "123", "TIE", "20002");
         addUser("Masi Pallopää", "Masi", "123", "JOE", "22032");
     }
 

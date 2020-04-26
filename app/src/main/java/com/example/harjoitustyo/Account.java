@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public class Account implements Serializable { //Stores data of each account
     private Card card;
     private String acc_owner, acc_number, type; //Type can be normal or credit
-    private float amount; //Amount and Credit limit are 0 on default
+    private float amount; //Amount is 0 on default
     private int canPay; //Decides if you can use account for payments; 0 = No, 1 = Yes
 
     public Account(String acc_owner,String acc_number, String type, int canPay) {

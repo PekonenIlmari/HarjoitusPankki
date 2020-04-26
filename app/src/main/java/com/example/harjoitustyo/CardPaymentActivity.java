@@ -79,21 +79,27 @@ public class CardPaymentActivity extends AppCompatActivity {
     }
 
     public void makePayment(View v) {
-        float amount = Float.parseFloat(paymentAmount.getText().toString());
-        String receiver = paymentReceiver.getText().toString();
+        if(accountNumberInfo.getText().length() > 15) {
+            float amount = Float.parseFloat(paymentAmount.getText().toString());
+            String receiver = paymentReceiver.getText().toString();
 
-        if(amount > accountList.get(findAccountId()).getAmount()) {
-            Toast.makeText(this, "Tilin kate ei riitä, pienennä maksun määrää tai siirrä tilille lisää rahaa", Toast.LENGTH_LONG).show();
-        } else if (amount > cardList.get(findCardId()).getPayment_limit()) {
-            Toast.makeText(this, "Maksu on suurempi kuin kortin maksuraja, pienennä maksun määrää tai muuta maksurajaa", Toast.LENGTH_LONG).show();
+            if (amount > accountList.get(findAccountId()).getAmount()) {
+                Toast.makeText(this, "Tilin kate ei riitä, pienennä maksun määrää tai siirrä tilille lisää rahaa", Toast.LENGTH_LONG).show();
+            } else if (amount > cardList.get(findCardId()).getPayment_limit()) {
+                Toast.makeText(this, "Maksu on suurempi kuin kortin maksuraja, pienennä maksun määrää tai muuta maksurajaa", Toast.LENGTH_LONG).show();
+            } else {
+                accountList.get(findAccountId()).setAmount(accountList.get(findAccountId()).getAmount() - amount);
+                Toast.makeText(this, "Maksettu " + amount + "€, Maksun saaja: " + receiver, Toast.LENGTH_LONG).show();
+                bank.getUserList().set(findUserId(), user);
+                finish();
+                overridePendingTransition(0, 0);
+                startActivity(getIntent());
+                overridePendingTransition(0, 0);
+            }
+        } else if (cardList.size() == 0) {
+            Toast.makeText(this, "Sinulla ei ole yhtäkään korttia millä maksaa", Toast.LENGTH_SHORT).show();
         } else {
-            accountList.get(findAccountId()).setAmount(accountList.get(findAccountId()).getAmount() - amount);
-            Toast.makeText(this, "Maksettu " + amount + "€, Maksun saaja: " + receiver, Toast.LENGTH_LONG).show();
-            bank.getUserList().set(findUserId(), user);
-            finish();
-            overridePendingTransition(0, 0);
-            startActivity(getIntent());
-            overridePendingTransition(0, 0);
+            Toast.makeText(this, "Valitse kortti jolla haluat maksaa",Toast.LENGTH_SHORT).show();
         }
     }
 

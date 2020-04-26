@@ -23,6 +23,9 @@ public class OwnTransferActivity extends AppCompatActivity {
     User user;
     Bank bank = Bank.getInstance();
 
+    List<Account> fromAccountList = new ArrayList<>();
+    List<Account> toAccountList = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,7 +47,6 @@ public class OwnTransferActivity extends AppCompatActivity {
         List<String> emptyList = new ArrayList<>();
         emptyList.add("Sinulla ei ole yhtäkään tiliä");
 
-        List<Account> fromAccountList;
         fromAccountList = user.getAccounts();
 
         if (fromAccountList.size() == 0) {
@@ -60,7 +62,6 @@ public class OwnTransferActivity extends AppCompatActivity {
             fromSpinner.setAdapter(fromAdapter);
         }
 
-        List<Account> toAccountList;
         toAccountList = user.getAccounts();
 
         if (toAccountList.size() == 0) {
@@ -82,18 +83,22 @@ public class OwnTransferActivity extends AppCompatActivity {
     }
 
     public void transferMoney(View v) {
-        getSelectedAccounts();
-        float transferableAmount = Float.parseFloat(transferAmount.getText().toString());
-        if (transferableAmount > fromAcc.getAmount()) {
-            Toast.makeText(this, "Tilin kate ei riitä, siirrä vähemmän rahaa", Toast.LENGTH_SHORT).show();
+        if (fromAccountList.size() > 0 && toAccountList.size() > 0) {
+            getSelectedAccounts();
+            float transferableAmount = Float.parseFloat(transferAmount.getText().toString());
+            if (transferableAmount > fromAcc.getAmount()) {
+                Toast.makeText(this, "Tilin kate ei riitä, siirrä vähemmän rahaa", Toast.LENGTH_SHORT).show();
+            } else {
+                fromAcc.setAmount(fromAcc.getAmount() - transferableAmount);
+                toAcc.setAmount((toAcc.getAmount() + transferableAmount));
+                bank.getUserList().set(findUserId(), user);
+                finish();
+                overridePendingTransition(0, 0);
+                startActivity(getIntent());
+                overridePendingTransition(0, 0);
+            }
         } else {
-            fromAcc.setAmount(fromAcc.getAmount() - transferableAmount);
-            toAcc.setAmount((toAcc.getAmount() + transferableAmount));
-            bank.getUserList().set(findUserId(), user);
-            finish();
-            overridePendingTransition(0, 0);
-            startActivity(getIntent());
-            overridePendingTransition(0, 0);
+            Toast.makeText(this, "Luo ensin tilejä, jotta voit siirtää rahaa", Toast.LENGTH_SHORT).show();
         }
     }
 

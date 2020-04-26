@@ -11,7 +11,7 @@ public class Card implements Serializable {
         this.acc_num = acc_num;
         this.card_num = card_num;
         this.type = type;
-        this.payment_limit = 500;
+        this.payment_limit = 400; //Payment limit 400 on default
     }
 
     public String getAcc_num() {
