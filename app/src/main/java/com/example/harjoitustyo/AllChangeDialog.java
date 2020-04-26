@@ -26,6 +26,10 @@ public class AllChangeDialog extends AppCompatDialogFragment {
 
     private EditText newUsername;
 
+    private TextView confirmationText;
+
+    private EditText addAmount;
+
     private NewAllChangeDialogListener listener;
 
     Bank bank = Bank.getInstance();
@@ -52,7 +56,7 @@ public class AllChangeDialog extends AppCompatDialogFragment {
 
         LayoutInflater inflater = getActivity().getLayoutInflater();
         if (type == 1) {
-            View view = inflater.inflate(R.layout.layout_phone_change_dialog, null);
+            View view = inflater.inflate(R.layout.layout_oneline_change_dialog, null);
 
             builder.setView(view)
                     .setTitle("Vaihda puhelinnumero")
@@ -73,7 +77,8 @@ public class AllChangeDialog extends AppCompatDialogFragment {
                             }
                         }
                     });
-            newPhone = view.findViewById(R.id.newPhone);
+            newPhone = view.findViewById(R.id.newLine);
+            newPhone.setHint("Syötä uusi puhelinnumero");
         } else if (type == 2) {
             View view = inflater.inflate(R.layout.layout_password_change_dialog, null);
 
@@ -99,7 +104,7 @@ public class AllChangeDialog extends AppCompatDialogFragment {
             newPassword = view.findViewById(R.id.newPassword);
             newPasswordCheck = view.findViewById(R.id.newPasswordCheck);
         } else if (type == 3) {
-            View view = inflater.inflate(R.layout.layout_address_change_dialog, null);
+            View view = inflater.inflate(R.layout.layout_oneline_change_dialog, null);
 
             builder.setView(view)
                     .setTitle("Vaihda osoite")
@@ -120,7 +125,8 @@ public class AllChangeDialog extends AppCompatDialogFragment {
                             }
                         }
                     });
-            newAddress = view.findViewById(R.id.newAddress);
+            newAddress = view.findViewById(R.id.newLine);
+            newAddress.setHint("Syötä uusi osoite");
         } else if (type == 4) {
             View view = inflater.inflate(R.layout.layout_verification_dialog, null);
 
@@ -147,7 +153,7 @@ public class AllChangeDialog extends AppCompatDialogFragment {
             enterVerificationCode = view.findViewById(R.id.enterVerificationCode);
             verificationCode.setText(bank.generateRandomLogInCode());
         } else if (type == 5) {
-            View view = inflater.inflate(R.layout.layout_username_change_dialog, null);
+            View view = inflater.inflate(R.layout.layout_oneline_change_dialog, null);
 
             builder.setView(view)
                     .setTitle("Vaihda käyttäjänimi")
@@ -168,7 +174,53 @@ public class AllChangeDialog extends AppCompatDialogFragment {
                             }
                         }
                     });
-            newUsername = view.findViewById(R.id.newUsername);
+            newUsername = view.findViewById(R.id.newLine);
+            newUsername.setHint("Syötä uusi käyttäjätunnus");
+        } else if (type == 6) {
+            View view = inflater.inflate(R.layout.layout_confirmation_dialog, null);
+
+            builder.setView(view)
+                    .setTitle("Tilin poisto")
+                    .setNegativeButton("Peruuta", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int which) {
+
+                        }
+                    })
+                    .setPositiveButton("Jatka", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            listener.confirmedCode(1);
+                        }
+                    });
+            confirmationText = view.findViewById(R.id.confirmationTextLine);
+            confirmationText.setText("Oletko varma että haluat poistaa kyseisen tilin? Menetät tilillä olevat rahat jos et siirrä niitä " +
+                    "ensin toiselle tilille.");
+        } else if (type == 7) {
+            View view = inflater.inflate(R.layout.layout_oneline_change_dialog, null);
+
+            builder.setView(view)
+                    .setTitle("Vaihda puhelinnumero")
+                    .setNegativeButton("Peruuta", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int which) {
+
+                        }
+                    })
+                    .setPositiveButton("Vaihda", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            String tempAmount = addAmount.getText().toString();
+                            float a = Float.parseFloat(tempAmount);
+                            if (a > 0) {
+                                listener.addedAmount(a);
+                            } else {
+                                listener.addedAmount(-1);
+                            }
+                        }
+                    });
+            addAmount = view.findViewById(R.id.newLine);
+            addAmount.setHint("Syötä tilille lisättävä euromäärä");
         }
         return builder.create();
     }
@@ -191,5 +243,6 @@ public class AllChangeDialog extends AppCompatDialogFragment {
         void changedAddress(String address);
         void confirmedCode(int code);
         void changedUsername(String username);
+        void addedAmount(float amount);
     }
 }

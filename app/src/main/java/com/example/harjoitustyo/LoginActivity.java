@@ -163,4 +163,9 @@ public class LoginActivity extends AppCompatActivity implements AllChangeDialog.
     public void changedUsername(String username) {
 
     }
+
+    @Override
+    public void addedAmount(float amount) {
+
+    }
 }

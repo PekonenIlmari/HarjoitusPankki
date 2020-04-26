@@ -11,19 +11,22 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
-public class AccountInfoActivity extends AppCompatActivity {
+public class AccountInfoActivity extends AppCompatActivity implements AllChangeDialog.NewAllChangeDialogListener {
     private RecyclerView mRecyclerView;
     private CardRecyclerAdapter mAdapter; //For managing single cards in RecyclerView
     private RecyclerView.LayoutManager mLayoutManager; //For managing how the cards are in RecyclerView
 
     private ArrayList<Account> accountList;
     private ArrayList<Card> cardList;
-    TextView type, acc_num, amount;
+    TextView type, acc_num, amount, credit_limit;
     String strAccount;
+    Button payableButton;
     Account account;
     User user;
     Bank bank = Bank.getInstance();
@@ -42,6 +45,9 @@ public class AccountInfoActivity extends AppCompatActivity {
         type = findViewById(R.id.accountTypeInfo);
         acc_num = findViewById(R.id.accountNumberInfo);
         amount = findViewById(R.id.accountAmountInfo);
+        payableButton = findViewById(R.id.payableButton);
+
+        setPayableButton();
 
         buildRecyclerView();
         showInfo();
@@ -58,18 +64,12 @@ public class AccountInfoActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.addMoney:
-                account.setAmount(account.getAmount() + 100);
-                finish();
-                overridePendingTransition(0, 0);
-                startActivity(getIntent());
-                overridePendingTransition(0, 0);
+                AllChangeDialog acdMoney = AllChangeDialog.newInstance(7);
+                acdMoney.show(getSupportFragmentManager(), "Rahan lisäys tilille");
                 return true;
             case R.id.deleteAccountItem:
-                user.accounts.remove(findAccountId());
-                bank.getUserList().set(findUserId(), user);
-                Intent intent = new Intent(AccountInfoActivity.this, AccountsActivity.class);
-                intent.putExtra("user", user);
-                startActivity(intent);
+                AllChangeDialog acdDelete = AllChangeDialog.newInstance(6);
+                acdDelete.show(getSupportFragmentManager(), "Tilin poiston varmennus");
                 return true;
             case R.id.addDebitCard:
                 addCard("Debit");
@@ -104,6 +104,26 @@ public class AccountInfoActivity extends AppCompatActivity {
         });*/
     }
 
+    private void setPayableButton() {
+        if (account.getCanPay() == 1) {
+            payableButton.setText("Käytössä");
+        } else {
+            payableButton.setText("Ei käytössä");
+        }
+    }
+
+    public void setAccountCanPay(View v) {
+        if (account.getCanPay() == 1) {
+            account.setCanPay(0);
+            bank.getUserList().set(findUserId(), user);
+            setPayableButton();
+        } else {
+            account.setCanPay(1);
+            bank.getUserList().set(findUserId(), user);
+            setPayableButton();
+        }
+    }
+
     public void addCard(String type) {
         String card_num = bank.generateCardNumber(type);
         account.addCard(user.getName(), strAccount, card_num, type);
@@ -114,6 +134,9 @@ public class AccountInfoActivity extends AppCompatActivity {
         type.setText("Tilin tyyppi: " + account.getType());
         acc_num.setText("Tilinumero: " + account.getAcc_number());
         amount.setText("Tilin saldo: " + String.format("%.2f", account.getAmount()) + "€");
+        if (account.getType() == "Luotto") {
+
+        }
     }
 
     private int findAccountId() {
@@ -136,6 +159,53 @@ public class AccountInfoActivity extends AppCompatActivity {
             }
         }
         return position;
+    }
+
+    @Override
+    public void addedAmount(float amount) {
+        if (amount > 0) {
+            account.setAmount(account.getAmount() + amount);
+            bank.getUserList().set(findUserId(), user);
+            finish();
+            overridePendingTransition(0, 0);
+            startActivity(getIntent());
+            overridePendingTransition(0, 0);
+            Toast.makeText(this, "Rahan lisäys tilille onnistui",Toast.LENGTH_SHORT).show();
+        } else if (amount == -1){
+            Toast.makeText(this, "Et voi lisätä negatiivista määrää tilille",Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public void changedPhoneNumber(String phoneNum) {
+
+    }
+
+    @Override
+    public void changedPassword(String password) {
+
+    }
+
+    @Override
+    public void changedAddress(String address) {
+
+    }
+
+    @Override
+    public void confirmedCode(int code) {
+        if (code == 1) {
+            user.accounts.remove(findAccountId());
+            bank.getUserList().set(findUserId(), user);
+            Intent intent = new Intent(AccountInfoActivity.this, AccountsActivity.class);
+            intent.putExtra("user", user);
+            startActivity(intent);
+            Toast.makeText(this, "Tili poistettu", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public void changedUsername(String username) {
+
     }
 
     @Override

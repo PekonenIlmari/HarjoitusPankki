@@ -93,15 +93,19 @@ public class WireTransferActivity extends AppCompatActivity {
     public void transferMoney(View v) {
         getSelectedAccounts();
         float transferableAmount = Float.parseFloat(transferAmount.getText().toString());
-        if (transferableAmount > fromAcc.getAmount()) {
-            Toast.makeText(this, "Tilin kate ei riitä, siirrä vähemmän rahaa", Toast.LENGTH_SHORT).show();
+        if (fromAcc.getCanPay() == 1) {
+            if (transferableAmount > fromAcc.getAmount()) {
+                Toast.makeText(this, "Tilin kate ei riitä, siirrä vähemmän rahaa", Toast.LENGTH_SHORT).show();
+            } else {
+                fromAcc.setAmount(fromAcc.getAmount() - transferableAmount);
+                toAcc.setAmount((toAcc.getAmount() + transferableAmount));
+                finish();
+                overridePendingTransition(0, 0);
+                startActivity(getIntent());
+                overridePendingTransition(0, 0);
+            }
         } else {
-            fromAcc.setAmount(fromAcc.getAmount() - transferableAmount);
-            toAcc.setAmount((toAcc.getAmount() + transferableAmount));
-            finish();
-            overridePendingTransition(0, 0);
-            startActivity(getIntent());
-            overridePendingTransition(0, 0);
+            Toast.makeText(this, "Maksaminen on estetty valitulta tililtä", Toast.LENGTH_SHORT).show();
         }
     }
 

@@ -95,21 +95,36 @@ public class UserSettingsActivity extends AppCompatActivity implements AllChange
 
     @Override
     public void changedUsername(String username) {
+        int found = 0;
         if (!username.equals("ERROR")) {
-            user.setUserName(username);
-            bank.getUserList().set(findUserId(), user);
-            finish();
-            overridePendingTransition(0, 0);
-            startActivity(getIntent());
-            overridePendingTransition(0, 0);
-            Toast.makeText(this, "Käyttäjänimen vaihto onnistui",Toast.LENGTH_SHORT).show();
+            for (int i = 0; i < bank.getUserList().size(); i++) {
+                if (username.equals(bank.getUserList().get(i).getUserName())) {
+                    found = 1;
+                }
+            }
+            if (found == 0) {
+                user.setUserName(username);
+                bank.getUserList().set(findUserId(), user);
+                finish();
+                overridePendingTransition(0, 0);
+                startActivity(getIntent());
+                overridePendingTransition(0, 0);
+                Toast.makeText(this, "Käyttäjänimen vaihto onnistui",Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, "Käyttäjänimi on jo käytössä",Toast.LENGTH_SHORT).show();
+            }
         } else {
-            Toast.makeText(this, "Käyttäjänimen vaihto ei onnistunut",Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Käyttäjänimen pitää olla vähintään 3 merkkiä pitkä",Toast.LENGTH_SHORT).show();
         }
     }
 
     @Override
     public void confirmedCode(int code) {
+
+    }
+
+    @Override
+    public void addedAmount(float amount) {
 
     }
 

@@ -4,12 +4,13 @@
     android:layout_height="match_parent"
     android:padding="10dp">
 
-    <EditText
+    <TextView
+        android:id="@+id/confirmationTextLine"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:textSize="20sp"
+        android:text="XXXXXX"
+        android:textAlignment="center"
         android:layout_centerHorizontal="true"
-        android:hint="Syötä uusi puhelinnumero"
-        android:id="@+id/newPhone"/>
+        android:textSize="20sp"/>
 
 </RelativeLayout>

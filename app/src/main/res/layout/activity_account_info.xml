@@ -53,5 +53,36 @@
         android:layout_marginStart="10dp"
         android:textSize="20sp"/>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/accountAmountInfo"
+        android:id="@+id/accountCreditLimitInfo"
+        android:text="Tilin luottoraja: "
+        android:layout_marginStart="10dp"
+        android:textSize="20sp"/>
+
+    <TextView
+        android:id="@+id/payableTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/cardRecycler"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="259dp"
+        android:layout_marginTop="135dp"
+        android:textSize="16sp"
+        android:text="Tililtä maksaminen" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/payableTextView"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="263dp"
+        android:layout_marginTop="0dp"
+        android:text="XXXXXX"
+        android:id="@+id/payableButton"
+        android:onClick="setAccountCanPay"/>
+
 
 </RelativeLayout>

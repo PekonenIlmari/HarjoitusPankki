@@ -9,7 +9,6 @@
         android:layout_height="wrap_content"
         android:textSize="20sp"
         android:layout_centerHorizontal="true"
-        android:hint="Syötä uusi osoite"
-        android:id="@+id/newAddress"/>
+        android:id="@+id/newLine"/>
 
 </RelativeLayout>
