@@ -9,12 +9,7 @@
 
     <item
         android:id="@+id/addDebitCard"
-        android:title="Lisää Debit -kortti"
-        app:showAsAction="never" />
-
-    <item
-        android:id="@+id/addCreditCard"
-        android:title="Lisää Credit -kortti"
+        android:title="Lisää maksukortti"
         app:showAsAction="never" />
 
     <item

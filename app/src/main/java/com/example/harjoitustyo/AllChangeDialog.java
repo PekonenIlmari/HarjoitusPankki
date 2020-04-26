@@ -207,7 +207,7 @@ public class AllChangeDialog extends AppCompatDialogFragment {
 
                         }
                     })
-                    .setPositiveButton("Vaihda", new DialogInterface.OnClickListener() {
+                    .setPositiveButton("Lisää", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             String tempAmount = addAmount.getText().toString();

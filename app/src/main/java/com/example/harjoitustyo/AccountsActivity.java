@@ -47,8 +47,8 @@ public class AccountsActivity extends AppCompatActivity {
             case R.id.normalAccountItem:
                 addNormalAccount();
                 return true;
-            case R.id.creditAccountItem:
-                addCreditAccount();
+            case R.id.savingsAccountItem:
+                addSavingsAccount();
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -82,9 +82,9 @@ public class AccountsActivity extends AppCompatActivity {
         bank.getUserList().set(findUserId(), user);
     }
 
-    public void addCreditAccount() {
-        String acc_num = bank.generateAccountNumber("Luotto");
-        user.addAccount(user.getName(), acc_num, "Luotto", 1);
+    public void addSavingsAccount() {
+        String acc_num = bank.generateAccountNumber("Säästö");
+        user.addAccount(user.getName(), acc_num, "Säästö", 0);
         mAdapter.notifyDataSetChanged();
         bank.getUserList().set(findUserId(), user);
     }

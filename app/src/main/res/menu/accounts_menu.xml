@@ -8,8 +8,8 @@
         android:title="Lisää tavallinen tili" />
 
     <item
-        android:id="@+id/creditAccountItem"
+        android:id="@+id/savingsAccountItem"
         app:showAsAction="never"
-        android:title="Lisää luotollinen tili" />
+        android:title="Lisää säästötili" />
 
 </menu>

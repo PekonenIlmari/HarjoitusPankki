@@ -22,9 +22,9 @@ public class AccountInfoActivity extends AppCompatActivity implements AllChangeD
     private CardRecyclerAdapter mAdapter; //For managing single cards in RecyclerView
     private RecyclerView.LayoutManager mLayoutManager; //For managing how the cards are in RecyclerView
 
-    private ArrayList<Account> accountList;
-    private ArrayList<Card> cardList;
-    TextView type, acc_num, amount, credit_limit;
+    private ArrayList<Account> accountList = new ArrayList<>();
+    private ArrayList<Card> cardList = new ArrayList<>();
+    TextView type, acc_num, amount;
     String strAccount;
     Button payableButton;
     Account account;
@@ -73,11 +73,6 @@ public class AccountInfoActivity extends AppCompatActivity implements AllChangeD
                 return true;
             case R.id.addDebitCard:
                 addCard("Debit");
-                bank.getUserList().set(findUserId(), user);
-                return true;
-            case R.id.addCreditCard:
-                addCard("Credit");
-                bank.getUserList().set(findUserId(), user);
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -113,30 +108,36 @@ public class AccountInfoActivity extends AppCompatActivity implements AllChangeD
     }
 
     public void setAccountCanPay(View v) {
-        if (account.getCanPay() == 1) {
-            account.setCanPay(0);
-            bank.getUserList().set(findUserId(), user);
-            setPayableButton();
+        if (account.getType().equals("Normaali")) {
+            if (account.getCanPay() == 1) {
+                account.setCanPay(0);
+                bank.getUserList().set(findUserId(), user);
+                setPayableButton();
+            } else {
+                account.setCanPay(1);
+                bank.getUserList().set(findUserId(), user);
+                setPayableButton();
+            }
         } else {
-            account.setCanPay(1);
-            bank.getUserList().set(findUserId(), user);
-            setPayableButton();
+            Toast.makeText(this, "Et voi ottaa säästötilille käyttöön maksamista", Toast.LENGTH_SHORT).show();
         }
     }
 
     public void addCard(String type) {
-        String card_num = bank.generateCardNumber(type);
-        account.addCard(user.getName(), strAccount, card_num, type);
-        mAdapter.notifyDataSetChanged();
+        if (account.getType().equals("Normaali")) {
+            String card_num = bank.generateCardNumber();
+            account.addCard(user.getName(), strAccount, card_num, type);
+            bank.getUserList().set(findUserId(), user);
+            mAdapter.notifyDataSetChanged();
+        } else {
+            Toast.makeText(this, "Et voi lisätä säästötilille maksukortteja", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void showInfo() {
         type.setText("Tilin tyyppi: " + account.getType());
         acc_num.setText("Tilinumero: " + account.getAcc_number());
         amount.setText("Tilin saldo: " + String.format("%.2f", account.getAmount()) + "€");
-        if (account.getType() == "Luotto") {
-
-        }
     }
 
     private int findAccountId() {

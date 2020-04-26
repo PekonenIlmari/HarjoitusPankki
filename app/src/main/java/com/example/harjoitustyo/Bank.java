@@ -42,7 +42,7 @@ public class Bank { // class where all the users are stored
 
         if (type.equals("Normaali")) {
             tempAcc_num = "RP01";
-        } else if (type.equals("Luotto")) {
+        } else if (type.equals("Säästö")) {
             tempAcc_num = "RP27";
         }
         for (int i = 0; i < 3; i++) {
@@ -55,14 +55,8 @@ public class Bank { // class where all the users are stored
         return tempAcc_num;
     }
 
-    public String generateCardNumber(String type) {
-        String tempCard_num = "";
-
-        if (type.equals("Debit")) {
-            tempCard_num = "4523";
-        } else if (type.equals("Credit")) {
-            tempCard_num = "2489";
-        }
+    public String generateCardNumber() {
+        String tempCard_num = "4523";
 
         for (int i = 0; i < 3; i++) {
             int temp_four_num = r.nextInt(8999) + 1000; //Gives number between 1000 and 9999

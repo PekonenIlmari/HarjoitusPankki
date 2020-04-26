@@ -4,7 +4,6 @@ import java.io.Serializable;
 
 public class Card implements Serializable {
     private String card_holder, acc_num, card_num, type;
-    private int credit_limit;
     private int payment_limit;
 
     public Card(String card_holder, String acc_num, String card_num, String type) {
@@ -12,11 +11,6 @@ public class Card implements Serializable {
         this.acc_num = acc_num;
         this.card_num = card_num;
         this.type = type;
-        if (type.equals("Debit")) {
-            this.credit_limit = 0;
-        } else if (type.equals("Credit")) {
-            this.credit_limit = 500;
-        }
         this.payment_limit = 500;
     }
 
@@ -34,5 +28,9 @@ public class Card implements Serializable {
 
     public String getCard_holder() {
         return card_holder;
+    }
+
+    public int getPayment_limit() {
+        return payment_limit;
     }
 }

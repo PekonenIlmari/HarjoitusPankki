@@ -82,7 +82,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case R.id.nav_cardPayment:
                 drawer.closeDrawer(GravityCompat.START);
-                Toast.makeText(this, "Korttimaksu", Toast.LENGTH_SHORT).show();
+                Intent intentCardPayment = new Intent(MainActivity.this, CardPaymentActivity.class);
+                intentCardPayment.putExtra("user", user);
+                startActivity(intentCardPayment);
                 break;
             case R.id.nav_accountPayment:
                 drawer.closeDrawer(GravityCompat.START);
