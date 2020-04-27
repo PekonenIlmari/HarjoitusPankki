@@ -60,6 +60,11 @@ public class CardInfoActivity extends AppCompatActivity implements AllChangeDial
         acd.show(getSupportFragmentManager(), "Kortin maksurajan muutos");
     }
 
+    public void openConfirmCardRemoveDialog(View v) {
+        AllChangeDialog acd = AllChangeDialog.newInstance(9);
+        acd.show(getSupportFragmentManager(), "Kortin poiston muutos");
+    }
+
     public void killCard(View v) {
         System.out.println("KUOLETETAAN");
         card.setDead(1);
@@ -131,7 +136,15 @@ public class CardInfoActivity extends AppCompatActivity implements AllChangeDial
 
     @Override
     public void confirmedCode(int code) {
-
+        if (code == 1) {
+            user.getAccounts().get(account_id).getCards().remove(findCardId());
+            bank.getUserList().set(findUserId(), user);
+            Intent intent = new Intent(CardInfoActivity.this, AccountInfoActivity.class);
+            intent.putExtra("ACC_NUM", card.getAcc_num());
+            intent.putExtra("user", user);
+            startActivity(intent);
+            Toast.makeText(this, "Kortti poistettu", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override

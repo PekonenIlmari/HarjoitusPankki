@@ -136,6 +136,14 @@ public class AccountInfoActivity extends AppCompatActivity implements AllChangeD
         }
     }
 
+    public void openAccountActivitiesActivity(View v) {
+        Intent intent = new Intent(AccountInfoActivity.this, AccountActivitiesActivity.class);
+        intent.putExtra("user", user);
+        String tempAcc = String.valueOf(findAccountId());
+        intent.putExtra("ACCOUNT_ID", tempAcc);
+        startActivity(intent);
+    }
+
     private void showInfo() {
         typeTextView.setText("Tilin tyyppi: " + account.getType());
         acc_numTextView.setText("Tilinumero: " + account.getAcc_number());

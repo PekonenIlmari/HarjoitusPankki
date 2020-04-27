@@ -248,6 +248,25 @@ public class AllChangeDialog extends AppCompatDialogFragment {
                     });
             paylimit = view.findViewById(R.id.newLine);
             paylimit.setHint("Syötä Kortin uusi maksuraja kokonaisissa euroissa");
+        } else if (type == 9) {
+            View view = inflater.inflate(R.layout.layout_confirmation_dialog, null);
+
+            builder.setView(view)
+                    .setTitle("Kortin poisto")
+                    .setNegativeButton("Peruuta", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int which) {
+
+                        }
+                    })
+                    .setPositiveButton("Jatka", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            listener.confirmedCode(1);
+                        }
+                    });
+            confirmationText = view.findViewById(R.id.confirmationTextLine);
+            confirmationText.setText("Oletko varma että haluat poistaa kyseisen kortin?");
         }
         return builder.create();
     }

@@ -52,15 +52,26 @@
         android:text="Muuta kortin maksurajaa"
         android:layout_below="@id/cardDead"
         android:layout_marginStart="250dp"
-        android:onClick="openPayLimitDialog"/>
+        android:onClick="openPayLimitDialog"
+        android:id="@+id/payLimitButton"/>
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Kuoleta kortti"
         android:layout_below="@id/regionChangeButton"
-        android:onClick="killCard"/>
+        android:onClick="killCard" />
 
+    <Button
+        android:id="@+id/removeCardButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/payLimitButton"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="254dp"
+        android:layout_marginTop="0dp"
+        android:text="Poista kortti"
+        android:onClick="openConfirmCardRemoveDialog"/>
 
 
 </RelativeLayout>

@@ -17,6 +17,8 @@ public class Account implements Serializable { //Stores data of each account
         this.type = type;
         this.amount = 0;
         this.canPay = canPay;
+
+        addAccountActivity("Tapahtumatyyppi", "Maksun saaja", "Määrä");
     }
 
     ArrayList<Card> cards = new ArrayList<>();
@@ -24,6 +26,16 @@ public class Account implements Serializable { //Stores data of each account
     public void addCard(String card_holder, String acc_num, String card_number, int region) {
         card = new Card(card_holder, acc_num, card_number, region);
         cards.add(card);
+    }
+
+    ArrayList<String> accountActivities = new ArrayList<>();
+
+    public void addAccountActivity(String type, String receiver, String amount) {
+        accountActivities.add(type + "  " + receiver + "  " + amount + "\n");
+    }
+
+    public ArrayList<String> getAccountActivities() {
+        return accountActivities;
     }
 
     public String getAcc_number() {

@@ -9,11 +9,22 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".CardInfoActivity"></activity>
-        <activity android:name=".CardPaymentActivity" />
-        <activity android:name=".WireTransferActivity" />
-        <activity android:name=".UserSettingsActivity" />
-        <activity android:name=".OwnTransferActivity" />
+        <activity android:name=".AccountActivitiesActivity"></activity>
+        <activity
+            android:name=".CardInfoActivity"
+            android:noHistory="true" />
+        <activity
+            android:name=".CardPaymentActivity"
+            android:noHistory="true" />
+        <activity
+            android:name=".WireTransferActivity"
+            android:noHistory="true" />
+        <activity
+            android:name=".UserSettingsActivity"
+            android:noHistory="true" />
+        <activity
+            android:name=".OwnTransferActivity"
+            android:noHistory="true" />
         <activity
             android:name=".AccountInfoActivity"
             android:noHistory="true" />
