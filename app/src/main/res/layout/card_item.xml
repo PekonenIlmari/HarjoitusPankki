@@ -55,14 +55,13 @@
             android:textSize="17sp"/>
 
         <TextView
-            android:id="@+id/cardType"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:layout_marginStart="304dp"
             android:layout_marginTop="197dp"
-            android:text="TYYPPI"
+            android:text="DEBIT"
             android:textSize="25sp"
             android:textStyle="bold" />
 

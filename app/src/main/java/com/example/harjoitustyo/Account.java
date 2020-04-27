@@ -21,8 +21,8 @@ public class Account implements Serializable { //Stores data of each account
 
     ArrayList<Card> cards = new ArrayList<>();
 
-    public void addCard(String card_holder, String acc_num, String card_number, String type) {
-        card = new Card(card_holder, acc_num, card_number, type);
+    public void addCard(String card_holder, String acc_num, String card_number, int region) {
+        card = new Card(card_holder, acc_num, card_number, region);
         cards.add(card);
     }
 

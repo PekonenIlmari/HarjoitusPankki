@@ -200,7 +200,7 @@ public class AllChangeDialog extends AppCompatDialogFragment {
             View view = inflater.inflate(R.layout.layout_oneline_change_dialog, null);
 
             builder.setView(view)
-                    .setTitle("Vaihda puhelinnumero")
+                    .setTitle("Lisää rahaa tilille")
                     .setNegativeButton("Peruuta", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int which) {

@@ -23,13 +23,12 @@ public class CardRecyclerAdapter extends RecyclerView.Adapter<CardRecyclerAdapte
     }
 
     public static class CardViewHolder extends RecyclerView.ViewHolder {
-        public TextView cardNumber, cardHolder, cardType;
+        public TextView cardNumber, cardHolder;
 
         public CardViewHolder(@NonNull View itemView, final OnItemClickListener listener) {
             super(itemView);
             cardNumber = itemView.findViewById(R.id.cardNumber);
             cardHolder = itemView.findViewById(R.id.cardHolder);
-            cardType = itemView.findViewById(R.id.cardType);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -63,7 +62,6 @@ public class CardRecyclerAdapter extends RecyclerView.Adapter<CardRecyclerAdapte
 
         holder.cardNumber.setText(currentCard.getCard_num());
         holder.cardHolder.setText(currentCard.getCard_holder());
-        holder.cardType.setText(currentCard.getType().toUpperCase());
     }
 
     @Override

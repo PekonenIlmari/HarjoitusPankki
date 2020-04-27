@@ -72,7 +72,7 @@ public class AccountInfoActivity extends AppCompatActivity implements AllChangeD
                 acdDelete.show(getSupportFragmentManager(), "Tilin poiston varmennus");
                 return true;
             case R.id.addDebitCard:
-                addCard("Debit");
+                addCard();
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -87,16 +87,18 @@ public class AccountInfoActivity extends AppCompatActivity implements AllChangeD
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
 
-        /*mAdapter.setOnItemClickListener(new AccountsRecyclerAdapter.OnItemClickListener() {
+        mAdapter.setOnItemClickListener(new CardRecyclerAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
-                String tempAccNum = accountList.get(position).getAcc_number();
-                Intent intent = new Intent(AccountsInfoActivity.this, CardInfoActivity.class);
-                intent.putExtra("ACC_NUM", tempAccNum);
+                String tempCardNum = cardList.get(position).getCard_num();
+                Intent intent = new Intent(AccountInfoActivity.this, CardInfoActivity.class);
+                intent.putExtra("CARD_NUM", tempCardNum);
                 intent.putExtra("user", user);
+                String tempAcc = String.valueOf(findAccountId());
+                intent.putExtra("ACCOUNT_ID", tempAcc);
                 startActivity(intent);
             }
-        });*/
+        });
     }
 
     private void setPayableButton() {
@@ -123,10 +125,10 @@ public class AccountInfoActivity extends AppCompatActivity implements AllChangeD
         }
     }
 
-    public void addCard(String type) {
+    public void addCard() {
         if (account.getType().equals("Normaali")) {
             String card_num = bank.generateCardNumber();
-            account.addCard(user.getName(), strAccount, card_num, type);
+            account.addCard(user.getName(), strAccount, card_num, 1);
             bank.getUserList().set(findUserId(), user);
             mAdapter.notifyDataSetChanged();
         } else {
