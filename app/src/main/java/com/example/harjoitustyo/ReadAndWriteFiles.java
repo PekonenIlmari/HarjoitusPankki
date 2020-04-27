@@ -31,25 +31,7 @@ public class ReadAndWriteFiles {
     }
 
     public ReadAndWriteFiles() {
-        this.context = context;
     }
-
-    /*public void readUsers() {
-        try {
-            ObjectInputStream ois = new ObjectInputStream(new FileInputStream("users.ser"));
-
-            users = (ArrayList) ois.readObject();
-
-            ois.close();
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-
-        //Add users to bank
-        for (User user : users) {
-            System.out.println(user.getName());
-        }
-    }*/
 
     public void readUsers() {
         try {
@@ -64,44 +46,17 @@ public class ReadAndWriteFiles {
             e.printStackTrace();
         }
 
-        //Add users to bank
+        if (users.size() > 0) {
+            bank.setUserList(users);
+        }
+
         if (bank.getUserList().size() > 0) {
-            if (users.size() > 0) {
-                Toast.makeText(context, "LÖYTYY KÄYTTÄJIÄ", Toast.LENGTH_SHORT).show();
-                for (User newUser : users) {
-                    for (User existingUser : bank.getUserList()) {
-                        if (!newUser.getName().equals(existingUser)) {
-                            bank.addUser(newUser.getName(), newUser.getUserName(), newUser.getPassword(), newUser.getAddress(), newUser.getPhone());
-                        } else {
-                            continue;
-                        }
-                    }
-                    ;
-                    System.out.println(newUser.getName());
-                }
-            } else {
-            Toast.makeText(context, "EI LÖYDY KÄYTTÄJIÄ", Toast.LENGTH_SHORT).show();
-            }
+            Toast.makeText(context, "LÖYTYY KÄYTTÄJIÄ", Toast.LENGTH_SHORT).show();
         } else {
-            for (User newUser : users) {
-                bank.addUser(newUser.getName(), newUser.getUserName(), newUser.getPassword(), newUser.getAddress(), newUser.getPhone());
-            }
+            Toast.makeText(context, "EI LÖYDY KÄYTTÄJIÄ", Toast.LENGTH_SHORT).show();
         }
 
     }
-
-    /*public void writeUsers() {
-        users = bank.getUserList();
-        try {
-            ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("users.ser"));
-
-            oos.writeObject(users);
-
-            oos.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }*/
 
     public void writeUsers() {
         users = bank.getUserList();

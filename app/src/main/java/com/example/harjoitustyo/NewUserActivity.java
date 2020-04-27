@@ -35,6 +35,9 @@ public class NewUserActivity extends AppCompatActivity {
         name = nameBox.getText().toString();
         if (address.length() > 0 && phone.length() > 0) {
             bank.addUser(name, userName, password, address, phone);
+            ReadAndWriteFiles rw = ReadAndWriteFiles.getInstance(this);
+            rw.writeUsers();
+
             Intent intent = new Intent(NewUserActivity.this, LoginActivity.class);
             startActivity(intent);
             Toast.makeText(this, "Rekisteröity", Toast.LENGTH_SHORT).show();

@@ -7,9 +7,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
-public class CardInfoActivity extends AppCompatActivity {
-    TextView cardNumberTextView, cardPayLimitTextView, cardRegionTextView;
+public class CardInfoActivity extends AppCompatActivity implements AllChangeDialog.NewAllChangeDialogListener {
+    TextView cardNumberTextView, cardPayLimitTextView, cardRegionTextView, cardDeadTextView;
     Button regionChangeButton;
     String strCardNum;
     int account_id;
@@ -32,6 +33,7 @@ public class CardInfoActivity extends AppCompatActivity {
         cardNumberTextView = findViewById(R.id.cardNumber);
         cardPayLimitTextView = findViewById(R.id.cardPayLimit);
         cardRegionTextView = findViewById(R.id.cardRegion);
+        cardDeadTextView = findViewById(R.id.cardDead);
         regionChangeButton = findViewById(R.id.regionChangeButton);
 
         setRegionChangeButton();
@@ -46,16 +48,36 @@ public class CardInfoActivity extends AppCompatActivity {
         } else if (card.getRegion() == 2) {
             cardRegionTextView.setText("Kortin toimivuusalue: Koko maailma");
         }
+        if (card.getDead() == 0) {
+            cardDeadTextView.setText("Kortin tila: Käytössä");
+        } else {
+            cardDeadTextView.setText("Kortin tila: Kuoletettu");
+        }
+    }
+
+    public void openPayLimitDialog(View v) {
+        AllChangeDialog acd = AllChangeDialog.newInstance(8);
+        acd.show(getSupportFragmentManager(), "Kortin maksurajan muutos");
+    }
+
+    public void killCard(View v) {
+        System.out.println("KUOLETETAAN");
+        card.setDead(1);
+        bank.getUserList().set(findUserId(), user);
+        cardDeadTextView.setText("Kortin tila: Kuoletettu");
+        Toast.makeText(this, "Jos haluat kortin uudestaan käyttöön, ota yhteyttä pankkiin", Toast.LENGTH_LONG).show();
     }
 
     public void changeRegion(View v) {
         if (card.getRegion() == 1) {
             card.setRegion(2);
             setRegionChangeButton();
+            cardRegionTextView.setText("Kortin toimivuusalue: Koko maailma");
             bank.getUserList().set(findUserId(), user);
         } else if (card.getRegion() == 2) {
             card.setRegion(1);
             setRegionChangeButton();
+            cardRegionTextView.setText("Kortin toimivuusalue: Kotimaa");
             bank.getUserList().set(findUserId(), user);
         }
     }
@@ -67,6 +89,8 @@ public class CardInfoActivity extends AppCompatActivity {
             regionChangeButton.setText("Muuta kortin toimivuusalueeksi kotimaa");
         }
     }
+
+
 
     private int findCardId() {
         int position = -1;
@@ -88,6 +112,48 @@ public class CardInfoActivity extends AppCompatActivity {
             }
         }
         return position;
+    }
+
+    @Override
+    public void changedPhoneNumber(String phoneNum) {
+
+    }
+
+    @Override
+    public void changedPassword(String password) {
+
+    }
+
+    @Override
+    public void changedAddress(String address) {
+
+    }
+
+    @Override
+    public void confirmedCode(int code) {
+
+    }
+
+    @Override
+    public void changedUsername(String username) {
+
+    }
+
+    @Override
+    public void addedAmount(float amount) {
+
+    }
+
+    @Override
+    public void changedPayLimit(int paylimit) {
+        if (paylimit > 0) {
+            card.setPayment_limit(paylimit);
+            bank.getUserList().set(findUserId(), user);
+            cardPayLimitTextView.setText("Kortin maksuraja: " + card.getPayment_limit() + "€");
+            Toast.makeText(this, "Maksurajan muutos onnistui",Toast.LENGTH_SHORT).show();
+        } else if (paylimit == -1){
+            Toast.makeText(this, "Maksuraja ei voi olla negatiivinen",Toast.LENGTH_SHORT).show();
+        }
     }
 
     public void onBackPressed() {

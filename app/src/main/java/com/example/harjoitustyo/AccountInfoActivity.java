@@ -24,7 +24,7 @@ public class AccountInfoActivity extends AppCompatActivity implements AllChangeD
 
     private ArrayList<Account> accountList = new ArrayList<>();
     private ArrayList<Card> cardList = new ArrayList<>();
-    TextView type, acc_num, amount;
+    TextView typeTextView, acc_numTextView, amountTextView;
     String strAccount;
     Button payableButton;
     Account account;
@@ -42,9 +42,9 @@ public class AccountInfoActivity extends AppCompatActivity implements AllChangeD
         account = accountList.get(findAccountId());
         cardList = account.getCards();
 
-        type = findViewById(R.id.accountTypeInfo);
-        acc_num = findViewById(R.id.accountNumberInfo);
-        amount = findViewById(R.id.accountAmountInfo);
+        typeTextView = findViewById(R.id.accountTypeInfo);
+        acc_numTextView = findViewById(R.id.accountNumberInfo);
+        amountTextView = findViewById(R.id.accountAmountInfo);
         payableButton = findViewById(R.id.payableButton);
 
         setPayableButton();
@@ -137,9 +137,9 @@ public class AccountInfoActivity extends AppCompatActivity implements AllChangeD
     }
 
     private void showInfo() {
-        type.setText("Tilin tyyppi: " + account.getType());
-        acc_num.setText("Tilinumero: " + account.getAcc_number());
-        amount.setText("Tilin saldo: " + String.format("%.2f", account.getAmount()) + "€");
+        typeTextView.setText("Tilin tyyppi: " + account.getType());
+        acc_numTextView.setText("Tilinumero: " + account.getAcc_number());
+        amountTextView.setText("Tilin saldo: " + String.format("%.2f", account.getAmount()) + "€");
     }
 
     private int findAccountId() {
@@ -169,10 +169,7 @@ public class AccountInfoActivity extends AppCompatActivity implements AllChangeD
         if (amount > 0) {
             account.setAmount(account.getAmount() + amount);
             bank.getUserList().set(findUserId(), user);
-            finish();
-            overridePendingTransition(0, 0);
-            startActivity(getIntent());
-            overridePendingTransition(0, 0);
+            amountTextView.setText("Tilin saldo: " + String.format("%.2f", account.getAmount()) + "€");
             Toast.makeText(this, "Rahan lisäys tilille onnistui",Toast.LENGTH_SHORT).show();
         } else if (amount == -1){
             Toast.makeText(this, "Et voi lisätä negatiivista määrää tilille",Toast.LENGTH_SHORT).show();
@@ -208,6 +205,11 @@ public class AccountInfoActivity extends AppCompatActivity implements AllChangeD
 
     @Override
     public void changedUsername(String username) {
+
+    }
+
+    @Override
+    public void changedPayLimit(int paylimit) {
 
     }
 

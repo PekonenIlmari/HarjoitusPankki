@@ -30,11 +30,19 @@
         android:id="@+id/cardRegion"
         android:layout_below="@id/cardPayLimit"/>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Kortin tila: "
+        android:textSize="20sp"
+        android:id="@+id/cardDead"
+        android:layout_below="@id/cardRegion"/>
+
     <Button
         android:layout_width="165dp"
         android:layout_height="wrap_content"
         android:text="Muuta kortin toimivuusalueeksi koko maailma"
-        android:layout_below="@id/cardRegion"
+        android:layout_below="@id/cardDead"
         android:id="@+id/regionChangeButton"
         android:onClick="changeRegion"/>
 
@@ -42,14 +50,16 @@
         android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:text="Muuta kortin maksurajaa"
-        android:layout_below="@id/cardRegion"
-        android:layout_marginStart="250dp"/>
+        android:layout_below="@id/cardDead"
+        android:layout_marginStart="250dp"
+        android:onClick="openPayLimitDialog"/>
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Kuoleta kortti"
-        android:layout_below="@id/regionChangeButton"/>
+        android:layout_below="@id/regionChangeButton"
+        android:onClick="killCard"/>
 
 
 

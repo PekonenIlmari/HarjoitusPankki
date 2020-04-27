@@ -128,6 +128,11 @@ public class UserSettingsActivity extends AppCompatActivity implements AllChange
 
     }
 
+    @Override
+    public void changedPayLimit(int paylimit) {
+
+    }
+
     private int findUserId() {
         int position = -1;
 

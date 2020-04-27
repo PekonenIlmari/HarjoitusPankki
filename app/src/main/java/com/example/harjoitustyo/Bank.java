@@ -16,8 +16,7 @@ public class Bank { // class where all the users are stored
     Random r = new Random();
 
     public Bank() {
-        addUser("Pekka Pekka", "Pekka", "123", "TIE", "20002");
-        addUser("Masi Pallopää", "Masi", "123", "JOE", "22032");
+        addUser("Pankinjohtaja", "admin", "password", "Pankkikuja 1, 00100 Helsinki", "0100100");
     }
 
     private ArrayList<User> userList = new ArrayList<>();
@@ -29,6 +28,10 @@ public class Bank { // class where all the users are stored
 
     public ArrayList<User> getUserList() {
         return userList;
+    }
+
+    public void setUserList(ArrayList<User> userList) {
+        this.userList = userList;
     }
 
     public String generateRandomLogInCode() {

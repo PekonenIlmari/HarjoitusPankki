@@ -33,6 +33,10 @@ public class Card implements Serializable {
         return payment_limit;
     }
 
+    public void setPayment_limit(int payment_limit) {
+        this.payment_limit = payment_limit;
+    }
+
     public int getRegion() {
         return region;
     }

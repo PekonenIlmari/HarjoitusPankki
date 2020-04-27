@@ -30,6 +30,8 @@ public class AllChangeDialog extends AppCompatDialogFragment {
 
     private EditText addAmount;
 
+    private EditText paylimit;
+
     private NewAllChangeDialogListener listener;
 
     Bank bank = Bank.getInstance();
@@ -221,6 +223,31 @@ public class AllChangeDialog extends AppCompatDialogFragment {
                     });
             addAmount = view.findViewById(R.id.newLine);
             addAmount.setHint("Syötä tilille lisättävä euromäärä");
+        } else if (type == 8) {
+            View view = inflater.inflate(R.layout.layout_oneline_change_dialog, null);
+
+            builder.setView(view)
+                    .setTitle("Muuta kortin maksurajaa")
+                    .setNegativeButton("Peruuta", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int which) {
+
+                        }
+                    })
+                    .setPositiveButton("Muuta", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            String tempLimit = paylimit.getText().toString();
+                            int a = Integer.parseInt(tempLimit);
+                            if (a > 0) {
+                                listener.changedPayLimit(a);
+                            } else {
+                                listener.changedPayLimit(-1);
+                            }
+                        }
+                    });
+            paylimit = view.findViewById(R.id.newLine);
+            paylimit.setHint("Syötä Kortin uusi maksuraja kokonaisissa euroissa");
         }
         return builder.create();
     }
@@ -244,5 +271,6 @@ public class AllChangeDialog extends AppCompatDialogFragment {
         void confirmedCode(int code);
         void changedUsername(String username);
         void addedAmount(float amount);
+        void changedPayLimit(int paylimit);
     }
 }

@@ -24,14 +24,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     NavigationView navigationView;
     TextView infoText, navHeaderName;
     User user;
-    //ReadAndWriteFiles rawf;
+    ReadAndWriteFiles rawf;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //rawf = ReadAndWriteFiles.getInstance(getApplicationContext());
+        rawf = ReadAndWriteFiles.getInstance(this);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -101,7 +101,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.nav_logout:
                 Toast.makeText(this, "Kirjauduttu ulos", Toast.LENGTH_SHORT).show();
                 drawer.closeDrawer(GravityCompat.START);
-                //rawf.writeUsers();
+                rawf.writeUsers();
                 Intent intentLogout = new Intent(MainActivity.this, LoginActivity.class);
                 startActivity(intentLogout);
                 break;
@@ -115,7 +115,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             drawer.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
-            //rawf.writeUsers();
+            rawf.writeUsers();
         }
     }
 

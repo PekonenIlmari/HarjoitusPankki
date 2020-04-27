@@ -18,16 +18,21 @@ public class LoginActivity extends AppCompatActivity implements AllChangeDialog.
     Bank bank = Bank.getInstance();
     User user;
     ArrayList<User> users = new ArrayList<>();
-    //ReadAndWriteFiles rawf;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        //rawf = ReadAndWriteFiles.getInstance(getApplicationContext());
+        /*ReadAndWriteFiles rawf = ReadAndWriteFiles.getInstance(this);
 
-        //rawf.readUsers();
+        rawf.readUsers();
 
+        users = bank.getUserList();
+
+        for (User u : users) {
+            System.out.println(u.getUserName());
+            System.out.println("##########");
+        }*/
 
         users = bank.getUserList();
 
@@ -36,6 +41,25 @@ public class LoginActivity extends AppCompatActivity implements AllChangeDialog.
         nameRegister = findViewById(R.id.userRegister);
         passwordregister = findViewById(R.id.passwordRegister);
         passwordCheckRegister = findViewById(R.id.passwordCheckRegister);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        System.out.println("OLLAAN ONSTARTISSA");
+
+        ReadAndWriteFiles rawf = ReadAndWriteFiles.getInstance(this);
+
+        rawf.readUsers();
+
+        users = bank.getUserList();
+
+        System.out.println(users.size());
+
+        for (User u : users) {
+            System.out.println(u.getUserName());
+            System.out.println("##########");
+        }
     }
 
     public void login(View v) {
@@ -118,11 +142,19 @@ public class LoginActivity extends AppCompatActivity implements AllChangeDialog.
         String registerName = nameRegister.getText().toString();
         String registerPassword = passwordregister.getText().toString();
         String registerPasswordCheck = passwordCheckRegister.getText().toString();
+        int userNameOk = 1;
 
-        if (registerName.length() > 0 && registerPassword.length() > 0 && passwordCheckRegister.getText().toString().length() > 0) {
-            int passwordValid = pc.checkPassword(registerPassword, registerPasswordCheck);
+        for (User u : bank.getUserList()) {
+            if (registerName.equals(u.getUserName())) {
+                userNameOk = 0;
+                break;
+            }
+        }
+
+        if (registerName.length() > 0 && registerPassword.length() > 0 && passwordCheckRegister.getText().toString().length() > 0 && userNameOk == 1) {
+            //int passwordValid = pc.checkPassword(registerPassword, registerPasswordCheck);
             //int passwordValid = passWordChecker(registerPassword);
-            //int passwordValid = 1;
+            int passwordValid = 1;
             System.out.println("OKOKOKO");
 
             if (passwordValid == 1) {
@@ -139,6 +171,8 @@ public class LoginActivity extends AppCompatActivity implements AllChangeDialog.
                 Toast.makeText(this, "Salasanat eivät täsmää", Toast.LENGTH_SHORT).show();
             }
 
+        } else if (userNameOk == 0) {
+            Toast.makeText(this, "Käyttäjätunnus on jo käytössä", Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(this, "Täytä kaikki kentät", Toast.LENGTH_SHORT).show();
         }
@@ -166,6 +200,11 @@ public class LoginActivity extends AppCompatActivity implements AllChangeDialog.
 
     @Override
     public void addedAmount(float amount) {
+
+    }
+
+    @Override
+    public void changedPayLimit(int paylimit) {
 
     }
 }
