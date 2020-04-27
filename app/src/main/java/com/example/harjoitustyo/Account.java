@@ -31,7 +31,7 @@ public class Account implements Serializable { //Stores data of each account
     ArrayList<String> accountActivities = new ArrayList<>();
 
     public void addAccountActivity(String type, String receiver, String amount) {
-        accountActivities.add(type + "  " + receiver + "  " + amount + "\n");
+        accountActivities.add(type + "," + receiver + "," + amount);
     }
 
     public ArrayList<String> getAccountActivities() {

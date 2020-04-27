@@ -2,6 +2,7 @@ package com.example.harjoitustyo;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.widget.TextView;
@@ -13,7 +14,7 @@ public class AccountActivitiesActivity extends AppCompatActivity {
 
     private int account_id;
 
-    private TextView activitiesTextView;
+    private TextView activitiesTypeTextView, activitiesReceiverTextView, activitiesAmountTextView;
     private ArrayList<String> activities = new ArrayList<>();
     private Account account;
 
@@ -26,9 +27,9 @@ public class AccountActivitiesActivity extends AppCompatActivity {
         String temp_account_id = getIntent().getStringExtra("ACCOUNT_ID");
         account_id = Integer.parseInt(temp_account_id);
 
-        activitiesTextView = findViewById(R.id.accountActivitiesTextView);
-
-        activitiesTextView.setMovementMethod(new ScrollingMovementMethod());
+        activitiesTypeTextView = findViewById(R.id.accountActivitiesTypeTextView);
+        activitiesReceiverTextView = findViewById(R.id.accountActivitiesReceiverTextView);
+        activitiesAmountTextView = findViewById(R.id.accountActivitiesAmountTextView);
 
         account = user.getAccounts().get(account_id);
 
@@ -38,12 +39,35 @@ public class AccountActivitiesActivity extends AppCompatActivity {
     }
 
     private void showInfo() {
-        String info = "";
+        String[] partion;
+        String typeColumn = "";
+        String receiverColumn = "";
+        String amountColumn = "";
 
-        for (String s : activities) {
-            info = info + s;
+        if (activities.size() > 1) {
+            for (int i = 1; i < activities.size(); i++) {
+                partion = activities.get(i).split(",");
+                typeColumn = typeColumn + partion[0] + "\n";
+                receiverColumn = receiverColumn + partion[1] + "\n";;
+                float tempF = Float.parseFloat(partion[2]);
+                String tempAmount = String.format("%.2f", tempF);
+                if (tempF >= 0) {
+                    tempAmount = "+" + tempAmount;
+                }
+                amountColumn = amountColumn + tempAmount + "\n";
+            }
         }
+        activitiesTypeTextView.setText(typeColumn);
+        activitiesReceiverTextView.setText(receiverColumn);
+        activitiesAmountTextView.setText(amountColumn);
+    }
 
-        activitiesTextView.setText(info);
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(AccountActivitiesActivity.this, AccountInfoActivity.class);
+        intent.putExtra("user", user);
+        intent.putExtra("ACC_NUM", account.getAcc_number());
+        startActivity(intent);
+        finish();
     }
 }

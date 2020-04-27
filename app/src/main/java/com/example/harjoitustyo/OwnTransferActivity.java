@@ -86,11 +86,14 @@ public class OwnTransferActivity extends AppCompatActivity {
         if (fromAccountList.size() > 0 && toAccountList.size() > 0) {
             getSelectedAccounts();
             float transferableAmount = Float.parseFloat(transferAmount.getText().toString());
+            String strAmount = String.format("%.2f", transferableAmount);
             if (transferableAmount > fromAcc.getAmount()) {
                 Toast.makeText(this, "Tilin kate ei riitä, siirrä vähemmän rahaa", Toast.LENGTH_SHORT).show();
             } else {
                 fromAcc.setAmount(fromAcc.getAmount() - transferableAmount);
                 toAcc.setAmount((toAcc.getAmount() + transferableAmount));
+                fromAcc.addAccountActivity("Oma Siirto", toAcc.getAcc_number(), "-" + strAmount);
+                toAcc.addAccountActivity("Oma Siirto", "-", "+" + strAmount);
                 bank.getUserList().set(findUserId(), user);
                 finish();
                 overridePendingTransition(0, 0);
