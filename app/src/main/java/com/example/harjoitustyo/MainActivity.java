@@ -53,7 +53,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView.setCheckedItem(R.id.nav_frontpage);
 
 
-
         user = (User) getIntent().getSerializableExtra("user");
 
 

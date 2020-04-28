@@ -11,18 +11,22 @@ import java.util.Random;
 
 public class Bank { // class where all the users are stored
     private static Bank bank = new Bank();
-    public static Bank getInstance() { return bank;}
+
+    public static Bank getInstance() {
+        return bank;
+    }
+
     private User user;
     Random r = new Random();
 
     public Bank() {
-        addUser("Pankinjohtaja", "admin", "password", "Pankkikuja 1, 00100 Helsinki", "0100100");
+        //addUser("Pankinjohtaja", "admin", "password", "Pankkikuja 1, 00100 Helsinki", "0100100");
     }
 
     private ArrayList<User> userList = new ArrayList<>();
 
-    public void addUser(String name, String userName, String password, String address, String phone) {
-        user = new User(name, userName, password, address, phone);
+    public void addUser(String name, String userName, String password, String address, String phone, byte[] salt) {
+        user = new User(name, userName, password, address, phone, salt);
         userList.add(user);
     }
 

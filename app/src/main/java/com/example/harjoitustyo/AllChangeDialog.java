@@ -359,13 +359,21 @@ public class AllChangeDialog extends AppCompatDialogFragment {
 
     public interface NewAllChangeDialogListener {
         void changedPhoneNumber(String phoneNum);
+
         void changedPassword(String password);
+
         void changedAddress(String address);
+
         void confirmedCode(int code);
+
         void changedUsername(String username);
+
         void addedAmount(float amount);
+
         void changedPayLimit(int paylimit);
+
         void changedTakeLimit(int takelimit);
+
         void takenAmount(float amount, int region);
     }
 }

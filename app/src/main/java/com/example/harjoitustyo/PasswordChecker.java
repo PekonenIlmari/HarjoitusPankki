@@ -2,7 +2,10 @@ package com.example.harjoitustyo;
 
 public class PasswordChecker {
     private static PasswordChecker pc = new PasswordChecker();
-    public static PasswordChecker getInstance() { return pc;}
+
+    public static PasswordChecker getInstance() {
+        return pc;
+    }
 
 
     public PasswordChecker() {

@@ -62,9 +62,9 @@ public class UserSettingsActivity extends AppCompatActivity implements AllChange
             bank.getUserList().set(findUserId(), user);
             rawf.writeUsers();
             phoneText.setText("Puhelinnumerosi: " + user.getPhone());
-            Toast.makeText(this, "Puhelinnumeron vaihto onnistui",Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Puhelinnumeron vaihto onnistui", Toast.LENGTH_SHORT).show();
         } else {
-            Toast.makeText(this, "Puhelinnumeron vaihto ei onnistunut",Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Puhelinnumeron vaihto ei onnistunut", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -75,9 +75,9 @@ public class UserSettingsActivity extends AppCompatActivity implements AllChange
             bank.getUserList().set(findUserId(), user);
             rawf.writeUsers();
             addressText.setText("Osoitteesi: " + user.getAddress());
-            Toast.makeText(this, "Osoitteen vaihto onnistui",Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Osoitteen vaihto onnistui", Toast.LENGTH_SHORT).show();
         } else {
-            Toast.makeText(this, "Osoiteen vaihto ei onnistunut",Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Osoiteen vaihto ei onnistunut", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -87,9 +87,9 @@ public class UserSettingsActivity extends AppCompatActivity implements AllChange
             user.setPassword(password);
             bank.getUserList().set(findUserId(), user);
             rawf.writeUsers();
-            Toast.makeText(this, "Salasanan vaihto onnistui",Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Salasanan vaihto onnistui", Toast.LENGTH_SHORT).show();
         } else {
-            Toast.makeText(this, "Salasanan vaihto ei onnistunut",Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Salasanan vaihto ei onnistunut", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -107,12 +107,12 @@ public class UserSettingsActivity extends AppCompatActivity implements AllChange
                 bank.getUserList().set(findUserId(), user);
                 rawf.writeUsers();
                 userNameText.setText("Käyttäjanimesi: " + user.getUserName());
-                Toast.makeText(this, "Käyttäjänimen vaihto onnistui",Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Käyttäjänimen vaihto onnistui", Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(this, "Käyttäjänimi on jo käytössä",Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Käyttäjänimi on jo käytössä", Toast.LENGTH_SHORT).show();
             }
         } else {
-            Toast.makeText(this, "Käyttäjänimen pitää olla vähintään 3 merkkiä pitkä",Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Käyttäjänimen pitää olla vähintään 3 merkkiä pitkä", Toast.LENGTH_SHORT).show();
         }
     }
 

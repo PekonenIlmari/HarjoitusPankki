@@ -6,13 +6,15 @@ import java.util.ArrayList;
 public class User implements Serializable {//stores data of each user
     private Account account;
     private String name, userName, address, phone, password;
+    byte[] salt;
 
-    public User(String name, String userName, String password, String address, String phone) {
+    public User(String name, String userName, String password, String address, String phone, byte[] salt) {
         this.name = name;
         this.userName = userName;
         this.password = password;
         this.address = address;
         this.phone = phone;
+        this.salt = salt;
     }
 
     ArrayList<Account> accounts = new ArrayList<>();
@@ -64,5 +66,9 @@ public class User implements Serializable {//stores data of each user
 
     public void setUserName(String userName) {
         this.userName = userName;
+    }
+
+    public byte[] getSalt() {
+        return salt;
     }
 }

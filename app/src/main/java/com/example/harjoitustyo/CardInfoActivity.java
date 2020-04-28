@@ -114,7 +114,6 @@ public class CardInfoActivity extends AppCompatActivity implements AllChangeDial
     }
 
 
-
     private int findCardId() {
         int position = -1;
 
@@ -183,9 +182,9 @@ public class CardInfoActivity extends AppCompatActivity implements AllChangeDial
             bank.getUserList().set(findUserId(), user);
             rawf.writeUsers();
             cardPayLimitTextView.setText("Kortin maksuraja: " + card.getPayment_limit() + "€");
-            Toast.makeText(this, "Maksurajan muutos onnistui",Toast.LENGTH_SHORT).show();
-        } else if (paylimit == -1){
-            Toast.makeText(this, "Maksuraja ei voi olla negatiivinen",Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Maksurajan muutos onnistui", Toast.LENGTH_SHORT).show();
+        } else if (paylimit == -1) {
+            Toast.makeText(this, "Maksuraja ei voi olla negatiivinen", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -196,9 +195,9 @@ public class CardInfoActivity extends AppCompatActivity implements AllChangeDial
             bank.getUserList().set(findUserId(), user);
             rawf.writeUsers();
             cardTakeLimitTextView.setText("Kortin nostoraja: " + card.getTake_limit() + "€");
-            Toast.makeText(this, "Nostorajan muutos onnistui",Toast.LENGTH_SHORT).show();
-        } else if (takelimit == -1){
-            Toast.makeText(this, "Nostoraja ei voi olla negatiivinen",Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Nostorajan muutos onnistui", Toast.LENGTH_SHORT).show();
+        } else if (takelimit == -1) {
+            Toast.makeText(this, "Nostoraja ei voi olla negatiivinen", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -210,18 +209,18 @@ public class CardInfoActivity extends AppCompatActivity implements AllChangeDial
         } else if (amount > card.getTake_limit()) {
             Toast.makeText(this, "Kortin nostoraja on pienempi kuin määrä jota yrität " +
                     "nostaa, muuta sitä asetuksista tai nosta vähemmän rahaa", Toast.LENGTH_LONG).show();
-        } else if(amount > user.getAccounts().get(account_id).getAmount()) {
+        } else if (amount > user.getAccounts().get(account_id).getAmount()) {
             Toast.makeText(this, "Tilin kate on pienempi kuin määrä jota yrität " +
                     "nostaa, lisää ensin rahaa tilillesi tai nosta vähemmän rahaa", Toast.LENGTH_LONG).show();
         } else if (amount > 0) {
             user.getAccounts().get(account_id).setAmount(user.getAccounts().get(account_id).getAmount() - amount);
-            Toast.makeText(this, "Nostettu " + amount + "€",Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Nostettu " + amount + "€", Toast.LENGTH_SHORT).show();
             String tempAmount = String.valueOf(amount);
             user.getAccounts().get(account_id).addAccountActivity("Nosto", "-", "-" + tempAmount);
             bank.getUserList().set(findUserId(), user);
             rawf.writeUsers();
         } else if (amount == -1) {
-            Toast.makeText(this, "Et voi nostaa negatiivista määrää rahaa",Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Et voi nostaa negatiivista määrää rahaa", Toast.LENGTH_SHORT).show();
         }
     }
 

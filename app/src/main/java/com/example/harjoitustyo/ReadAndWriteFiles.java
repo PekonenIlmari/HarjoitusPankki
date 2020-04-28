@@ -16,7 +16,12 @@ import java.io.ObjectInput;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
+import java.io.OutputStream;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class ReadAndWriteFiles {
     private static Context context;
@@ -62,7 +67,7 @@ public class ReadAndWriteFiles {
         users = bank.getUserList();
 
         try {
-            context.deleteFile("users.ser");
+            //context.deleteFile("users.ser");
             FileOutputStream fos = new FileOutputStream(new File(context.getFilesDir(), "users.ser"));
             ObjectOutput out = new ObjectOutputStream(fos);
             out.writeObject(users);
@@ -74,6 +79,22 @@ public class ReadAndWriteFiles {
 
         System.out.println("####Käyttäjät tallennettu####");
 
+    }
+
+    public void writeLoginLog(String user) {
+        SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
+        Date date = new Date();
+
+        String tempLog = formatter.format(date) + "," + user + "\n";
+
+        try {
+            OutputStream os = new FileOutputStream(new File(context.getFilesDir(), "bankLoginLog.csv"), true);
+            os.write(tempLog.getBytes(), 0,tempLog.length());
+            os.close();
+            System.out.println("LOKI KIRJOITETTU");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 

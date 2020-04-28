@@ -48,7 +48,8 @@ public class AccountActivitiesActivity extends AppCompatActivity {
             for (int i = 1; i < activities.size(); i++) {
                 partion = activities.get(i).split(",");
                 typeColumn = typeColumn + partion[0] + "\n";
-                receiverColumn = receiverColumn + partion[1] + "\n";;
+                receiverColumn = receiverColumn + partion[1] + "\n";
+                ;
                 float tempF = Float.parseFloat(partion[2]);
                 String tempAmount = String.format("%.2f", tempF);
                 if (tempF >= 0) {

@@ -8,10 +8,13 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.security.NoSuchAlgorithmException;
+
 public class NewUserActivity extends AppCompatActivity {
     Bank bank = Bank.getInstance();
     private String name, userName, password, address, phone;
     EditText nameBox, addressBox, phoneBox;
+    PasswordHasher ph = PasswordHasher.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,12 +32,13 @@ public class NewUserActivity extends AppCompatActivity {
         password = extras.getString("PASSWORD");
     }
 
-    public void finalizeRegistration(View v) {
+    public void finalizeRegistration(View v) throws NoSuchAlgorithmException {
         address = addressBox.getText().toString();
         phone = phoneBox.getText().toString();
         name = nameBox.getText().toString();
+        byte[] salt = ph.getSalt();
         if (address.length() > 0 && phone.length() > 0) {
-            bank.addUser(name, userName, password, address, phone);
+            bank.addUser(name, userName, ph.getSecurePassword(password, salt), address, phone, salt);
             ReadAndWriteFiles rw = ReadAndWriteFiles.getInstance(this);
             rw.writeUsers();
 

@@ -96,12 +96,15 @@ public class CardPaymentActivity extends AppCompatActivity {
     }
 
     public void makePayment(View v) {
-        if(accountNumberInfo.getText().length() > 15) {
+        if (accountNumberInfo.getText().length() > 15) {
             float amount = Float.parseFloat(paymentAmount.getText().toString());
             String strAmount = String.format("%.2f", amount);
             String receiver = paymentReceiver.getText().toString();
 
-            if (amount > accountList.get(findAccountId()).getAmount()) {
+            if (accountList.get(findAccountId()).getCanPay() == 0) {
+                Toast.makeText(this, "Tililtä ei pysty maksamaan, muuta tilin asetuksia tai vaihda korttiin joka on linkitetty toiseen" +
+                        " tiliin", Toast.LENGTH_LONG).show();
+            } else if (amount > accountList.get(findAccountId()).getAmount()) {
                 Toast.makeText(this, "Tilin kate ei riitä, pienennä maksun määrää tai siirrä tilille lisää rahaa", Toast.LENGTH_LONG).show();
             } else if (amount > cardList.get(findCardId()).getPayment_limit()) {
                 Toast.makeText(this, "Maksu on suurempi kuin kortin maksuraja, pienennä maksun määrää tai muuta maksurajaa", Toast.LENGTH_LONG).show();
@@ -117,10 +120,10 @@ public class CardPaymentActivity extends AppCompatActivity {
                 paymentAmount.setText("");
                 paymentReceiver.setText("");
             }
-        } else if(cardList.size() == 0) {
+        } else if (cardList.size() == 0) {
             Toast.makeText(this, "Sinulla ei ole yhtäkään korttia millä maksaa", Toast.LENGTH_SHORT).show();
         } else {
-            Toast.makeText(this, "Valitse kortti jolla haluat maksaa",Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Valitse kortti jolla haluat maksaa", Toast.LENGTH_SHORT).show();
         }
     }
 

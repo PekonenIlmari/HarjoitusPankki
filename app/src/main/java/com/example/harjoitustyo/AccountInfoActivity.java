@@ -24,7 +24,6 @@ public class AccountInfoActivity extends AppCompatActivity implements AllChangeD
 
     private ArrayList<Account> accountList = new ArrayList<>();
     private ArrayList<Card> cardList = new ArrayList<>();
-    private ArrayList<String> activityList = new ArrayList<>();
     TextView typeTextView, acc_numTextView, amountTextView;
     String strAccount;
     Button payableButton;
@@ -45,7 +44,6 @@ public class AccountInfoActivity extends AppCompatActivity implements AllChangeD
         accountList = user.getAccounts();
         account = accountList.get(findAccountId());
         cardList = account.getCards();
-        activityList = account.getAccountActivities();
 
         typeTextView = findViewById(R.id.accountTypeInfo);
         acc_numTextView = findViewById(R.id.accountNumberInfo);
@@ -119,10 +117,12 @@ public class AccountInfoActivity extends AppCompatActivity implements AllChangeD
             if (account.getCanPay() == 1) {
                 account.setCanPay(0);
                 bank.getUserList().set(findUserId(), user);
+                rawf.writeUsers();
                 setPayableButton();
             } else {
                 account.setCanPay(1);
                 bank.getUserList().set(findUserId(), user);
+                rawf.writeUsers();
                 setPayableButton();
             }
         } else {
@@ -135,6 +135,7 @@ public class AccountInfoActivity extends AppCompatActivity implements AllChangeD
             String card_num = bank.generateCardNumber();
             account.addCard(user.getName(), strAccount, card_num);
             bank.getUserList().set(findUserId(), user);
+            rawf.writeUsers();
             mAdapter.notifyDataSetChanged();
         } else {
             Toast.makeText(this, "Et voi lisätä säästötilille maksukortteja", Toast.LENGTH_SHORT).show();
@@ -182,13 +183,13 @@ public class AccountInfoActivity extends AppCompatActivity implements AllChangeD
         if (amount > 0) {
             account.setAmount(account.getAmount() + amount);
             amountTextView.setText("Tilin saldo: " + String.format("%.2f", account.getAmount()) + "€");
-            Toast.makeText(this, "Rahan lisäys tilille onnistui",Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Rahan lisäys tilille onnistui", Toast.LENGTH_SHORT).show();
             String tempAmount = String.valueOf(amount);
             account.addAccountActivity("Talletus", "-", "+" + tempAmount);
             bank.getUserList().set(findUserId(), user);
             rawf.writeUsers();
-        } else if (amount == -1){
-            Toast.makeText(this, "Et voi lisätä negatiivista määrää tilille",Toast.LENGTH_SHORT).show();
+        } else if (amount == -1) {
+            Toast.makeText(this, "Et voi lisätä negatiivista määrää tilille", Toast.LENGTH_SHORT).show();
         }
     }
 

@@ -18,21 +18,13 @@ public class LoginActivity extends AppCompatActivity implements AllChangeDialog.
     Bank bank = Bank.getInstance();
     User user;
     ArrayList<User> users = new ArrayList<>();
+    ReadAndWriteFiles rawf;
+    PasswordHasher ph = PasswordHasher.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        /*ReadAndWriteFiles rawf = ReadAndWriteFiles.getInstance(this);
-
-        rawf.readUsers();
-
-        users = bank.getUserList();
-
-        for (User u : users) {
-            System.out.println(u.getUserName());
-            System.out.println("##########");
-        }*/
 
         users = bank.getUserList();
 
@@ -48,7 +40,7 @@ public class LoginActivity extends AppCompatActivity implements AllChangeDialog.
         super.onStart();
         System.out.println("OLLAAN ONSTARTISSA");
 
-        ReadAndWriteFiles rawf = ReadAndWriteFiles.getInstance(this);
+        rawf = ReadAndWriteFiles.getInstance(this);
 
         rawf.readUsers();
 
@@ -69,11 +61,16 @@ public class LoginActivity extends AppCompatActivity implements AllChangeDialog.
 
         System.out.println(users.size());
 
+        String tempHashedPass = null;
+
         for (int i = 0; i < users.size(); i++) {
             user = (User) users.get(i);
-            if (loginName.equals(user.getUserName()) && loginPassword.equals(user.getPassword())) {
+            tempHashedPass = ph.getSecurePassword(loginPassword, user.getSalt());
+            System.out.println("written: " + tempHashedPass);
+            if (loginName.equals(user.getUserName()) && tempHashedPass.equals(user.getPassword())) {
+                System.out.println("read: " + user.getPassword());
                 found = 1;
-                openDialog();
+                openConfirmationDialog();
                 break;
             }
         }
@@ -82,7 +79,7 @@ public class LoginActivity extends AppCompatActivity implements AllChangeDialog.
         }
     }
 
-    private void openDialog() {
+    private void openConfirmationDialog() {
         AllChangeDialog acd = AllChangeDialog.newInstance(4);
         acd.show(getSupportFragmentManager(), "Varmistuskoodi ikkuna");
     }
@@ -95,48 +92,11 @@ public class LoginActivity extends AppCompatActivity implements AllChangeDialog.
             intent.putExtra("user", user);
             startActivity(intent);
             Toast.makeText(this, "Tervetuloa " + user.getName(), Toast.LENGTH_SHORT).show();
+            rawf.writeLoginLog(user.getUserName());
         } else {
             Toast.makeText(this, "Virheellinen vahvistuskoodi", Toast.LENGTH_SHORT).show();
         }
     }
-
-    /*public void register(View v) {
-        String registerName = nameRegister.getText().toString();
-        String registerPassword = passwordregister.getText().toString();
-
-        if (registerName.length() > 0 && registerPassword.length() > 0 && passwordCheckRegister.getText().toString().length() > 0) {
-            int passwordValid = passWordChecker(registerPassword);
-            System.out.println("OKOKOKO");
-
-            for (int i = 0; i < users.size(); i++) {
-                user = (User) users.get(i);
-                if (!registerName.equals(user.getUserName()) || users.size() == 0) {
-                    if (passwordValid == 1) {
-                        Bundle extras = new Bundle();
-                        Intent intent = new Intent(LoginActivity.this, NewUserActivity.class);
-                        extras.putString("NAME", registerName);
-                        extras.putString("PASSWORD", registerPassword);
-                        intent.putExtras(extras);
-                        startActivity(intent);
-                    } else if (passwordValid == 0) {
-                        Toast.makeText(this, "Virheellinen salasana: salasanan  tulee sisältää vähintään yhden " +
-                                "numeron, erikoismerkin, ison ja pienen kirjaimen ja olla vähintään 12 merkkiä pitkä", Toast.LENGTH_LONG).show();
-                    } else if (passwordValid == 2) {
-                        Toast.makeText(this, "Salasanat eivät täsmää", Toast.LENGTH_SHORT).show();
-                    }
-
-                } else {
-                    Toast.makeText(this, "Käyttäjätunnus varattu", Toast.LENGTH_SHORT).show();
-                    nameRegister.setText("");
-                    passwordregister.setText("");
-                    passwordCheckRegister.setText("");
-                    break;
-                }
-            }
-        } else {
-            Toast.makeText(this, "Täytä kaikki kentät", Toast.LENGTH_SHORT).show();
-        }
-    }*/
 
     public void register(View v) {
         String registerName = nameRegister.getText().toString();
