@@ -10,7 +10,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class CardInfoActivity extends AppCompatActivity implements AllChangeDialog.NewAllChangeDialogListener {
-    TextView cardNumberTextView, cardPayLimitTextView, cardRegionTextView, cardDeadTextView;
+    TextView cardNumberTextView, cardPayLimitTextView, cardTakeLimitTextView, cardRegionTextView, cardDeadTextView;
     Button regionChangeButton;
     String strCardNum;
     int account_id;
@@ -18,11 +18,14 @@ public class CardInfoActivity extends AppCompatActivity implements AllChangeDial
     Card card;
     User user;
     Bank bank = Bank.getInstance();
+    ReadAndWriteFiles rawf;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_card_info);
+
+        rawf = ReadAndWriteFiles.getInstance(this);
 
         strCardNum = getIntent().getStringExtra("CARD_NUM");
         user = (User) getIntent().getSerializableExtra("user");
@@ -32,6 +35,7 @@ public class CardInfoActivity extends AppCompatActivity implements AllChangeDial
 
         cardNumberTextView = findViewById(R.id.cardNumber);
         cardPayLimitTextView = findViewById(R.id.cardPayLimit);
+        cardTakeLimitTextView = findViewById(R.id.cardTakeLimit);
         cardRegionTextView = findViewById(R.id.cardRegion);
         cardDeadTextView = findViewById(R.id.cardDead);
         regionChangeButton = findViewById(R.id.regionChangeButton);
@@ -43,6 +47,7 @@ public class CardInfoActivity extends AppCompatActivity implements AllChangeDial
     private void setInfo() {
         cardNumberTextView.setText("Kortin numero: " + card.getCard_num());
         cardPayLimitTextView.setText("Kortin maksuraja: " + card.getPayment_limit() + "€");
+        cardTakeLimitTextView.setText("Kortin nostoraja: " + card.getTake_limit() + "€");
         if (card.getRegion() == 1) {
             cardRegionTextView.setText("Kortin toimivuusalue: Kotimaa");
         } else if (card.getRegion() == 2) {
@@ -53,6 +58,16 @@ public class CardInfoActivity extends AppCompatActivity implements AllChangeDial
         } else {
             cardDeadTextView.setText("Kortin tila: Kuoletettu");
         }
+    }
+
+    public void openTakeMoneyDialog(View v) {
+        AllChangeDialog acd = AllChangeDialog.newInstance(11);
+        acd.show(getSupportFragmentManager(), "Rahanosto");
+    }
+
+    public void openTakeLimitDialog(View v) {
+        AllChangeDialog acd = AllChangeDialog.newInstance(10);
+        acd.show(getSupportFragmentManager(), "Kortin nostorajan muutos");
     }
 
     public void openPayLimitDialog(View v) {
@@ -69,6 +84,7 @@ public class CardInfoActivity extends AppCompatActivity implements AllChangeDial
         System.out.println("KUOLETETAAN");
         card.setDead(1);
         bank.getUserList().set(findUserId(), user);
+        rawf.writeUsers();
         cardDeadTextView.setText("Kortin tila: Kuoletettu");
         Toast.makeText(this, "Jos haluat kortin uudestaan käyttöön, ota yhteyttä pankkiin", Toast.LENGTH_LONG).show();
     }
@@ -79,11 +95,13 @@ public class CardInfoActivity extends AppCompatActivity implements AllChangeDial
             setRegionChangeButton();
             cardRegionTextView.setText("Kortin toimivuusalue: Koko maailma");
             bank.getUserList().set(findUserId(), user);
+            rawf.writeUsers();
         } else if (card.getRegion() == 2) {
             card.setRegion(1);
             setRegionChangeButton();
             cardRegionTextView.setText("Kortin toimivuusalue: Kotimaa");
             bank.getUserList().set(findUserId(), user);
+            rawf.writeUsers();
         }
     }
 
@@ -139,6 +157,7 @@ public class CardInfoActivity extends AppCompatActivity implements AllChangeDial
         if (code == 1) {
             user.getAccounts().get(account_id).getCards().remove(findCardId());
             bank.getUserList().set(findUserId(), user);
+            rawf.writeUsers();
             Intent intent = new Intent(CardInfoActivity.this, AccountInfoActivity.class);
             intent.putExtra("ACC_NUM", card.getAcc_num());
             intent.putExtra("user", user);
@@ -162,10 +181,47 @@ public class CardInfoActivity extends AppCompatActivity implements AllChangeDial
         if (paylimit > 0) {
             card.setPayment_limit(paylimit);
             bank.getUserList().set(findUserId(), user);
+            rawf.writeUsers();
             cardPayLimitTextView.setText("Kortin maksuraja: " + card.getPayment_limit() + "€");
             Toast.makeText(this, "Maksurajan muutos onnistui",Toast.LENGTH_SHORT).show();
         } else if (paylimit == -1){
             Toast.makeText(this, "Maksuraja ei voi olla negatiivinen",Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public void changedTakeLimit(int takelimit) {
+        if (takelimit > 0) {
+            card.setTake_limit(takelimit);
+            bank.getUserList().set(findUserId(), user);
+            rawf.writeUsers();
+            cardTakeLimitTextView.setText("Kortin nostoraja: " + card.getTake_limit() + "€");
+            Toast.makeText(this, "Nostorajan muutos onnistui",Toast.LENGTH_SHORT).show();
+        } else if (takelimit == -1){
+            Toast.makeText(this, "Nostoraja ei voi olla negatiivinen",Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public void takenAmount(float amount, int region) {
+        if (region == 2 && card.getRegion() == 1) {
+            Toast.makeText(this, "Korttisi toimivuusalue on kotimaa, etkä voi käyttää sitä ulkomailla, " +
+                    "vaihda maarajoituksia asetuksista", Toast.LENGTH_LONG).show();
+        } else if (amount > card.getTake_limit()) {
+            Toast.makeText(this, "Kortin nostoraja on pienempi kuin määrä jota yrität " +
+                    "nostaa, muuta sitä asetuksista tai nosta vähemmän rahaa", Toast.LENGTH_LONG).show();
+        } else if(amount > user.getAccounts().get(account_id).getAmount()) {
+            Toast.makeText(this, "Tilin kate on pienempi kuin määrä jota yrität " +
+                    "nostaa, lisää ensin rahaa tilillesi tai nosta vähemmän rahaa", Toast.LENGTH_LONG).show();
+        } else if (amount > 0) {
+            user.getAccounts().get(account_id).setAmount(user.getAccounts().get(account_id).getAmount() - amount);
+            Toast.makeText(this, "Nostettu " + amount + "€",Toast.LENGTH_SHORT).show();
+            String tempAmount = String.valueOf(amount);
+            user.getAccounts().get(account_id).addAccountActivity("Nosto", "-", "-" + tempAmount);
+            bank.getUserList().set(findUserId(), user);
+            rawf.writeUsers();
+        } else if (amount == -1) {
+            Toast.makeText(this, "Et voi nostaa negatiivista määrää rahaa",Toast.LENGTH_SHORT).show();
         }
     }
 

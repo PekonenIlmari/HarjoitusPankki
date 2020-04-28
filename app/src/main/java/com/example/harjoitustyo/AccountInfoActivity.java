@@ -31,11 +31,14 @@ public class AccountInfoActivity extends AppCompatActivity implements AllChangeD
     Account account;
     User user;
     Bank bank = Bank.getInstance();
+    ReadAndWriteFiles rawf;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account_info);
+
+        rawf = ReadAndWriteFiles.getInstance(this);
 
         strAccount = getIntent().getStringExtra("ACC_NUM");
         user = (User) getIntent().getSerializableExtra("user");
@@ -130,7 +133,7 @@ public class AccountInfoActivity extends AppCompatActivity implements AllChangeD
     public void addCard() {
         if (account.getType().equals("Normaali")) {
             String card_num = bank.generateCardNumber();
-            account.addCard(user.getName(), strAccount, card_num, 1);
+            account.addCard(user.getName(), strAccount, card_num);
             bank.getUserList().set(findUserId(), user);
             mAdapter.notifyDataSetChanged();
         } else {
@@ -183,6 +186,7 @@ public class AccountInfoActivity extends AppCompatActivity implements AllChangeD
             String tempAmount = String.valueOf(amount);
             account.addAccountActivity("Talletus", "-", "+" + tempAmount);
             bank.getUserList().set(findUserId(), user);
+            rawf.writeUsers();
         } else if (amount == -1){
             Toast.makeText(this, "Et voi lisätä negatiivista määrää tilille",Toast.LENGTH_SHORT).show();
         }
@@ -208,6 +212,7 @@ public class AccountInfoActivity extends AppCompatActivity implements AllChangeD
         if (code == 1) {
             user.accounts.remove(findAccountId());
             bank.getUserList().set(findUserId(), user);
+            rawf.writeUsers();
             Intent intent = new Intent(AccountInfoActivity.this, AccountsActivity.class);
             intent.putExtra("user", user);
             startActivity(intent);
@@ -222,6 +227,16 @@ public class AccountInfoActivity extends AppCompatActivity implements AllChangeD
 
     @Override
     public void changedPayLimit(int paylimit) {
+
+    }
+
+    @Override
+    public void changedTakeLimit(int takelimit) {
+
+    }
+
+    @Override
+    public void takenAmount(float amount, int region) {
 
     }
 

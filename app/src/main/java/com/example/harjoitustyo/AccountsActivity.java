@@ -22,11 +22,14 @@ public class AccountsActivity extends AppCompatActivity {
     private RecyclerView.LayoutManager mLayoutManager; //For managing how the accounts are in RecyclerView
     User user;
     Bank bank = Bank.getInstance();
+    ReadAndWriteFiles rawf;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_accounts);
+
+        rawf = ReadAndWriteFiles.getInstance(this);
 
         user = (User) getIntent().getSerializableExtra("user");
 
@@ -80,6 +83,7 @@ public class AccountsActivity extends AppCompatActivity {
         user.addAccount(user.getName(), acc_num, "Normaali", 1);
         mAdapter.notifyDataSetChanged();
         bank.getUserList().set(findUserId(), user);
+        rawf.writeUsers();
     }
 
     public void addSavingsAccount() {
@@ -87,6 +91,7 @@ public class AccountsActivity extends AppCompatActivity {
         user.addAccount(user.getName(), acc_num, "Säästö", 0);
         mAdapter.notifyDataSetChanged();
         bank.getUserList().set(findUserId(), user);
+        rawf.writeUsers();
     }
 
     private int findUserId() {

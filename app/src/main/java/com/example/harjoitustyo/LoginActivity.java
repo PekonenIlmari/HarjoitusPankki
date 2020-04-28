@@ -207,4 +207,14 @@ public class LoginActivity extends AppCompatActivity implements AllChangeDialog.
     public void changedPayLimit(int paylimit) {
 
     }
+
+    @Override
+    public void changedTakeLimit(int takelimit) {
+
+    }
+
+    @Override
+    public void takenAmount(float amount, int region) {
+
+    }
 }

@@ -14,7 +14,7 @@
         android:scrollbars="vertical"
         android:id="@+id/accountActivitiesHeaderTextView"
         android:layout_centerHorizontal="true"
-        android:text=" Tapahtumatyyppi      Maksun saaja                                   Määrä, €"
+        android:text=" Tapahtumatyyppi      Vastaanottaja                                   Määrä, €"
         android:textStyle="bold"/>
 
     <ScrollView

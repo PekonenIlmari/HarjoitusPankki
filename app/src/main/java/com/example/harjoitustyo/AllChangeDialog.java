@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -31,6 +32,11 @@ public class AllChangeDialog extends AppCompatDialogFragment {
     private EditText addAmount;
 
     private EditText paylimit;
+
+    private EditText takeLimit;
+
+    private EditText takeAmount;
+    private Button regionButton;
 
     private NewAllChangeDialogListener listener;
 
@@ -267,6 +273,74 @@ public class AllChangeDialog extends AppCompatDialogFragment {
                     });
             confirmationText = view.findViewById(R.id.confirmationTextLine);
             confirmationText.setText("Oletko varma että haluat poistaa kyseisen kortin?");
+        } else if (type == 10) {
+            View view = inflater.inflate(R.layout.layout_oneline_change_dialog, null);
+
+            builder.setView(view)
+                    .setTitle("Muuta kortin nostorajaa")
+                    .setNegativeButton("Peruuta", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int which) {
+
+                        }
+                    })
+                    .setPositiveButton("Muuta", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            String tempLimit = takeLimit.getText().toString();
+                            int a = Integer.parseInt(tempLimit);
+                            if (a > 0) {
+                                listener.changedTakeLimit(a);
+                            } else {
+                                listener.changedTakeLimit(-1);
+                            }
+                        }
+                    });
+            takeLimit = view.findViewById(R.id.newLine);
+            takeLimit.setHint("Syötä Kortin uusi nostoraja kokonaisissa euroissa");
+        } else if (type == 11) {
+            View view = inflater.inflate(R.layout.layout_take_money_dialog, null);
+
+            builder.setView(view)
+                    .setTitle("Nosta rahaa tililtä")
+                    .setNegativeButton("Peruuta", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int which) {
+
+                        }
+                    })
+                    .setPositiveButton("Nosta", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            int tempRegion = 0;
+                            if (regionButton.getText().equals("Kotimaa")) {
+                                tempRegion = 1;
+                            } else if (regionButton.getText().equals("Ulkomaa")) {
+                                tempRegion = 2;
+                            }
+                            String tempAmount = takeAmount.getText().toString();
+                            float a = Float.parseFloat(tempAmount);
+                            if (a > 0) {
+                                listener.takenAmount(a, tempRegion);
+                            } else {
+                                listener.takenAmount(-1, tempRegion);
+                            }
+                        }
+                    });
+            takeAmount = view.findViewById(R.id.newLine);
+            regionButton = view.findViewById(R.id.regionButtonDialog);
+            takeAmount.setHint("Syötä tililta nostettava euromäärä");
+
+            regionButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (regionButton.getText().equals("Kotimaa")) {
+                        regionButton.setText("Ulkomaa");
+                    } else if (regionButton.getText().equals("Ulkomaa")) {
+                        regionButton.setText("Kotimaa");
+                    }
+                }
+            });
         }
         return builder.create();
     }
@@ -291,5 +365,7 @@ public class AllChangeDialog extends AppCompatDialogFragment {
         void changedUsername(String username);
         void addedAmount(float amount);
         void changedPayLimit(int paylimit);
+        void changedTakeLimit(int takelimit);
+        void takenAmount(float amount, int region);
     }
 }

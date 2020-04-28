@@ -12,11 +12,14 @@ public class UserSettingsActivity extends AppCompatActivity implements AllChange
     TextView userNameText, nameText, addressText, phoneText;
     Bank bank = Bank.getInstance();
     User user;
+    ReadAndWriteFiles rawf;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_settings);
+
+        rawf = ReadAndWriteFiles.getInstance(this);
 
         user = (User) getIntent().getSerializableExtra("user");
 
@@ -57,10 +60,8 @@ public class UserSettingsActivity extends AppCompatActivity implements AllChange
         if (!phoneNum.equals("ERROR")) {
             user.setPhone(phoneNum);
             bank.getUserList().set(findUserId(), user);
-            finish();
-            overridePendingTransition(0, 0);
-            startActivity(getIntent());
-            overridePendingTransition(0, 0);
+            rawf.writeUsers();
+            phoneText.setText("Puhelinnumerosi: " + user.getPhone());
             Toast.makeText(this, "Puhelinnumeron vaihto onnistui",Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(this, "Puhelinnumeron vaihto ei onnistunut",Toast.LENGTH_SHORT).show();
@@ -72,10 +73,8 @@ public class UserSettingsActivity extends AppCompatActivity implements AllChange
         if (!address.equals("ERROR")) {
             user.setAddress(address);
             bank.getUserList().set(findUserId(), user);
-            finish();
-            overridePendingTransition(0, 0);
-            startActivity(getIntent());
-            overridePendingTransition(0, 0);
+            rawf.writeUsers();
+            addressText.setText("Osoitteesi: " + user.getAddress());
             Toast.makeText(this, "Osoitteen vaihto onnistui",Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(this, "Osoiteen vaihto ei onnistunut",Toast.LENGTH_SHORT).show();
@@ -87,6 +86,7 @@ public class UserSettingsActivity extends AppCompatActivity implements AllChange
         if (!password.equals("ERROR")) {
             user.setPassword(password);
             bank.getUserList().set(findUserId(), user);
+            rawf.writeUsers();
             Toast.makeText(this, "Salasanan vaihto onnistui",Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(this, "Salasanan vaihto ei onnistunut",Toast.LENGTH_SHORT).show();
@@ -105,10 +105,8 @@ public class UserSettingsActivity extends AppCompatActivity implements AllChange
             if (found == 0) {
                 user.setUserName(username);
                 bank.getUserList().set(findUserId(), user);
-                finish();
-                overridePendingTransition(0, 0);
-                startActivity(getIntent());
-                overridePendingTransition(0, 0);
+                rawf.writeUsers();
+                userNameText.setText("Käyttäjanimesi: " + user.getUserName());
                 Toast.makeText(this, "Käyttäjänimen vaihto onnistui",Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(this, "Käyttäjänimi on jo käytössä",Toast.LENGTH_SHORT).show();
@@ -130,6 +128,16 @@ public class UserSettingsActivity extends AppCompatActivity implements AllChange
 
     @Override
     public void changedPayLimit(int paylimit) {
+
+    }
+
+    @Override
+    public void changedTakeLimit(int takelimit) {
+
+    }
+
+    @Override
+    public void takenAmount(float amount, int region) {
 
     }
 

@@ -2,9 +2,12 @@ package com.example.harjoitustyo;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -22,6 +25,7 @@ public class WireTransferActivity extends AppCompatActivity {
     Account fromAcc, toAcc;
     User user;
     Bank bank = Bank.getInstance();
+    ReadAndWriteFiles rawf;
 
     List<Account> fromAccountList = new ArrayList<>();
     List<Account> toAccountList = new ArrayList<>();
@@ -30,6 +34,8 @@ public class WireTransferActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_money_transfer);
+
+        rawf = ReadAndWriteFiles.getInstance(this);
 
         fromSpinner = findViewById(R.id.fromSpinner);
         toSpinner = findViewById(R.id.toSpinner);
@@ -95,16 +101,18 @@ public class WireTransferActivity extends AppCompatActivity {
         if (fromAccountList.size() > 0 && toAccountList.size() > 0) {
             getSelectedAccounts();
             float transferableAmount = Float.parseFloat(transferAmount.getText().toString());
+            String strAmount = String.format("%.2f", transferableAmount);
             if (fromAcc.getCanPay() == 1) {
                 if (transferableAmount > fromAcc.getAmount()) {
                     Toast.makeText(this, "Tilin kate ei riitä, siirrä vähemmän rahaa", Toast.LENGTH_SHORT).show();
                 } else {
                     fromAcc.setAmount(fromAcc.getAmount() - transferableAmount);
                     toAcc.setAmount((toAcc.getAmount() + transferableAmount));
-                    finish();
-                    overridePendingTransition(0, 0);
-                    startActivity(getIntent());
-                    overridePendingTransition(0, 0);
+                    fromAcc.addAccountActivity("Tilisiirto", toAcc.getAcc_owner(), "-" + strAmount);
+                    toAcc.addAccountActivity("Tilisiirto", "-", "+" + strAmount);
+                    bank.getUserList().set(findUserId(), user);
+                    Toast.makeText(this, "Maksettu " + transferableAmount + "€ käyttäjälle " + toAcc.getAcc_owner(), Toast.LENGTH_SHORT).show();
+                    transferAmount.setText("");
                 }
             } else {
                 Toast.makeText(this, "Maksaminen on estetty valitulta tililtä", Toast.LENGTH_SHORT).show();
@@ -114,8 +122,29 @@ public class WireTransferActivity extends AppCompatActivity {
         }
     }
 
+    private int findUserId() {
+        int position = -1;
+
+        for (int i = 0; i < bank.getUserList().size(); i++) {
+            if (user.getName().equals(bank.getUserList().get(i).getName())) {
+                position = i;
+            }
+        }
+        return position;
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) { //For dismissing the keyboard when clicking somewhere else
+        if (getCurrentFocus() != null) {
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+        }
+        return super.dispatchTouchEvent(ev);
+    }
+
     @Override
     public void onBackPressed() {
+        rawf.writeUsers();
         Intent intent = new Intent(WireTransferActivity.this, MainActivity.class);
         intent.putExtra("user", user);
         startActivity(intent);

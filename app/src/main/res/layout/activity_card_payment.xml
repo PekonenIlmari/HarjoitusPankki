@@ -1,85 +1,110 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fillViewport="true"
     tools:context=".CardPaymentActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Maksukortit"
-        android:id="@+id/cardListTextView"
-        android:textSize="20sp"
-        android:paddingTop="8dp"
-        android:layout_centerHorizontal="true"/>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/cardRecycler"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="268dp"
-        android:background="@android:color/darker_gray"
-        android:paddingTop="4dp"
-        android:scrollbars="vertical"
-        android:layout_below="@id/cardListTextView"
-        android:layout_marginTop="10dp"/>
+        android:layout_height="match_parent">
 
-    <TextView
-        android:layout_marginTop="20dp"
-        android:layout_marginStart="10dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/accountNumberInfo"
-        android:text="Tilinumero: "
-        android:textSize="20sp"
-        android:layout_below="@id/cardRecycler"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Maksukortit"
+            android:id="@+id/cardListTextView"
+            android:textSize="20sp"
+            android:paddingTop="8dp"
+            android:layout_centerHorizontal="true"/>
 
-    <TextView
-        android:layout_marginStart="10dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/accountAmountInfo"
-        android:text="Tilin kate: "
-        android:textSize="20sp"
-        android:layout_below="@id/accountNumberInfo"/>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/cardRecycler"
+            android:layout_width="match_parent"
+            android:layout_height="268dp"
+            android:background="@android:color/darker_gray"
+            android:paddingTop="4dp"
+            android:scrollbars="vertical"
+            android:layout_below="@id/cardListTextView"
+            android:layout_marginTop="10dp"/>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/accountAmountInfo"
-        android:id="@+id/cardPaymentLimitInfo"
-        android:text="Kortin maksuraja: "
-        android:layout_marginStart="10dp"
-        android:textSize="20sp"/>
+        <TextView
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/accountNumberInfo"
+            android:text="Tilinumero: "
+            android:textSize="20sp"
+            android:layout_below="@id/cardRecycler"/>
 
-    <EditText
-        android:id="@+id/paymentReceiver"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/cardPaymentLimitInfo"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
-        android:ems="15"
-        android:hint="Maksun saaja"/>
+        <TextView
+            android:layout_marginStart="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/accountAmountInfo"
+            android:text="Tilin kate: "
+            android:textSize="20sp"
+            android:layout_below="@id/accountNumberInfo"/>
 
-    <EditText
-        android:id="@+id/amountEditText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/paymentReceiver"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="10dp"
-        android:ems="6"
-        android:hint="Määrä €" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/accountAmountInfo"
+            android:id="@+id/cardPaymentLimitInfo"
+            android:text="Kortin maksuraja: "
+            android:layout_marginStart="10dp"
+            android:textSize="20sp"/>
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Maksa"
-        android:layout_below="@id/paymentReceiver"
-        android:layout_marginStart="242dp"
-        android:onClick="makePayment"/>
+        <EditText
+            android:id="@+id/paymentReceiver"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/cardPaymentLimitInfo"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:ems="15"
+            android:hint="Maksun saaja"/>
 
-</RelativeLayout>
+        <EditText
+            android:id="@+id/amountEditText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/paymentReceiver"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="10dp"
+            android:ems="6"
+            android:hint="Määrä €" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Maksa"
+            android:layout_below="@id/paymentReceiver"
+            android:layout_marginStart="242dp"
+            android:onClick="makePayment"
+            android:id="@+id/payButton"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Maksualue"
+            android:layout_below="@id/payButton"
+            android:layout_marginStart="250dp"
+            android:id="@+id/countryTextView"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Kotimaa"
+            android:layout_below="@id/countryTextView"
+            android:layout_marginStart="242dp"
+            android:id="@+id/changePaymentRegion"
+            android:onClick="setPaymentRegion"/>
+
+    </RelativeLayout>
+
+</ScrollView>

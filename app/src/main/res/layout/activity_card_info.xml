@@ -25,10 +25,18 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="Kortin nostoraja: "
+        android:textSize="20sp"
+        android:id="@+id/cardTakeLimit"
+        android:layout_below="@id/cardPayLimit"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:text="Kortin toimivuusalue: "
         android:textSize="20sp"
         android:id="@+id/cardRegion"
-        android:layout_below="@id/cardPayLimit"/>
+        android:layout_below="@id/cardTakeLimit"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -56,19 +64,36 @@
         android:id="@+id/payLimitButton"/>
 
     <Button
-        android:layout_width="wrap_content"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:text="Muuta kortin nostorajaa"
+        android:layout_below="@id/payLimitButton"
+        android:layout_marginStart="250dp"
+        android:onClick="openTakeLimitDialog"
+        android:id="@+id/takeLimitButton"/>
+
+    <Button
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/takeLimitButton"
+        android:layout_marginStart="250dp"
+        android:text="Nosta rahaa"
+        android:onClick="openTakeMoneyDialog"/>
+
+    <Button
+        android:layout_width="165dp"
         android:layout_height="wrap_content"
         android:text="Kuoleta kortti"
         android:layout_below="@id/regionChangeButton"
-        android:onClick="killCard" />
+        android:onClick="killCard"
+        android:id="@+id/killCardButton"/>
 
     <Button
         android:id="@+id/removeCardButton"
-        android:layout_width="wrap_content"
+        android:layout_width="165dp"
         android:layout_height="wrap_content"
-        android:layout_below="@id/payLimitButton"
+        android:layout_below="@id/killCardButton"
         android:layout_alignParentStart="true"
-        android:layout_marginStart="254dp"
         android:layout_marginTop="0dp"
         android:text="Poista kortti"
         android:onClick="openConfirmCardRemoveDialog"/>

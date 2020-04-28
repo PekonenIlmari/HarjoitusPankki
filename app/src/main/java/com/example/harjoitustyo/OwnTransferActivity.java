@@ -2,9 +2,12 @@ package com.example.harjoitustyo;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -22,6 +25,7 @@ public class OwnTransferActivity extends AppCompatActivity {
     Account fromAcc, toAcc;
     User user;
     Bank bank = Bank.getInstance();
+    ReadAndWriteFiles rawf;
 
     List<Account> fromAccountList = new ArrayList<>();
     List<Account> toAccountList = new ArrayList<>();
@@ -30,6 +34,8 @@ public class OwnTransferActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_money_transfer);
+
+        rawf = ReadAndWriteFiles.getInstance(this);
 
         fromSpinner = findViewById(R.id.fromSpinner);
         toSpinner = findViewById(R.id.toSpinner);
@@ -95,10 +101,8 @@ public class OwnTransferActivity extends AppCompatActivity {
                 fromAcc.addAccountActivity("Oma Siirto", toAcc.getAcc_number(), "-" + strAmount);
                 toAcc.addAccountActivity("Oma Siirto", "-", "+" + strAmount);
                 bank.getUserList().set(findUserId(), user);
-                finish();
-                overridePendingTransition(0, 0);
-                startActivity(getIntent());
-                overridePendingTransition(0, 0);
+                transferAmount.setText("");
+                Toast.makeText(this, "Siirretty " + transferableAmount + "€ tilille " + toAcc.getAcc_number(), Toast.LENGTH_SHORT).show();
             }
         } else {
             Toast.makeText(this, "Luo ensin tilejä, jotta voit siirtää rahaa", Toast.LENGTH_SHORT).show();
@@ -117,7 +121,17 @@ public class OwnTransferActivity extends AppCompatActivity {
     }
 
     @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) { //For dismissing the keyboard when clicking somewhere else
+        if (getCurrentFocus() != null) {
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+        }
+        return super.dispatchTouchEvent(ev);
+    }
+
+    @Override
     public void onBackPressed() {
+        rawf.writeUsers();
         Intent intent = new Intent(OwnTransferActivity.this, MainActivity.class);
         intent.putExtra("user", user);
         startActivity(intent);
