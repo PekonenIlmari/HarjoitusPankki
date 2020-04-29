@@ -185,6 +185,8 @@ public class CardInfoActivity extends AppCompatActivity implements AllChangeDial
             Toast.makeText(this, "Maksurajan muutos onnistui", Toast.LENGTH_SHORT).show();
         } else if (paylimit == -1) {
             Toast.makeText(this, "Maksuraja ei voi olla negatiivinen", Toast.LENGTH_SHORT).show();
+        } else if (paylimit == -666) {
+            Toast.makeText(this, "Maksuraja ei voi sisältää kirjaimia", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -198,6 +200,8 @@ public class CardInfoActivity extends AppCompatActivity implements AllChangeDial
             Toast.makeText(this, "Nostorajan muutos onnistui", Toast.LENGTH_SHORT).show();
         } else if (takelimit == -1) {
             Toast.makeText(this, "Nostoraja ei voi olla negatiivinen", Toast.LENGTH_SHORT).show();
+        } else if (takelimit == -666) {
+            Toast.makeText(this, "Nostoraja ei voi sisältää kirjaimia", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -221,6 +225,8 @@ public class CardInfoActivity extends AppCompatActivity implements AllChangeDial
             rawf.writeUsers();
         } else if (amount == -1) {
             Toast.makeText(this, "Et voi nostaa negatiivista määrää rahaa", Toast.LENGTH_SHORT).show();
+        } else if (amount == -666) {
+            Toast.makeText(this, "Nostettava määrä ei voi sisältää kirjaimia", Toast.LENGTH_SHORT).show();
         }
     }
 

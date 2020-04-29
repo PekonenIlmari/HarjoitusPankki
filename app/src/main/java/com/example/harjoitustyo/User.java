@@ -6,7 +6,7 @@ import java.util.ArrayList;
 public class User implements Serializable {//stores data of each user
     private Account account;
     private String name, userName, address, phone, password;
-    byte[] salt;
+    private byte[] salt;
 
     public User(String name, String userName, String password, String address, String phone, byte[] salt) {
         this.name = name;
@@ -70,5 +70,9 @@ public class User implements Serializable {//stores data of each user
 
     public byte[] getSalt() {
         return salt;
+    }
+
+    public void setSalt(byte[] salt) {
+        this.salt = salt;
     }
 }

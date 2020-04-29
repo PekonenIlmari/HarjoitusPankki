@@ -91,18 +91,23 @@ public class OwnTransferActivity extends AppCompatActivity {
     public void transferMoney(View v) {
         if (fromAccountList.size() > 0 && toAccountList.size() > 0) {
             getSelectedAccounts();
-            float transferableAmount = Float.parseFloat(transferAmount.getText().toString());
-            String strAmount = String.format("%.2f", transferableAmount);
-            if (transferableAmount > fromAcc.getAmount()) {
-                Toast.makeText(this, "Tilin kate ei riitä, siirrä vähemmän rahaa", Toast.LENGTH_SHORT).show();
+            String tempAmount = transferAmount.getText().toString();
+            if (tempAmount.matches("^[0-9.]+$")) {
+                float transferableAmount = Float.parseFloat(tempAmount.replaceAll("\\s+", ""));
+                String strAmount = String.format("%.2f", transferableAmount);
+                if (transferableAmount > fromAcc.getAmount()) {
+                    Toast.makeText(this, "Tilin kate ei riitä, siirrä vähemmän rahaa", Toast.LENGTH_SHORT).show();
+                } else {
+                    fromAcc.setAmount(fromAcc.getAmount() - transferableAmount);
+                    toAcc.setAmount((toAcc.getAmount() + transferableAmount));
+                    fromAcc.addAccountActivity("Oma Siirto", toAcc.getAcc_number(), "-" + strAmount);
+                    toAcc.addAccountActivity("Oma Siirto", "-", "+" + strAmount);
+                    bank.getUserList().set(findUserId(), user);
+                    transferAmount.setText("");
+                    Toast.makeText(this, "Siirretty " + transferableAmount + "€ tilille " + toAcc.getAcc_number(), Toast.LENGTH_SHORT).show();
+                }
             } else {
-                fromAcc.setAmount(fromAcc.getAmount() - transferableAmount);
-                toAcc.setAmount((toAcc.getAmount() + transferableAmount));
-                fromAcc.addAccountActivity("Oma Siirto", toAcc.getAcc_number(), "-" + strAmount);
-                toAcc.addAccountActivity("Oma Siirto", "-", "+" + strAmount);
-                bank.getUserList().set(findUserId(), user);
-                transferAmount.setText("");
-                Toast.makeText(this, "Siirretty " + transferableAmount + "€ tilille " + toAcc.getAcc_number(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Siirrettävä määrä ei voi sisältää kirjaimia", Toast.LENGTH_SHORT).show();
             }
         } else {
             Toast.makeText(this, "Luo ensin tilejä, jotta voit siirtää rahaa", Toast.LENGTH_SHORT).show();

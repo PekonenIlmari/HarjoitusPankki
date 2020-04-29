@@ -8,11 +8,14 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.security.NoSuchAlgorithmException;
+
 public class UserSettingsActivity extends AppCompatActivity implements AllChangeDialog.NewAllChangeDialogListener {
     TextView userNameText, nameText, addressText, phoneText;
     Bank bank = Bank.getInstance();
     User user;
     ReadAndWriteFiles rawf;
+    PasswordHasher ph = PasswordHasher.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,9 +85,17 @@ public class UserSettingsActivity extends AppCompatActivity implements AllChange
     }
 
     @Override
-    public void changedPassword(String password) {
+    public void changedPassword(String password)  {
         if (!password.equals("ERROR")) {
-            user.setPassword(password);
+            byte[] salt = new byte[0];
+            try {
+                salt = ph.getSalt();
+            } catch (NoSuchAlgorithmException e) {
+                e.printStackTrace();
+            }
+            String tempPassword = ph.getSecurePassword(password, salt);
+            user.setPassword(tempPassword);
+            user.setSalt(salt);
             bank.getUserList().set(findUserId(), user);
             rawf.writeUsers();
             Toast.makeText(this, "Salasanan vaihto onnistui", Toast.LENGTH_SHORT).show();

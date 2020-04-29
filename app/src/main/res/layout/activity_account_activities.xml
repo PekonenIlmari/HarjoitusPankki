@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:scrollbars="vertical"
-        android:text=" Tapahtumatyyppi      Vastaanottaja                                   Määrä, €"
+        android:text=" Tapahtumatyyppi      Vastaanottaja                                 Määrä, €"
         android:textStyle="bold" />
 
     <ScrollView
@@ -44,12 +44,12 @@
 
             <TextView
                 android:id="@+id/accountActivitiesAmountTextView"
-                android:layout_width="60dp"
+                android:layout_width="70dp"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
-                android:layout_marginStart="340dp"
+                android:layout_marginStart="330dp"
                 android:layout_marginTop="0dp"
-                android:textAlignment="textEnd" />
+                android:textAlignment="textEnd"/>
 
         </RelativeLayout>
 

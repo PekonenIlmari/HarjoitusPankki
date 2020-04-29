@@ -180,7 +180,9 @@ public class AccountInfoActivity extends AppCompatActivity implements AllChangeD
 
     @Override
     public void addedAmount(float amount) {
-        if (amount > 0) {
+        if (amount > 99999) {
+            Toast.makeText(this, "Voit lisätä max 99999€ kerralla", Toast.LENGTH_SHORT).show();
+        } else if (amount > 0 && amount <= 99999) {
             account.setAmount(account.getAmount() + amount);
             amountTextView.setText("Tilin saldo: " + String.format("%.2f", account.getAmount()) + "€");
             Toast.makeText(this, "Rahan lisäys tilille onnistui", Toast.LENGTH_SHORT).show();
@@ -190,6 +192,8 @@ public class AccountInfoActivity extends AppCompatActivity implements AllChangeD
             rawf.writeUsers();
         } else if (amount == -1) {
             Toast.makeText(this, "Et voi lisätä negatiivista määrää tilille", Toast.LENGTH_SHORT).show();
+        } else if (amount == -666) {
+            Toast.makeText(this, "Lisättävä määrä ei voi sisältää kirjaimia", Toast.LENGTH_SHORT).show();
         }
     }
 

@@ -97,28 +97,33 @@ public class CardPaymentActivity extends AppCompatActivity {
 
     public void makePayment(View v) {
         if (accountNumberInfo.getText().length() > 15) {
-            float amount = Float.parseFloat(paymentAmount.getText().toString());
-            String strAmount = String.format("%.2f", amount);
-            String receiver = paymentReceiver.getText().toString();
+            String tempAmount = paymentAmount.getText().toString();
+            if (tempAmount.matches("^[0-9.]+$")) {
+                float amount = Float.parseFloat(tempAmount.replaceAll("\\s+", ""));
+                String strAmount = String.format("%.2f", amount);
+                String receiver = paymentReceiver.getText().toString();
 
-            if (accountList.get(findAccountId()).getCanPay() == 0) {
-                Toast.makeText(this, "Tililtä ei pysty maksamaan, muuta tilin asetuksia tai vaihda korttiin joka on linkitetty toiseen" +
-                        " tiliin", Toast.LENGTH_LONG).show();
-            } else if (amount > accountList.get(findAccountId()).getAmount()) {
-                Toast.makeText(this, "Tilin kate ei riitä, pienennä maksun määrää tai siirrä tilille lisää rahaa", Toast.LENGTH_LONG).show();
-            } else if (amount > cardList.get(findCardId()).getPayment_limit()) {
-                Toast.makeText(this, "Maksu on suurempi kuin kortin maksuraja, pienennä maksun määrää tai muuta maksurajaa", Toast.LENGTH_LONG).show();
-            } else if (cardList.get(findCardId()).getRegion() == 1 && regionButton.getText().equals("Ulkomaa")) {
-                Toast.makeText(this, "Korttisi toimivuusalue on kotimaa, etkä voi maksaa sillä ulkomaille, " +
-                        "vaihda maarajoituksia asetuksista", Toast.LENGTH_LONG).show();
+                if (accountList.get(findAccountId()).getCanPay() == 0) {
+                    Toast.makeText(this, "Tililtä ei pysty maksamaan, muuta tilin asetuksia tai vaihda korttiin joka on linkitetty toiseen" +
+                            " tiliin", Toast.LENGTH_LONG).show();
+                } else if (amount > accountList.get(findAccountId()).getAmount()) {
+                    Toast.makeText(this, "Tilin kate ei riitä, pienennä maksun määrää tai siirrä tilille lisää rahaa", Toast.LENGTH_LONG).show();
+                } else if (amount > cardList.get(findCardId()).getPayment_limit()) {
+                    Toast.makeText(this, "Maksu on suurempi kuin kortin maksuraja, pienennä maksun määrää tai muuta maksurajaa", Toast.LENGTH_LONG).show();
+                } else if (cardList.get(findCardId()).getRegion() == 1 && regionButton.getText().equals("Ulkomaa")) {
+                    Toast.makeText(this, "Korttisi toimivuusalue on kotimaa, etkä voi maksaa sillä ulkomaille, " +
+                            "vaihda maarajoituksia asetuksista", Toast.LENGTH_LONG).show();
+                } else {
+                    accountList.get(findAccountId()).setAmount(accountList.get(findAccountId()).getAmount() - amount);
+                    Toast.makeText(this, "Maksettu " + amount + "€, Maksun saaja: " + receiver, Toast.LENGTH_LONG).show();
+                    accountList.get(findAccountId()).addAccountActivity("Korttimaksu", receiver, "-" + strAmount);
+                    bank.getUserList().set(findUserId(), user);
+                    rawf.writeUsers();
+                    paymentAmount.setText("");
+                    paymentReceiver.setText("");
+                }
             } else {
-                accountList.get(findAccountId()).setAmount(accountList.get(findAccountId()).getAmount() - amount);
-                Toast.makeText(this, "Maksettu " + amount + "€, Maksun saaja: " + receiver, Toast.LENGTH_LONG).show();
-                accountList.get(findAccountId()).addAccountActivity("Korttimaksu", receiver, "-" + strAmount);
-                bank.getUserList().set(findUserId(), user);
-                rawf.writeUsers();
-                paymentAmount.setText("");
-                paymentReceiver.setText("");
+                Toast.makeText(this, "Maksettava määrä ei voi sisältää kirjaimia", Toast.LENGTH_SHORT).show();
             }
         } else if (cardList.size() == 0) {
             Toast.makeText(this, "Sinulla ei ole yhtäkään korttia millä maksaa", Toast.LENGTH_SHORT).show();

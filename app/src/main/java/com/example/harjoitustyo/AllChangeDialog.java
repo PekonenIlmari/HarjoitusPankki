@@ -31,7 +31,7 @@ public class AllChangeDialog extends AppCompatDialogFragment {
 
     private EditText addAmount;
 
-    private EditText paylimit;
+    private EditText payLimit;
 
     private EditText takeLimit;
 
@@ -219,16 +219,20 @@ public class AllChangeDialog extends AppCompatDialogFragment {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             String tempAmount = addAmount.getText().toString();
-                            float a = Float.parseFloat(tempAmount);
-                            if (a > 0) {
-                                listener.addedAmount(a);
+                            if (tempAmount.matches("^[0-9.]+$")) {
+                                float a = Float.parseFloat(tempAmount.replaceAll("\\s+", ""));
+                                if (a > 0) {
+                                    listener.addedAmount(a);
+                                } else {
+                                    listener.addedAmount(-1);
+                                }
                             } else {
-                                listener.addedAmount(-1);
+                                listener.addedAmount(-666);
                             }
                         }
                     });
             addAmount = view.findViewById(R.id.newLine);
-            addAmount.setHint("Syötä tilille lisättävä euromäärä");
+            addAmount.setHint("Syötä tilille lisättävä euromäärä max 99999€");
         } else if (type == 8) {
             View view = inflater.inflate(R.layout.layout_oneline_change_dialog, null);
 
@@ -243,17 +247,21 @@ public class AllChangeDialog extends AppCompatDialogFragment {
                     .setPositiveButton("Muuta", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            String tempLimit = paylimit.getText().toString();
-                            int a = Integer.parseInt(tempLimit);
-                            if (a > 0) {
-                                listener.changedPayLimit(a);
+                            String tempLimit = payLimit.getText().toString();
+                            if (tempLimit.matches("^[0-9.]+$")) {
+                                int a = Integer.parseInt(tempLimit.replaceAll("\\s+", ""));
+                                if (a > 0) {
+                                    listener.changedPayLimit(a);
+                                } else {
+                                    listener.changedPayLimit(-1);
+                                }
                             } else {
-                                listener.changedPayLimit(-1);
+                                listener.changedPayLimit(-666);
                             }
                         }
                     });
-            paylimit = view.findViewById(R.id.newLine);
-            paylimit.setHint("Syötä Kortin uusi maksuraja kokonaisissa euroissa");
+            payLimit = view.findViewById(R.id.newLine);
+            payLimit.setHint("Syötä Kortin uusi maksuraja kokonaisissa euroissa");
         } else if (type == 9) {
             View view = inflater.inflate(R.layout.layout_confirmation_dialog, null);
 
@@ -288,11 +296,15 @@ public class AllChangeDialog extends AppCompatDialogFragment {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             String tempLimit = takeLimit.getText().toString();
-                            int a = Integer.parseInt(tempLimit);
-                            if (a > 0) {
-                                listener.changedTakeLimit(a);
+                            if (tempLimit.matches("^[0-9.]+$")) {
+                                int a = Integer.parseInt(tempLimit.replaceAll("\\s+", ""));
+                                if (a > 0) {
+                                    listener.changedTakeLimit(a);
+                                } else {
+                                    listener.changedTakeLimit(-1);
+                                }
                             } else {
-                                listener.changedTakeLimit(-1);
+                                listener.changedTakeLimit(-666);
                             }
                         }
                     });
@@ -319,11 +331,15 @@ public class AllChangeDialog extends AppCompatDialogFragment {
                                 tempRegion = 2;
                             }
                             String tempAmount = takeAmount.getText().toString();
-                            float a = Float.parseFloat(tempAmount);
-                            if (a > 0) {
-                                listener.takenAmount(a, tempRegion);
+                            if (tempAmount.matches("^[0-9.]+$")) {
+                                float a = Float.parseFloat(tempAmount.replaceAll("\\s+", ""));
+                                if (a > 0) {
+                                    listener.takenAmount(a, tempRegion);
+                                } else {
+                                    listener.takenAmount(-1, tempRegion);
+                                }
                             } else {
-                                listener.takenAmount(-1, tempRegion);
+                                listener.takenAmount(-666, tempRegion);
                             }
                         }
                     });

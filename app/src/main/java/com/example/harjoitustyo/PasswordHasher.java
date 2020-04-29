@@ -16,7 +16,7 @@ public class PasswordHasher { //Class is used for hashing the password using sha
 
     }
 
-    public static String getSecurePassword(String password, byte[] salt) {
+    public String getSecurePassword(String password, byte[] salt) {
 
         String generatedPassword = null;
         try {
@@ -34,7 +34,7 @@ public class PasswordHasher { //Class is used for hashing the password using sha
         return generatedPassword;
     }
 
-    public static byte[] getSalt() throws NoSuchAlgorithmException {
+    public byte[] getSalt() throws NoSuchAlgorithmException {
         SecureRandom random = new SecureRandom();
         byte[] salt = new byte[16];
         random.nextBytes(salt);
