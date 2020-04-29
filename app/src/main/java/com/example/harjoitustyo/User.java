@@ -1,5 +1,7 @@
 package com.example.harjoitustyo;
 
+import androidx.annotation.NonNull;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -79,5 +81,11 @@ public class User implements Serializable {//stores data of each user
 
     public void setLatestAction(String latestAction) {
         this.latestAction = latestAction;
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return name;
     }
 }

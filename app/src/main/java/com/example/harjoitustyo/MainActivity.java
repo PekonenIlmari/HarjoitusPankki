@@ -142,8 +142,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
             rawf.writeUsers();
+            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+            Toast.makeText(this, "Kirjauduttu ulos", Toast.LENGTH_SHORT).show();
+            startActivity(intent);
         }
     }
 

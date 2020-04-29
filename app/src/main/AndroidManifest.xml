@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".AdminActivity"
+            android:noHistory="true" />
+        <activity
             android:name=".AccountActivitiesActivity"
             android:noHistory="true" />
         <activity

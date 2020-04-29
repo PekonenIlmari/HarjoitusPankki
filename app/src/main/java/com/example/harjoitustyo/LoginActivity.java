@@ -63,19 +63,24 @@ public class LoginActivity extends AppCompatActivity implements AllChangeDialog.
 
         String tempHashedPass = null;
 
-        for (int i = 0; i < users.size(); i++) {
-            user = (User) users.get(i);
-            tempHashedPass = ph.getSecurePassword(loginPassword, user.getSalt());
-            System.out.println("written: " + tempHashedPass);
-            if (loginName.equals(user.getUserName()) && tempHashedPass.equals(user.getPassword())) {
-                System.out.println("read: " + user.getPassword());
-                found = 1;
-                openConfirmationDialog();
-                break;
+        if (loginName.equals("admin") && loginPassword.equals("password")) { //Checking if the bank admin is logging in
+            Intent intent = new Intent(LoginActivity.this, AdminActivity.class);
+            startActivity(intent);
+        } else {
+            for (int i = 0; i < users.size(); i++) {
+                user = (User) users.get(i);
+                tempHashedPass = ph.getSecurePassword(loginPassword, user.getSalt());
+                System.out.println("written: " + tempHashedPass);
+                if (loginName.equals(user.getUserName()) && tempHashedPass.equals(user.getPassword())) {
+                    System.out.println("read: " + user.getPassword());
+                    found = 1;
+                    openConfirmationDialog();
+                    break;
+                }
             }
-        }
-        if (found == 0) {
-            Toast.makeText(this, "Virheellinen käyttäjätunnus tai salasana", Toast.LENGTH_SHORT).show();
+            if (found == 0) {
+                Toast.makeText(this, "Virheellinen käyttäjätunnus tai salasana", Toast.LENGTH_SHORT).show();
+            }
         }
     }
 
