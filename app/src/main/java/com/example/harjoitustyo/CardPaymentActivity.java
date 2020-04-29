@@ -117,6 +117,7 @@ public class CardPaymentActivity extends AppCompatActivity {
                     accountList.get(findAccountId()).setAmount(accountList.get(findAccountId()).getAmount() - amount);
                     Toast.makeText(this, "Maksettu " + amount + "€, Maksun saaja: " + receiver, Toast.LENGTH_LONG).show();
                     accountList.get(findAccountId()).addAccountActivity("Korttimaksu", receiver, "-" + strAmount);
+                    user.setLatestAction("Korttimaksu -" + String.format("%.2f", amount) + "€");
                     bank.getUserList().set(findUserId(), user);
                     rawf.writeUsers();
                     paymentAmount.setText("");

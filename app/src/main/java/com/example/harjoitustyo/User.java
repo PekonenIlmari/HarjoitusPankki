@@ -7,6 +7,7 @@ public class User implements Serializable {//stores data of each user
     private Account account;
     private String name, userName, address, phone, password;
     private byte[] salt;
+    private String latestAction = "Ei vielä tilitapahtumia";
 
     public User(String name, String userName, String password, String address, String phone, byte[] salt) {
         this.name = name;
@@ -48,10 +49,6 @@ public class User implements Serializable {//stores data of each user
         return accounts;
     }
 
-    public void setName(String name) {
-        this.userName = name;
-    }
-
     public void setPassword(String password) {
         this.password = password;
     }
@@ -74,5 +71,13 @@ public class User implements Serializable {//stores data of each user
 
     public void setSalt(byte[] salt) {
         this.salt = salt;
+    }
+
+    public String getLatestAction() {
+        return latestAction;
+    }
+
+    public void setLatestAction(String latestAction) {
+        this.latestAction = latestAction;
     }
 }

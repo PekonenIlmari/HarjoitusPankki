@@ -68,7 +68,7 @@ public class WireTransferActivity extends AppCompatActivity {
         }
 
         for (int i = 0; i < bank.getUserList().size(); i++) {
-            if (bank.getUserList().get(i).getName().equals(user.getName())) {
+            if (bank.getUserList().get(i).getUserName().equals(user.getUserName())) {
                 continue;
             }
             for (int x = 0; x < bank.getUserList().get(i).getAccounts().size(); x++) {
@@ -112,6 +112,7 @@ public class WireTransferActivity extends AppCompatActivity {
                         toAcc.setAmount((toAcc.getAmount() + transferableAmount));
                         fromAcc.addAccountActivity("Tilisiirto", toAcc.getAcc_owner(), "-" + strAmount);
                         toAcc.addAccountActivity("Tilisiirto", "-", "+" + strAmount);
+                        user.setLatestAction("Tilisiirto -" + String.format("%.2f", transferableAmount) + "€");
                         bank.getUserList().set(findUserId(), user);
                         Toast.makeText(this, "Maksettu " + transferableAmount + "€ käyttäjälle " + toAcc.getAcc_owner(), Toast.LENGTH_SHORT).show();
                         transferAmount.setText("");

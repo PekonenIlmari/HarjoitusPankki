@@ -25,6 +25,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     TextView infoText, navHeaderName;
     User user;
     ReadAndWriteFiles rawf;
+    TextView latestActivity, accountCount, cardCount, overallMoney;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +38,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setSupportActionBar(toolbar);
 
         infoText = findViewById(R.id.helloText);
+
+        latestActivity = findViewById(R.id.latestActivityTextView);
+        accountCount = findViewById(R.id.accountCount);
+        cardCount = findViewById(R.id.cardCount);
+        overallMoney = findViewById(R.id.overallMoney);
 
         drawer = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_view);
@@ -55,9 +61,32 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         user = (User) getIntent().getSerializableExtra("user");
 
+        setTextViews();
+    }
 
+    private void setTextViews() {
         infoText.setText("Hyvää huomenta " + user.getName() + "!");
         navHeaderName.setText(user.getName());
+
+        latestActivity.setText("Viimeisin tilitapahtuma: " + user.getLatestAction());
+
+        accountCount.setText("Tiliesi lukumäärä: " + user.getAccounts().size());
+
+        int overallCardCount = 0;
+        float overallUserMoney = 0;
+
+        for (int a = 0; a < user.getAccounts().size(); a++) {
+            for (int c = 0; c < user.getAccounts().get(a).getCards().size(); c++) {
+                overallCardCount++;
+            }
+        }
+        cardCount.setText("Korttiesi lukumäärä: " + overallCardCount);
+
+        for (int a = 0; a < user.getAccounts().size(); a++) {
+            overallUserMoney += user.getAccounts().get(a).getAmount();
+        }
+
+        overallMoney.setText("Rahaa tileillä yhteensä: " + String.format("%.2f", overallUserMoney) + "€");
     }
 
     @Override

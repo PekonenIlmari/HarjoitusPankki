@@ -39,7 +39,7 @@ public class Bank { // class where all the users are stored
     }
 
     public String generateRandomLogInCode() {
-        int tempLoginCode = r.nextInt(899999) + 100000;
+        int tempLoginCode = r.nextInt(899999) + 100000; //Gives number between 100000 and 999999
         String loginCode = Integer.toString(tempLoginCode);
         return loginCode;
     }

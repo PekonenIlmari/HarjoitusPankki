@@ -27,13 +27,73 @@
             android:layout_height="match_parent">
 
             <TextView
+                android:id="@+id/helloText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/helloText"
-                android:textSize="20sp"
+                android:layout_centerHorizontal="true"
                 android:layout_marginTop="10dp"
-                android:text="Hyvää huomenta x!"
-                android:layout_centerHorizontal="true"/>
+                android:text="Hyvää huomenta XXXX!"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/latestActivityTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/helloText"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:text="Viimeisin tilitapahtuma: Ei tilitapahtumia vielä"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/overallTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/latestActivityTextView"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="25dp"
+                android:layout_marginBottom="10dp"
+                android:text="YLEISKATSAUS"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/accountCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/overallTextView"
+                android:layout_marginStart="10dp"
+                android:text="Tiliesi lukumäärä: "
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/cardCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/accountCount"
+                android:layout_marginStart="10dp"
+                android:text="Korttiesi lukumäärä: "
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/overallMoney"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/cardCount"
+                android:layout_marginStart="10dp"
+                android:text="Rahaa tileillä yhteensä: "
+                android:textSize="18sp" />
+
+            <ImageView
+                android:layout_width="300dp"
+                android:layout_height="300dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="63dp"
+                android:layout_marginTop="248dp"
+                android:src="@drawable/ic_account_less_opacity" />
+
 
         </RelativeLayout>
 

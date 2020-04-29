@@ -188,6 +188,7 @@ public class AccountInfoActivity extends AppCompatActivity implements AllChangeD
             Toast.makeText(this, "Rahan lisäys tilille onnistui", Toast.LENGTH_SHORT).show();
             String tempAmount = String.valueOf(amount);
             account.addAccountActivity("Talletus", "-", "+" + tempAmount);
+            user.setLatestAction("Talletus +" + String.format("%.2f", amount) + "€");
             bank.getUserList().set(findUserId(), user);
             rawf.writeUsers();
         } else if (amount == -1) {

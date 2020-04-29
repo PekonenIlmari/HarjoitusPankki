@@ -102,6 +102,7 @@ public class OwnTransferActivity extends AppCompatActivity {
                     toAcc.setAmount((toAcc.getAmount() + transferableAmount));
                     fromAcc.addAccountActivity("Oma Siirto", toAcc.getAcc_number(), "-" + strAmount);
                     toAcc.addAccountActivity("Oma Siirto", "-", "+" + strAmount);
+                    user.setLatestAction("Oma siirto " + String.format("%.2f", transferableAmount) + "€");
                     bank.getUserList().set(findUserId(), user);
                     transferAmount.setText("");
                     Toast.makeText(this, "Siirretty " + transferableAmount + "€ tilille " + toAcc.getAcc_number(), Toast.LENGTH_SHORT).show();

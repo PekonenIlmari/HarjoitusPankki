@@ -221,6 +221,7 @@ public class CardInfoActivity extends AppCompatActivity implements AllChangeDial
             Toast.makeText(this, "Nostettu " + amount + "€", Toast.LENGTH_SHORT).show();
             String tempAmount = String.valueOf(amount);
             user.getAccounts().get(account_id).addAccountActivity("Nosto", "-", "-" + tempAmount);
+            user.setLatestAction("Nosto -" + String.format("%.2f", amount) + "€");
             bank.getUserList().set(findUserId(), user);
             rawf.writeUsers();
         } else if (amount == -1) {
