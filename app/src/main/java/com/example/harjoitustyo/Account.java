@@ -28,7 +28,7 @@ public class Account implements Serializable { //Stores data of each account
         cards.add(card);
     }
 
-    ArrayList<String> accountActivities = new ArrayList<>();
+    ArrayList<String> accountActivities = new ArrayList<>(); //Arraylist for storing all the activities done with the account
 
     public void addAccountActivity(String type, String receiver, String amount) {
         accountActivities.add(type + "," + receiver + "," + amount);
@@ -72,7 +72,7 @@ public class Account implements Serializable { //Stores data of each account
 
     @NonNull
     @Override
-    public String toString() {
+    public String toString() { //Setup how the account is displayed in spinner
         return acc_owner + ", " + acc_number;
     }
 }

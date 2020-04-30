@@ -57,7 +57,7 @@ public class AllChangeDialog extends AppCompatDialogFragment {
 
     @NonNull
     @Override
-    public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
+    public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) { //Gets int type argument "type", which is used to show the correct dialog fragment to the user
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
         type = getArguments().getInt("num");
@@ -67,8 +67,8 @@ public class AllChangeDialog extends AppCompatDialogFragment {
             View view = inflater.inflate(R.layout.layout_oneline_change_dialog, null);
 
             builder.setView(view)
-                    .setTitle("Vaihda puhelinnumero")
-                    .setNegativeButton("Peruuta", new DialogInterface.OnClickListener() {
+                    .setTitle("Vaihda puhelinnumero") //Dialog title
+                    .setNegativeButton("Peruuta", new DialogInterface.OnClickListener() { //Dialog cancel button
                         @Override
                         public void onClick(DialogInterface dialogInterface, int which) {
 
@@ -76,7 +76,7 @@ public class AllChangeDialog extends AppCompatDialogFragment {
                     })
                     .setPositiveButton("Vaihda", new DialogInterface.OnClickListener() {
                         @Override
-                        public void onClick(DialogInterface dialog, int which) {
+                        public void onClick(DialogInterface dialog, int which) { //Dialog OK button
                             if (newPhone.getText().toString().length() > 0) {
                                 String phoneNum = newPhone.getText().toString();
                                 listener.changedPhoneNumber(phoneNum);
@@ -219,8 +219,8 @@ public class AllChangeDialog extends AppCompatDialogFragment {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             String tempAmount = addAmount.getText().toString();
-                            if (tempAmount.matches("^[0-9.]+$")) {
-                                float a = Float.parseFloat(tempAmount.replaceAll("\\s+", ""));
+                            if (tempAmount.matches("^[0-9.]+$")) { //Checking that inserted text contains only numbers or decimal separator
+                                float a = Float.parseFloat(tempAmount.replaceAll("\\s+", "")); //Removing all the whitespaces and changing type to float
                                 if (a > 0) {
                                     listener.addedAmount(a);
                                 } else {
@@ -248,8 +248,8 @@ public class AllChangeDialog extends AppCompatDialogFragment {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             String tempLimit = payLimit.getText().toString();
-                            if (tempLimit.matches("^[0-9.]+$")) {
-                                int a = Integer.parseInt(tempLimit.replaceAll("\\s+", ""));
+                            if (tempLimit.matches("^[0-9.]+$")) { //Checking that inserted text contains only numbers or decimal separator
+                                int a = Integer.parseInt(tempLimit.replaceAll("\\s+", "")); //Removing all the whitespaces and changing type to int
                                 if (a > 0) {
                                     listener.changedPayLimit(a);
                                 } else {
@@ -296,8 +296,8 @@ public class AllChangeDialog extends AppCompatDialogFragment {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             String tempLimit = takeLimit.getText().toString();
-                            if (tempLimit.matches("^[0-9.]+$")) {
-                                int a = Integer.parseInt(tempLimit.replaceAll("\\s+", ""));
+                            if (tempLimit.matches("^[0-9.]+$")) { //Checking that inserted text contains only numbers or decimal separator
+                                int a = Integer.parseInt(tempLimit.replaceAll("\\s+", "")); //Removing all the whitespaces and changing type to int
                                 if (a > 0) {
                                     listener.changedTakeLimit(a);
                                 } else {
@@ -331,8 +331,8 @@ public class AllChangeDialog extends AppCompatDialogFragment {
                                 tempRegion = 2;
                             }
                             String tempAmount = takeAmount.getText().toString();
-                            if (tempAmount.matches("^[0-9.]+$")) {
-                                float a = Float.parseFloat(tempAmount.replaceAll("\\s+", ""));
+                            if (tempAmount.matches("^[0-9.]+$")) { //Checking that inserted text contains only numbers or decimal separator
+                                float a = Float.parseFloat(tempAmount.replaceAll("\\s+", "")); //Removing all the whitespaces and changing type to float
                                 if (a > 0) {
                                     listener.takenAmount(a, tempRegion);
                                 } else {

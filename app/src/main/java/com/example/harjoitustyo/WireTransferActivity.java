@@ -119,8 +119,8 @@ public class WireTransferActivity extends AppCompatActivity {
         if (fromAccountList.size() > 0 && toAccountList.size() > 0) {
             getSelectedAccounts();
             String tempAmount = transferAmount.getText().toString();
-            if (tempAmount.matches("^[0-9.]+$")) {
-                float transferableAmount = Float.parseFloat(tempAmount.replaceAll("\\s+", ""));
+            if (tempAmount.matches("^[0-9.]+$")) { //Checking that inserted text contains only numbers or decimal separator
+                float transferableAmount = Float.parseFloat(tempAmount.replaceAll("\\s+", "")); //Removing all the whitespaces and changing type to float
                 String strAmount = String.format("%.2f", transferableAmount);
                 if (fromAcc.getCanPay() == 1) {
                     if (transferableAmount > fromAcc.getAmount()) {

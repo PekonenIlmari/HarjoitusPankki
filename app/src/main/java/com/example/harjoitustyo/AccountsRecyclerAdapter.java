@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-public class AccountsRecyclerAdapter extends RecyclerView.Adapter<AccountsRecyclerAdapter.AccountViewHolder> {
+public class AccountsRecyclerAdapter extends RecyclerView.Adapter<AccountsRecyclerAdapter.AccountViewHolder> { //Adapter for showing the account CardViews neatly in the RecyclerView
     private ArrayList<Account> accountList;
     private OnItemClickListener listener;
 

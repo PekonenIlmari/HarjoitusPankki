@@ -1,15 +1,13 @@
 package com.example.harjoitustyo;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.view.GravityCompat;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +29,7 @@ public class AdminActivity extends AppCompatActivity {
         setUsersSpinner();
     }
 
-    public void activateDeadCards(View v) {
+    public void activateDeadCards(View v) { //Method that activates all the dead cards in the system
         int count = 0;
         for (int u = 0; u < bank.getUserList().size(); u++) { //For-loop for adding all the cards where Dead is set to 1 to our deadCardList
             for (int a = 0; a < bank.getUserList().get(u).getAccounts().size(); a++) {
@@ -68,7 +66,7 @@ public class AdminActivity extends AppCompatActivity {
         }
     }
 
-    public void addAccountToUser(View v) {
+    public void addAccountToUser(View v) { //Adds one normal account to selected user
         user = (User) usersSpinner.getSelectedItem();
         Toast.makeText(this, "Lisätty normaali tili käyttäjälle " + user.getName(), Toast.LENGTH_SHORT).show();
         bank.getUserList().get(findUserId()).addAccount(user.getName(), bank.generateAccountNumber("Normaali"), "Normaali", 1);

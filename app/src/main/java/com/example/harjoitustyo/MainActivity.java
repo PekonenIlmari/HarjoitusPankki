@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setTextViews();
     }
 
-    private void setTextViews() {
+    private void setTextViews() { //Method for setting up the overall view for the user
         infoText.setText("Hyvää huomenta " + user.getName() + "!");
         navHeaderName.setText(user.getName());
 

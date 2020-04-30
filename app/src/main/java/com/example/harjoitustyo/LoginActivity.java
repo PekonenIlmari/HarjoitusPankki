@@ -12,7 +12,6 @@ import java.util.ArrayList;
 
 public class LoginActivity extends AppCompatActivity implements AllChangeDialog.NewAllChangeDialogListener {
     EditText nameLogin, passwordLogin, nameRegister, passwordregister, passwordCheckRegister;
-    private int confirmationCodeCheck;
 
     PasswordChecker pc = PasswordChecker.getInstance();
     Bank bank = Bank.getInstance();
@@ -38,20 +37,11 @@ public class LoginActivity extends AppCompatActivity implements AllChangeDialog.
     @Override
     protected void onStart() {
         super.onStart();
-        System.out.println("OLLAAN ONSTARTISSA");
 
         rawf = ReadAndWriteFiles.getInstance(this);
-
         rawf.readUsers();
-
         users = bank.getUserList();
 
-        System.out.println(users.size());
-
-        for (User u : users) {
-            System.out.println(u.getUserName());
-            System.out.println("##########");
-        }
     }
 
     public void login(View v) {
@@ -61,14 +51,14 @@ public class LoginActivity extends AppCompatActivity implements AllChangeDialog.
 
         System.out.println(users.size());
 
-        String tempHashedPass = null;
+        String tempHashedPass;
 
         if (loginName.equals("admin") && loginPassword.equals("password")) { //Checking if the bank admin is logging in
             Intent intent = new Intent(LoginActivity.this, AdminActivity.class);
             startActivity(intent);
         } else {
             for (int i = 0; i < users.size(); i++) {
-                user = (User) users.get(i);
+                user = users.get(i);
                 tempHashedPass = ph.getSecurePassword(loginPassword, user.getSalt());
                 System.out.println("written: " + tempHashedPass);
                 if (loginName.equals(user.getUserName()) && tempHashedPass.equals(user.getPassword())) {
@@ -91,8 +81,7 @@ public class LoginActivity extends AppCompatActivity implements AllChangeDialog.
 
     @Override
     public void confirmedCode(int code) {
-        confirmationCodeCheck = code;
-        if (confirmationCodeCheck == 1) {
+        if (code == 1) {
             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
             intent.putExtra("user", user);
             startActivity(intent);
@@ -117,9 +106,7 @@ public class LoginActivity extends AppCompatActivity implements AllChangeDialog.
         }
 
         if (registerName.length() > 0 && registerPassword.length() > 0 && passwordCheckRegister.getText().toString().length() > 0 && userNameOk == 1) {
-            //int passwordValid = pc.checkPassword(registerPassword, registerPasswordCheck);
-            //int passwordValid = passWordChecker(registerPassword);
-            int passwordValid = 1;
+            int passwordValid = pc.checkPassword(registerPassword, registerPasswordCheck);
             System.out.println("OKOKOKO");
 
             if (passwordValid == 1) {

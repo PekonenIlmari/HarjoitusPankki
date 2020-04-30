@@ -1,18 +1,17 @@
 package com.example.harjoitustyo;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.method.ScrollingMovementMethod;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
 
 public class AccountActivitiesActivity extends AppCompatActivity {
     User user;
 
-    private int account_id;
+    private int account_id; //Passed for getting the right account from the User object
 
     private TextView activitiesTypeTextView, activitiesReceiverTextView, activitiesAmountTextView;
     private ArrayList<String> activities = new ArrayList<>();
@@ -38,7 +37,7 @@ public class AccountActivitiesActivity extends AppCompatActivity {
         showInfo();
     }
 
-    private void showInfo() {
+    private void showInfo() { //Method for showing all the activities of the current account
         String[] partion;
         String typeColumn = "";
         String receiverColumn = "";

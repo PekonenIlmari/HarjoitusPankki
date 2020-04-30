@@ -60,22 +60,22 @@ public class CardInfoActivity extends AppCompatActivity implements AllChangeDial
         }
     }
 
-    public void openTakeMoneyDialog(View v) {
+    public void openTakeMoneyDialog(View v) { //Dialog for taking money
         AllChangeDialog acd = AllChangeDialog.newInstance(11);
         acd.show(getSupportFragmentManager(), "Rahanosto");
     }
 
-    public void openTakeLimitDialog(View v) {
+    public void openTakeLimitDialog(View v) { //Dialog for changing take limit
         AllChangeDialog acd = AllChangeDialog.newInstance(10);
         acd.show(getSupportFragmentManager(), "Kortin nostorajan muutos");
     }
 
-    public void openPayLimitDialog(View v) {
+    public void openPayLimitDialog(View v) { //Dialog for changing pay limit
         AllChangeDialog acd = AllChangeDialog.newInstance(8);
         acd.show(getSupportFragmentManager(), "Kortin maksurajan muutos");
     }
 
-    public void openConfirmCardRemoveDialog(View v) {
+    public void openConfirmCardRemoveDialog(View v) { //Confirmation dialog for removing the card
         AllChangeDialog acd = AllChangeDialog.newInstance(9);
         acd.show(getSupportFragmentManager(), "Kortin poiston muutos");
     }
@@ -152,7 +152,7 @@ public class CardInfoActivity extends AppCompatActivity implements AllChangeDial
     }
 
     @Override
-    public void confirmedCode(int code) {
+    public void confirmedCode(int code) { //Checking the confirmation code and doing action based on that
         if (code == 1) {
             user.getAccounts().get(account_id).getCards().remove(findCardId());
             bank.getUserList().set(findUserId(), user);
@@ -176,7 +176,7 @@ public class CardInfoActivity extends AppCompatActivity implements AllChangeDial
     }
 
     @Override
-    public void changedPayLimit(int paylimit) {
+    public void changedPayLimit(int paylimit) { //Changing paylimit depending on the code that came back from the dialog
         if (paylimit > 0) {
             card.setPayment_limit(paylimit);
             bank.getUserList().set(findUserId(), user);
@@ -191,7 +191,7 @@ public class CardInfoActivity extends AppCompatActivity implements AllChangeDial
     }
 
     @Override
-    public void changedTakeLimit(int takelimit) {
+    public void changedTakeLimit(int takelimit) { //Changing take depending on the code that came back from the dialog
         if (takelimit > 0) {
             card.setTake_limit(takelimit);
             bank.getUserList().set(findUserId(), user);
@@ -206,7 +206,7 @@ public class CardInfoActivity extends AppCompatActivity implements AllChangeDial
     }
 
     @Override
-    public void takenAmount(float amount, int region) {
+    public void takenAmount(float amount, int region) { //Taking money depending on the code that came back from the dialog
         if (region == 2 && card.getRegion() == 1) {
             Toast.makeText(this, "Korttisi toimivuusalue on kotimaa, etkä voi käyttää sitä ulkomailla, " +
                     "vaihda maarajoituksia asetuksista", Toast.LENGTH_LONG).show();

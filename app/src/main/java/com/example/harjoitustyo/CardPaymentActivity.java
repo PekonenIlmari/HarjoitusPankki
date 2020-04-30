@@ -1,12 +1,7 @@
 package com.example.harjoitustyo;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Context;
 import android.content.Intent;
-import android.icu.lang.UScript;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
@@ -15,6 +10,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
@@ -58,7 +57,7 @@ public class CardPaymentActivity extends AppCompatActivity {
         buildRecyclerView();
     }
 
-    private void initializeCardList() {
+    private void initializeCardList() { //Adding users all cards to the list
         for (int i = 0; i < accountList.size(); i++) {
             for (int x = 0; x < accountList.get(i).getCards().size(); x++) {
                 cardList.add(accountList.get(i).getCards().get(x));
@@ -98,8 +97,8 @@ public class CardPaymentActivity extends AppCompatActivity {
     public void makePayment(View v) {
         if (accountNumberInfo.getText().length() > 15) {
             String tempAmount = paymentAmount.getText().toString();
-            if (tempAmount.matches("^[0-9.]+$")) {
-                float amount = Float.parseFloat(tempAmount.replaceAll("\\s+", ""));
+            if (tempAmount.matches("^[0-9.]+$")) { //Checking that inserted text contains only numbers or decimal separator
+                float amount = Float.parseFloat(tempAmount.replaceAll("\\s+", "")); //Removing all the whitespaces and changing type to float
                 String strAmount = String.format("%.2f", amount);
                 String receiver = paymentReceiver.getText().toString();
 

@@ -38,12 +38,12 @@ public class ReadAndWriteFiles {
     public ReadAndWriteFiles() {
     }
 
-    public void readUsers() {
+    public void readUsers() { //Method for reading user objects from file
         try {
             FileInputStream fis = new FileInputStream(new File(context.getFilesDir(), "users.ser"));
             ObjectInputStream ois = new ObjectInputStream(fis);
 
-            users = (ArrayList) ois.readObject();
+            users = (ArrayList) ois.readObject(); // Arraylsit full of User objects
 
             fis.close();
             ois.close();
@@ -52,22 +52,21 @@ public class ReadAndWriteFiles {
         }
 
         if (users.size() > 0) {
-            bank.setUserList(users);
+            bank.setUserList(users); //Replacing the userList in bank with new userList
         }
 
         if (bank.getUserList().size() > 0) {
-            Toast.makeText(context, "LÖYTYY KÄYTTÄJIÄ", Toast.LENGTH_SHORT).show();
+            System.out.println("LÖYTYY KÄYTTÄJIÄ");
         } else {
-            Toast.makeText(context, "EI LÖYDY KÄYTTÄJIÄ", Toast.LENGTH_SHORT).show();
+            System.out.println("EI LÖYDY KÄYTTÄJIÄ");
         }
 
     }
 
-    public void writeUsers() {
+    public void writeUsers() { //Method for saving user objects into file
         users = bank.getUserList();
 
         try {
-            //context.deleteFile("users.ser");
             FileOutputStream fos = new FileOutputStream(new File(context.getFilesDir(), "users.ser"));
             ObjectOutput out = new ObjectOutputStream(fos);
             out.writeObject(users);
@@ -81,7 +80,7 @@ public class ReadAndWriteFiles {
 
     }
 
-    public void writeLoginLog(String user) {
+    public void writeLoginLog(String user) { //MEthod for login Log
         SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
         Date date = new Date();
 

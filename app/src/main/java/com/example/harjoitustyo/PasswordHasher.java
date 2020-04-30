@@ -4,7 +4,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 
-public class PasswordHasher { //Class is used for hashing the password using sha256 algorithm
+public class PasswordHasher { //Class is used for hashing the password using sha-256 algorithm
 
     private static PasswordHasher ph = new PasswordHasher();
 
@@ -21,10 +21,10 @@ public class PasswordHasher { //Class is used for hashing the password using sha
         String generatedPassword = null;
         try {
             MessageDigest md = MessageDigest.getInstance("SHA-256");
-            md.update(salt);
-            byte[] bytes = md.digest(password.getBytes());
+            md.update(salt); //Adding salt to input
+            byte[] bytes = md.digest(password.getBytes()); //Generate hashed password
             StringBuilder sb = new StringBuilder();
-            for (int i = 0; i < bytes.length; i++) {
+            for (int i = 0; i < bytes.length; i++) { //Converting byte into a string
                 sb.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));
             }
             generatedPassword = sb.toString();
@@ -36,7 +36,7 @@ public class PasswordHasher { //Class is used for hashing the password using sha
 
     public byte[] getSalt() throws NoSuchAlgorithmException {
         SecureRandom random = new SecureRandom();
-        byte[] salt = new byte[16];
+        byte[] salt = new byte[16]; //Generate random salt
         random.nextBytes(salt);
         return salt;
     }

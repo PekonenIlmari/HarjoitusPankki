@@ -1,18 +1,16 @@
 package com.example.harjoitustyo;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 
-import java.lang.reflect.Array;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import java.util.ArrayList;
 
 public class AccountsActivity extends AppCompatActivity {
@@ -79,16 +77,14 @@ public class AccountsActivity extends AppCompatActivity {
     }
 
     public void addNormalAccount() {
-        String acc_num = bank.generateAccountNumber("Normaali");
-        user.addAccount(user.getName(), acc_num, "Normaali", 1);
+        user.addAccount(user.getName(), bank.generateAccountNumber("Normaali"), "Normaali", 1);
         mAdapter.notifyDataSetChanged();
         bank.getUserList().set(findUserId(), user);
         rawf.writeUsers();
     }
 
     public void addSavingsAccount() {
-        String acc_num = bank.generateAccountNumber("Säästö");
-        user.addAccount(user.getName(), acc_num, "Säästö", 0);
+        user.addAccount(user.getName(), bank.generateAccountNumber("Säästö"), "Säästö", 0);
         mAdapter.notifyDataSetChanged();
         bank.getUserList().set(findUserId(), user);
         rawf.writeUsers();

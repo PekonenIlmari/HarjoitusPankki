@@ -36,7 +36,7 @@ public class NewUserActivity extends AppCompatActivity {
         address = addressBox.getText().toString();
         phone = phoneBox.getText().toString();
         name = nameBox.getText().toString();
-        byte[] salt = ph.getSalt();
+        byte[] salt = ph.getSalt(); //Getting salt for hashing password
         if (address.length() > 0 && phone.length() > 0) {
             bank.addUser(name, userName, ph.getSecurePassword(password, salt), address, phone, salt);
             ReadAndWriteFiles rw = ReadAndWriteFiles.getInstance(this);

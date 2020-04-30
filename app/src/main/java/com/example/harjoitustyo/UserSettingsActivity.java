@@ -37,29 +37,29 @@ public class UserSettingsActivity extends AppCompatActivity implements AllChange
         phoneText.setText("Puhelinnumerosi: " + user.getPhone());
     }
 
-    public void openPhoneDialog(View v) {
+    public void openPhoneDialog(View v) { //Open phone number changing dialog
         AllChangeDialog acd = AllChangeDialog.newInstance(1);
         acd.show(getSupportFragmentManager(), "Puhelinnumeron vaihto ikkuna");
 
     }
 
-    public void openAddressDialog(View v) {
+    public void openAddressDialog(View v) { //Open address changing dialog
         AllChangeDialog acd = AllChangeDialog.newInstance(3);
         acd.show(getSupportFragmentManager(), "Osoitteen vaihto ikkuna");
     }
 
-    public void openPasswordDialog(View v) {
+    public void openPasswordDialog(View v) { //Open password changing dialog
         AllChangeDialog acd = AllChangeDialog.newInstance(2);
         acd.show(getSupportFragmentManager(), "Puhelinnumeron vaihto ikkuna");
     }
 
-    public void openUserNameDialog(View v) {
+    public void openUserNameDialog(View v) { //Open username changing dialog
         AllChangeDialog acd = AllChangeDialog.newInstance(5);
         acd.show(getSupportFragmentManager(), "Puhelinnumeron vaihto ikkuna");
     }
 
     @Override
-    public void changedPhoneNumber(String phoneNum) {
+    public void changedPhoneNumber(String phoneNum) { //Change phone number based on the code
         if (!phoneNum.equals("ERROR")) {
             user.setPhone(phoneNum);
             bank.getUserList().set(findUserId(), user);
@@ -72,7 +72,7 @@ public class UserSettingsActivity extends AppCompatActivity implements AllChange
     }
 
     @Override
-    public void changedAddress(String address) {
+    public void changedAddress(String address) { //Change address based on the code
         if (!address.equals("ERROR")) {
             user.setAddress(address);
             bank.getUserList().set(findUserId(), user);
@@ -85,7 +85,7 @@ public class UserSettingsActivity extends AppCompatActivity implements AllChange
     }
 
     @Override
-    public void changedPassword(String password)  {
+    public void changedPassword(String password)  { //Change password based on the code
         if (!password.equals("ERROR")) {
             byte[] salt = new byte[0];
             try {
@@ -105,10 +105,10 @@ public class UserSettingsActivity extends AppCompatActivity implements AllChange
     }
 
     @Override
-    public void changedUsername(String username) {
+    public void changedUsername(String username) { //Change username based on the code
         int found = 0;
         if (!username.equals("ERROR")) {
-            for (int i = 0; i < bank.getUserList().size(); i++) {
+            for (int i = 0; i < bank.getUserList().size(); i++) { //Checking if the username is already taken
                 if (username.equals(bank.getUserList().get(i).getUserName())) {
                     found = 1;
                 }

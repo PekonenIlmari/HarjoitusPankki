@@ -29,7 +29,7 @@ public class AccountInfoActivity extends AppCompatActivity implements AllChangeD
     Button payableButton;
     Account account;
     User user;
-    Bank bank = Bank.getInstance();
+    Bank bank = Bank.getInstance(); //For accessing the bank class
     ReadAndWriteFiles rawf;
 
     @Override
@@ -132,8 +132,7 @@ public class AccountInfoActivity extends AppCompatActivity implements AllChangeD
 
     public void addCard() {
         if (account.getType().equals("Normaali")) {
-            String card_num = bank.generateCardNumber();
-            account.addCard(user.getName(), strAccount, card_num);
+            account.addCard(user.getName(), strAccount, bank.generateCardNumber());
             bank.getUserList().set(findUserId(), user);
             rawf.writeUsers();
             mAdapter.notifyDataSetChanged();

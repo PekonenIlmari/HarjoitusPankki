@@ -17,7 +17,7 @@ public class Card implements Serializable {
         this.payment_limit = 400; //Payment limit 400 on default
         this.take_limit = 100; //Take limit 100 on default
         this.region = 1; //Cards region on is 1 on default
-        this.dead = 0;
+        this.dead = 0; //Card is usable on default
     }
 
     public String getAcc_num() {
@@ -66,7 +66,7 @@ public class Card implements Serializable {
 
     @NonNull
     @Override
-    public String toString() { //Setup how the card is seen in spinner
+    public String toString() { //Setup how the card is displayed in spinner
         return card_holder + ", " + card_num;
     }
 }

@@ -1,11 +1,5 @@
 package com.example.harjoitustyo;
 
-import android.content.Context;
-import android.util.Log;
-
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -16,12 +10,11 @@ public class Bank { // class where all the users are stored
         return bank;
     }
 
+    public Bank() {
+    }
+
     private User user;
     Random r = new Random();
-
-    public Bank() {
-        //addUser("Pankinjohtaja", "admin", "password", "Pankkikuja 1, 00100 Helsinki", "0100100");
-    }
 
     private ArrayList<User> userList = new ArrayList<>();
 

@@ -85,7 +85,7 @@ public class User implements Serializable {//stores data of each user
 
     @NonNull
     @Override
-    public String toString() {
+    public String toString() { //Setup how the user is displayed in spinner
         return name;
     }
 }
