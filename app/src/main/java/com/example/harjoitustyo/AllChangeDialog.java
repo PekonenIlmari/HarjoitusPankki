@@ -77,7 +77,7 @@ public class AllChangeDialog extends AppCompatDialogFragment {
                     .setPositiveButton("Vaihda", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            if (newPhone.getText().toString().length() > 3) {
+                            if (newPhone.getText().toString().length() > 0) {
                                 String phoneNum = newPhone.getText().toString();
                                 listener.changedPhoneNumber(phoneNum);
                             } else {
@@ -125,7 +125,7 @@ public class AllChangeDialog extends AppCompatDialogFragment {
                     .setPositiveButton("Vaihda", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            if (newAddress.getText().toString().length() > 5) {
+                            if (newAddress.getText().toString().length() > 0) {
                                 String address = newAddress.getText().toString();
                                 listener.changedAddress(address);
                             } else {
