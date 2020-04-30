@@ -52,7 +52,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="lisä käyttäjälle tili"
+        android:text="lisää käyttäjälle tili"
         android:layout_below="@id/usersSpinner"
         android:layout_marginStart="180dp"
         android:onClick="addAccountToUser"/>
