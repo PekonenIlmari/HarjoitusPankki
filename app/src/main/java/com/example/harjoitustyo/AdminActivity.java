@@ -6,6 +6,7 @@ import androidx.core.view.GravityCompat;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -18,25 +19,35 @@ public class AdminActivity extends AppCompatActivity {
     Bank bank = Bank.getInstance();
     User user;
     private ArrayList<User> users = new ArrayList<>();
-    private ArrayList<Card> deadCards = new ArrayList<>();
-    private Spinner deadCardSpinner, usersSpinner;
+    private Spinner usersSpinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin);
 
-        deadCardSpinner = findViewById(R.id.deadCardsSpinner);
         usersSpinner = findViewById(R.id.usersSpinner);
 
-        //setDeadCards();
-
-        //setDeadCardSpinner();
         setUsersSpinner();
     }
 
-    private void setDeadCardSpinner() {
-
+    public void activateDeadCards(View v) {
+        int count = 0;
+        for (int u = 0; u < bank.getUserList().size(); u++) { //For-loop for adding all the cards where Dead is set to 1 to our deadCardList
+            for (int a = 0; a < bank.getUserList().get(u).getAccounts().size(); a++) {
+                for (int c = 0; c < bank.getUserList().get(u).getAccounts().get(a).getCards().size(); c++) {
+                    if (bank.getUserList().get(u).getAccounts().get(a).getCards().get(c).getDead() == 1) {
+                        bank.getUserList().get(u).getAccounts().get(a).getCards().get(c).setDead(0);
+                        count++;
+                    }
+                }
+            }
+        }
+        if (count > 0) {
+            Toast.makeText(this, "Kaikki kuoletetut kortit aktivoitu uudestaan", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "Asiakkailla ei ollut kuoletettuja kortteja", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void setUsersSpinner() {
@@ -57,6 +68,13 @@ public class AdminActivity extends AppCompatActivity {
         }
     }
 
+    public void addAccountToUser(View v) {
+        user = (User) usersSpinner.getSelectedItem();
+        Toast.makeText(this, "Lisätty normaali tili käyttäjälle " + user.getName(), Toast.LENGTH_SHORT).show();
+        bank.getUserList().get(findUserId()).addAccount(user.getName(), bank.generateAccountNumber("Normaali"), "Normaali", 1);
+        rawf.writeUsers();
+    }
+
     public void deleteUser(View v) {
         user = (User) usersSpinner.getSelectedItem();
         Toast.makeText(this, "Käyttäjä " + user.getName() + " poistettu", Toast.LENGTH_SHORT).show();
@@ -71,10 +89,6 @@ public class AdminActivity extends AppCompatActivity {
             rawf.writeUsers();
             setUsersSpinner();
         }
-    }
-
-    private void setDeadCards() {
-
     }
 
     private int findUserId() {

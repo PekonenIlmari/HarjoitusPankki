@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -18,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class OwnTransferActivity extends AppCompatActivity {
-    TextView infoText;
+    TextView infoText, fromAccountMoneyTextView;
     private Spinner fromSpinner;
     private Spinner toSpinner;
     EditText transferAmount;
@@ -41,6 +42,9 @@ public class OwnTransferActivity extends AppCompatActivity {
         toSpinner = findViewById(R.id.toSpinner);
         transferAmount = findViewById(R.id.amountEditText);
         infoText = findViewById(R.id.infoTextView);
+        fromAccountMoneyTextView = findViewById(R.id.fromAccountMoneyTextView);
+
+        fromAccountMoneyTextView.setText("Siirtotilin saldo: ");
 
         infoText.setText("Siirrä rahaa omien tilien välillä");
 
@@ -81,6 +85,20 @@ public class OwnTransferActivity extends AppCompatActivity {
             toAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             toSpinner.setAdapter(toAdapter);
         }
+
+        fromSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (user.getAccounts().size() > 0) {
+                    fromAccountMoneyTextView.setText("Siirtotilin saldo: " + String.format("%.2f", user.getAccounts().get(position).getAmount()) + "€");
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
     }
 
     public void getSelectedAccounts() {
@@ -105,7 +123,9 @@ public class OwnTransferActivity extends AppCompatActivity {
                     user.setLatestAction("Oma siirto " + String.format("%.2f", transferableAmount) + "€");
                     bank.getUserList().set(findUserId(), user);
                     transferAmount.setText("");
+                    fromAccountMoneyTextView.setText("Siirtotilin saldo: " + String.format("%.2f", fromAcc.getAmount()) + "€");
                     Toast.makeText(this, "Siirretty " + transferableAmount + "€ tilille " + toAcc.getAcc_number(), Toast.LENGTH_SHORT).show();
+                    rawf.writeUsers();
                 }
             } else {
                 Toast.makeText(this, "Siirrettävä määrä ei voi sisältää kirjaimia", Toast.LENGTH_SHORT).show();

@@ -1,5 +1,7 @@
 package com.example.harjoitustyo;
 
+import androidx.annotation.NonNull;
+
 import java.io.Serializable;
 
 public class Card implements Serializable {
@@ -60,5 +62,11 @@ public class Card implements Serializable {
 
     public int getDead() {
         return dead;
+    }
+
+    @NonNull
+    @Override
+    public String toString() { //Setup how the card is seen in spinner
+        return card_holder + ", " + card_num;
     }
 }

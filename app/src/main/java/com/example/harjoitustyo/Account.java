@@ -73,6 +73,6 @@ public class Account implements Serializable { //Stores data of each account
     @NonNull
     @Override
     public String toString() {
-        return acc_owner + ", " + acc_number + ", Saldo: " + String.format("%.2f", amount) + "€";
+        return acc_owner + ", " + acc_number;
     }
 }

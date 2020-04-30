@@ -15,29 +15,17 @@
         android:textSize="20sp"
         android:textStyle="bold" />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="200dp"
+        android:text="avaa kuoletetut kortit"
+        android:onClick="activateDeadCards"/>
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
-        android:text="Kuoletetut kortit"
-        android:textSize="18sp" />
-
-    <Spinner
-        android:id="@+id/deadCardsSpinner"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="74dp" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/deadCardsSpinner"
-        android:text="avaa kortti" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="149dp"
         android:text="Käyttäjät"
         android:textSize="18sp" />
 
@@ -45,7 +33,7 @@
         android:id="@+id/usersSpinner"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="175dp" />
+        android:layout_marginTop="76dp" />
 
     <Button
         android:layout_width="wrap_content"
@@ -57,9 +45,16 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="260dp"
+        android:layout_marginTop="150dp"
         android:text="poista kaikki käyttäjät"
         android:onClick="deleteAllUsers"/>
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="lisä käyttäjälle tili"
+        android:layout_below="@id/usersSpinner"
+        android:layout_marginStart="180dp"
+        android:onClick="addAccountToUser"/>
 
 </RelativeLayout>

@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -18,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class WireTransferActivity extends AppCompatActivity {
-    TextView infoText;
+    TextView infoText, fromAccountMoneyTextView;
     private Spinner fromSpinner;
     private Spinner toSpinner;
     EditText transferAmount;
@@ -41,6 +42,9 @@ public class WireTransferActivity extends AppCompatActivity {
         toSpinner = findViewById(R.id.toSpinner);
         transferAmount = findViewById(R.id.amountEditText);
         infoText = findViewById(R.id.infoTextView);
+        fromAccountMoneyTextView = findViewById(R.id.fromAccountMoneyTextView);
+
+        fromAccountMoneyTextView.setText("Maksutilin saldo: ");
 
         infoText.setText("Siirrä rahaa toiselle käyttäjälle");
 
@@ -90,9 +94,23 @@ public class WireTransferActivity extends AppCompatActivity {
             toAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             toSpinner.setAdapter(toAdapter);
         }
+
+        fromSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (user.getAccounts().size() > 0) {
+                    fromAccountMoneyTextView.setText("Maksutilin saldo: " + String.format("%.2f", user.getAccounts().get(position).getAmount()) + "€");
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
     }
 
-    public void getSelectedAccounts() {
+    private void getSelectedAccounts() {
         fromAcc = (Account) fromSpinner.getSelectedItem();
         toAcc = (Account) toSpinner.getSelectedItem();
     }
@@ -107,15 +125,19 @@ public class WireTransferActivity extends AppCompatActivity {
                 if (fromAcc.getCanPay() == 1) {
                     if (transferableAmount > fromAcc.getAmount()) {
                         Toast.makeText(this, "Tilin kate ei riitä, siirrä vähemmän rahaa", Toast.LENGTH_SHORT).show();
-                    } else {
+                    } else if (transferableAmount > 0) {
                         fromAcc.setAmount(fromAcc.getAmount() - transferableAmount);
                         toAcc.setAmount((toAcc.getAmount() + transferableAmount));
                         fromAcc.addAccountActivity("Tilisiirto", toAcc.getAcc_owner(), "-" + strAmount);
                         toAcc.addAccountActivity("Tilisiirto", "-", "+" + strAmount);
                         user.setLatestAction("Tilisiirto -" + String.format("%.2f", transferableAmount) + "€");
                         bank.getUserList().set(findUserId(), user);
+                        fromAccountMoneyTextView.setText("Maksutilin saldo: " + String.format("%.2f", fromAcc.getAmount()) + "€");
                         Toast.makeText(this, "Maksettu " + transferableAmount + "€ käyttäjälle " + toAcc.getAcc_owner(), Toast.LENGTH_SHORT).show();
                         transferAmount.setText("");
+                        rawf.writeUsers();
+                    } else {
+                        Toast.makeText(this, "Et voi maksaa 0€", Toast.LENGTH_SHORT).show();
                     }
                 } else {
                     Toast.makeText(this, "Maksaminen on estetty valitulta tililtä", Toast.LENGTH_SHORT).show();
