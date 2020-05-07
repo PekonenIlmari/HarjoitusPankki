@@ -107,6 +107,8 @@ public class CardPaymentActivity extends AppCompatActivity {
                             " tiliin", Toast.LENGTH_LONG).show();
                 } else if (amount > accountList.get(findAccountId()).getAmount()) {
                     Toast.makeText(this, "Tilin kate ei riitä, pienennä maksun määrää tai siirrä tilille lisää rahaa", Toast.LENGTH_LONG).show();
+                } else if (accountList.get(findAccountId()).getCards().get(findCardId()).getDead() == 1) {
+                    Toast.makeText(this, "Kortti on kuoletettu ja sillä ei voi maksaa", Toast.LENGTH_LONG).show();
                 } else if (amount > cardList.get(findCardId()).getPayment_limit()) {
                     Toast.makeText(this, "Maksu on suurempi kuin kortin maksuraja, pienennä maksun määrää tai muuta maksurajaa", Toast.LENGTH_LONG).show();
                 } else if (cardList.get(findCardId()).getRegion() == 1 && regionButton.getText().equals("Ulkomaa")) {
